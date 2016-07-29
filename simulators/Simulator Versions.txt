@@ -1,0 +1,3 @@
+Sim 1 - first model, allowing for input and output of nucleosomes.
+Sim 2 - addition of the ability to jump left and right, for each nucleosome.
+Sim 3 - change from probabilities to rates (adding GILLESPIE)
