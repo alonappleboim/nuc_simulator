@@ -1,43 +1,53 @@
 % SIMULATOR - Now With GILLESPIE For Extra Strength %
+% this file is split to cells with this "%%" - each can be executed
+% separately, which is sometimes very convinient...
 
-%%%%% PARAMETERS %%%%%
+%% clear all?
+clear;
+clc;
+close all;
 
+
+%% %%% PARAMETERS %%%%%
+
+REP_EVERY = 1000;
 gen_len = 4000;                % the length of the genome
 nuc_len = 147;                 % the length of a single nucleosome (odd number for convenience)
 jump_len = 20; 				   % the length of a single jump (left or right) - even for convenience
 nuc_vec = ones(1,(nuc_len*2)-1); % the vector for the in_vec convulution
 jump_vec = ones(1,nuc_len+jump_len); % the vector for the jumping convulutions
-i_rate = ones(1,gen_len);     % a rate vector for the input of a nucleosome into each bp
-o_rate = ones(1,gen_len);     % a rate vector for the output of a nucleosome from each bp
-r_rate = zeros(1,gen_len);     % a rate vector for the right jumps from each bp
-l_rate = zeros(1,gen_len);     % a rate vector for the left jumps from each bp
-num_steps = 20000;              % the number of steps to simulate
+a_rate = ones(1,gen_len);     % a rate vector for the assembly of a nucleosome into each bp
+e_rate = ones(1,gen_len);     % a rate vector for the evicition of a nucleosome from each bp
+r_rate = .1.*ones(1,gen_len);     % a rate vector for the right slide from each bp
+l_rate = zeros(1,gen_len);     % a rate vector for the left slide from each bp
+num_steps = 5000;              % the number of steps to simulate
 rand_nums = rand(1,num_steps);  % random numbers for calculating the dt of each change (GILLESPIE)
 state = zeros(1,gen_len);     % the initial state
 
-state_matrix = zeros(num_steps+1,gen_len); % the matrix keeping track of all the states
-state_matrix(1,:) = state; 
+state_hist = zeros(num_steps+1,gen_len); % the state history
+time = zeros(num_steps,1); % keeping track of simulation time
+state_hist(1,:) = state; 
 
 % change the input probabilities so that we have an NFR in the middle:
-for i=1800:2200
-    i_rate(i) = 0;
-end
+nfr_hw = 200;
+a_rate((gen_len/2-nfr_hw):(gen_len/2)+nfr_hw) = 0;
 
-%%%%% BIG LOOP %%%%%
+%% %%% MAIN LOOP %%%%%
 
 for i=1:num_steps
     
-    % check progress:
-    if(mod(i,1000)==0)
-        i
-    end
+    % report progress:
+    if(mod(i,REP_EVERY)==0)
+        clc;
+        fprintf('At iteration %i (%d%%)...\n', i, 100*i./num_steps);
+    end;
     
-	% generate the input, output and jump vectors:
-    out_vec = state; % which bp can have a nuc extracted from them
+	% generate the assembly, eviction and slide vectors:
+    evic = state; % which bp can have a nuc evicted from them
 	
-	in_vec = conv(state,nuc_vec,'same'); % which bp can have a nuc inserted to them
-	in_vec(in_vec~=0) = 1;
-	in_vec = ~in_vec;
+	assem = conv(state,nuc_vec,'same'); % which bp can have a nuc inserted to them
+	assem(assem~=0) = 1;
+	assem = ~assem;
 	
 	temp_jump_vec = conv(state,jump_vec,'same');
 	temp_jump_vec(temp_jump_vec ~= 0) = 1;
@@ -62,52 +72,48 @@ for i=1:num_steps
     %}
     
 	% generate the change_matrix:
-	change_matrix = zeros(gen_len,5);
-	change_matrix(:,2) = out_vec .* o_rate; % the chances of output
-	change_matrix(:,3) = in_vec .* i_rate;  % the chances of input
-	change_matrix(:,4) = left_vec .* state .* l_rate; % the chances of jumping left
-	change_matrix(:,5) = right_vec .* state .* r_rate; % the chances of jumping right
-	change_matrix(:,1) = change_matrix(:,2) + change_matrix(:,3) + change_matrix(:,4) + change_matrix(:,5);
-	change_matrix(:,1) = change_matrix(:,1) ./ sum(change_matrix(:,1)); % total chances, normalized
+	ep = evic .* e_rate; % probability of eviction
+	ap = assem .* a_rate;  % .. of assembly
+	lp = left_vec .* state .* l_rate; % .. sliding left 
+	rp = right_vec .* state .* r_rate; % .. and sliding right
+	p = ep + ap + lp + rp;
+    sp = sum(p);
+    p = p./sp;
 	
 	% find how much time passed until the next change (simulating exponential distribution):
-	dt = -log(rand_nums(i))./sum(change_matrix(:,1));
+	dt = -log(rand_nums(i))./sp;
 	
-	% choose a bp that will be changed and decide what changes:
-	bp = find(mnrnd(1,change_matrix(:,1)));
-	bp_line = change_matrix(bp,2:end);
-	bp_line = bp_line ./ sum(bp_line);
-	change = find(mnrnd(1,bp_line)); % 1 is out, 2 is in, 3 is left, 4 is right
+	% sample a bp for a change, and sample a state change:
+	bp = find(mnrnd(1,p));
+	change = find(mnrnd(1,[ep(bp),ap(bp),lp(bp),rp(bp)]));
 	
 	% make the change in the state:
-	if (change == 1)
-		state(bp) = 0;
-	end
 	if (change == 2)
 		state(bp) = 1;
+    else
+        state(bp) = 0;
+        if (change == 3)
+            state(bp-jump_len) = 1;
+        end
+        if (change == 4)
+            state(bp+jump_len) = 1;
+        end
 	end
-	if (change == 3)
-		state(bp) = 0;
-		state(bp-jump_len) = 1;
-	end
-	if (change == 4)
-		state(bp) = 0;
-		state(bp+jump_len) = 1;
-	end
-	state_matrix(i+1,:) = state*dt; % we multiply by dt to get the duration of the state
-	
+	state_hist(i+1,:) = state; % we multiply by dt to get the duration of the state
+    time(i+1) = time(i) + dt;
 end
+clc;
 
-%%%%% FINAL CALCULATIONS %%%%%
+%% %%% FINAL CALCULATIONS %%%%%
 
 % get the number of times each bp had a nuceosome center on it
-centers_vector = sum(state_matrix(:,:));
+centers_vector = sum(state_hist(:,:));
 smooth_vector =  conv(centers_vector, ones(1,nuc_len), 'same');
 
 % make the two graphs be of the same order of magnitude:
 smooth_vector_smaller = smooth_vector .* (max(centers_vector)/mean(smooth_vector));
 
-%%%%% OUTPUT GRAPHS %%%%%
+%% %%% OUTPUT GRAPHS %%%%%
 
 %{
 figure;
