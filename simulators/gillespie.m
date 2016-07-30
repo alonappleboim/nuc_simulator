@@ -18,7 +18,7 @@ nuc_vec = ones(1,(nuc_len*2)-1); % the vector for the in_vec convulution
 jump_vec = ones(1,nuc_len+jump_len); % the vector for the jumping convulutions
 a_rate = ones(1,gen_len);     % a rate vector for the assembly of a nucleosome into each bp
 e_rate = ones(1,gen_len);     % a rate vector for the evicition of a nucleosome from each bp
-r_rate = .1.*ones(1,gen_len);     % a rate vector for the right slide from each bp
+r_rate = ones(1,gen_len);     % a rate vector for the right slide from each bp
 l_rate = zeros(1,gen_len);     % a rate vector for the left slide from each bp
 num_steps = 5000;              % the number of steps to simulate
 rand_nums = rand(1,num_steps);  % random numbers for calculating the dt of each change (GILLESPIE)
@@ -78,7 +78,7 @@ for i=1:num_steps
 	rp = right_vec .* state .* r_rate; % .. and sliding right
 	p = ep + ap + lp + rp;
     sp = sum(p);
-    p = p./sp;
+    p = p./sp; % normalize p
 	
 	% find how much time passed until the next change (simulating exponential distribution):
 	dt = -log(rand_nums(i))./sp;
