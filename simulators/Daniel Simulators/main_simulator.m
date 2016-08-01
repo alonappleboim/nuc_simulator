@@ -11,7 +11,7 @@ params.e_rate = ones(1,gen_len);
 params.r_rate = 0.1*ones(1,gen_len); 
 params.l_rate = 0.1*ones(1,gen_len); 
 params.nuc_footprint = ones(1,(params.nuc_width.*2) - 1);
-params.linker_len = 50;
+params.linker_len = 1;
 
 % NFRs
 params.a_rate(750:1050) = 0.1;

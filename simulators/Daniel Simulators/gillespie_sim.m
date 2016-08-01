@@ -49,7 +49,9 @@ linker_right_vector = 1 ./ (1 + exp(-y)); % a sigmoid to be added to the nuc_vec
 nuc_vector = ones(1,(params.nuc_width.*2) - 1); % a kernel that shows where a nucleosome cant assemble
 assem_vector = [linker_left_vector,nuc_vector,linker_right_vector];
 slide_vec = ones(1, params.nuc_width + params.slide_len); % the kernel for the sliding test
-%slide_vec = [linker_left_vector,slide_vec,linker_right_vector];
+%slide_vec = [linker_left_vector,slide_vec,linker_right_vector]; (ADD ZEROS INSTEAD OF THE IRRELIVENT)
+slide_right_vec = [linker_left_vector,slide_vec,zeros(1,params.linker_len*2 + 1)];
+slide_left_vec = [zeros(1,params.linker_len*2 + 1),slide_vec,linker_right_vector];
 
 % time loop
 state = extra_inputs.s0;
@@ -68,18 +70,14 @@ for i = 1:extra_inputs.n_steps
 	assem_rate = free_dna.*params.a_rate; % assembly rate
 	
 	% generate the left and right sliding rate vectors
- 	temp_slide_vector = conv(state, slide_vec, 'same');
- 	temp_slide_vector(temp_slide_vector ~= 0) = 1;
-    temp_slide_vector = ~temp_slide_vector; % ones are the positions that indicate that there is enough space for a slide
-    
- 	temp_right_vec = find(temp_slide_vector) - (params.slide_len/2) - (fix(params.nuc_width/2) + 1); % find the bps that can jump right
-	right_vec = zeros(1,params.genlen); % which bps have a nuc that can jump right
-    temp = temp_right_vec > 0;
- 	right_vec(temp_right_vec(temp)) = 1; % remove bps that are left of the edge (can't jump right)
- 	temp_left_vec = find(temp_slide_vector) + (params.slide_len/2) + (fix(params.nuc_width/2) + 1); % find the bps that can jump left
-	left_vec = zeros(1,params.genlen); % which bp have a nuc that can jump left
-    temp = temp_left_vec <= params.genlen;
- 	left_vec(temp_left_vec(temp)) = 1; % remove bps that are right of the edge (can't jump left)
+ 	temp_right_slide_vector = 1-min(1,conv(state, slide_right_vec, 'same'));
+   	temp_left_slide_vector = 1-min(1,conv(state, slide_left_vec, 'same'));
+
+	right_vec = circshift(temp_right_slide_vector, -(params.slide_len/2)-(fix(params.nuc_width/2))-(2*params.linker_len), 2);
+	right_vec(end - ((params.slide_len/2)+(fix(params.nuc_width/2))+(2*params.linker_len)):end) = 0;
+	left_vec = circshift(temp_left_slide_vector, (params.slide_len/2)+(fix(params.nuc_width/2))+(2*params.linker_len), 2);
+	left_vec(1:(params.slide_len/2)+(fix(params.nuc_width/2))+(2*params.linker_len)) = 0;
+	
 	right_rate = params.r_rate.*right_vec.*state;
 	left_rate = params.l_rate.*left_vec.*state;
     		
@@ -100,17 +98,17 @@ for i = 1:extra_inputs.n_steps
     end
   
 	% make the change in the state:
-	if (change == 2) %assembly
+    if (change == 2) %assembly
 		state(bp) = 1;
     else %eviction
         state(bp) = 0;
         if (change == 3) %left slide
-            state(bp-params.slide_len) = 1;
+            state(bp - params.slide_len) = 1;
         end
         if (change == 4) %right slide
-            state(bp+params.slide_len) = 1;
+            state(bp + params.slide_len) = 1;
         end
-	end
+    end
 	state_history(i+1,:) = state.*dt;
     time(i+1) = time(i) + dt;
 end
