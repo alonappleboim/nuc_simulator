@@ -71,10 +71,10 @@ for i = 1:extra_inputs.n_steps
  	can_slide(can_slide ~= 0) = 1;
     can_slide = ~can_slide; % ones are the positions that indicate that there is enough space for a slide
 	
- 	temp_right_vec = find(can_slide) - (params.slide_len/2) - (2*fix(params.nuc_width/2)); % find the bps that can jump right
- 	temp_left_vec = find(can_slide) + (params.slide_len/2) + (2*fix(params.nuc_width/2)); % find the bps that can jump left
+ 	temp_right_vec = find(can_slide) - (params.slide_len/2) - (fix(params.nuc_width/2) + 1); % find the bps that can jump right
+ 	temp_left_vec = find(can_slide) + (params.slide_len/2) + (fix(params.nuc_width/2) + 1); % find the bps that can jump left
 	
- 	right_vec = zeros(1,params.genlen); % which bp have a nuc that can jump right
+ 	right_vec = zeros(1,params.genlen); % which bps have a nuc that can jump right
     temp = temp_right_vec > 0;
  	right_vec(temp_right_vec(temp)) = 1; % remove bps that are left of the edge (can't jump right)
  	left_vec = zeros(1,params.genlen); % which bp have a nuc that can jump left
@@ -113,7 +113,7 @@ for i = 1:extra_inputs.n_steps
             state(bp+params.slide_len) = 1;
         end
 	end
-	state_history(i+1,:) = state;
+	state_history(i+1,:) = state.*dt;
     time(i+1) = time(i) + dt;
 end
 
