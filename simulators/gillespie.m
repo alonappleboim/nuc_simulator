@@ -1,17 +1,18 @@
-function [t,s_hist] = gillespie(model_params, varargin)
+function [time,state_history] = gillespie(model_params, varargin)
 %
 % gillespie simulation for nucleosome positioning 
 %
 % Arguments:
 %  modelparams - a struct with the following fields:
-%    nuc_w - width of a nucleosome
-%    slide_s - sliding step per unit time
-%    a - assembly rate per position along genome
-%    e - eviction rate per position along genome
-%    l - left slide rate per position along genome
-%    r - right slide rate per position along genome
-%    nuc_fp - nucleosome footprint for assembly between 0..1. 0
-%             means completely free, 1 means zero chance of assembly.
+%    nuc_width - width of a nucleosome
+%    slide_len - sliding step per unit time
+%    a_rate - assembly rate per position along genome
+%    e_rate - eviction rate per position along genome
+%    l_rate - left slide rate per position along genome
+%    r_rate - right slide rate per position along genome
+%    nuc_footprint - nucleosome footprint for assembly between 0..1. 0
+%             means completely free, 1 means zero chance of assembly
+%    linker_len - the average length of the linkers between the nucleosomes
 %
 % Name/Value arguments:
 %    n_steps - number of simulation steps. default = genome size * 10.
@@ -21,149 +22,102 @@ function [t,s_hist] = gillespie(model_params, varargin)
 %             'no', then no report is generated
 %  
 
-<<<<<<< HEAD
 % parse arguments
-mp = model_params;
-mp.genlen = length(mp.a);
-defaults = struct('n_steps', round(mp.genlen/mp.nuc_w*10),...
+params = model_params;
+params.genlen = length(params.a_rate);
+defaults = struct('n_steps', round((params.genlen/params.nuc_width)*100),...
                   'n_inst', 10,...
-                  's0', rand_state(mp.genlen, mp.nuc_w), ...
+                  's0', rand_state(params.genlen, params.nuc_width), ...
                   'report', nan);
-sp = parse_namevalue_pairs(defaults, varargin); %simulation parameters
-if isnan(sp.report)
-    sp.to_report = true;
-    sp.report = sp.n_steps./10;
+extra_inputs = parse_namevalue_pairs(defaults, varargin); %simulation parameters
+if isnan(extra_inputs.report)
+    extra_inputs.to_report = true;
+    extra_inputs.report = extra_inputs.n_steps./20;
 else
-    if strcmp(sp.to_report, 'no'), sp.to_report = false;
-    else sp.to_report = true; end
+    if strcmp(extra_inputs.to_report, 'no'), extra_inputs.to_report = false;
+    else extra_inputs.to_report = true; end
 end
 
 % prep simulation
-slide_k = ones(1, mp.nuc_w+mp.slide_s); % the kernel for the sliding test
-rand_nums = rand(1, sp.n_steps);  % random numbers for calculating the dt of each change (GILLESPIE)
-=======
-%% clear all?
-clear;
-clc;
-close all;
+slide_vec = ones(1, params.nuc_width + params.slide_len); % the kernel for the sliding test
+rand_nums = rand(1, extra_inputs.n_steps);  % random numbers for calculating the dt of each change (GILLESPIE)
+state_history = [extra_inputs.s0; zeros(extra_inputs.n_steps, params.genlen)]; % the state history
+time = zeros(extra_inputs.n_steps, 1); % keeping track of simulation time
 
-%sdjkg
-%% %%% PARAMETERS %%%%%
-
-REP_EVERY = 1000;
-gen_len = 8000;                % the length of the genome
-nuc_len = 147;                 % the length of a single nucleosome (odd number for convenience)
-jump_len = 20; 				   % the length of a single jump (left or right) - even for convenience
-nuc_vec = ones(1,(nuc_len*2)-1); % the vector for the in_vec convulution
-jump_vec = ones(1,nuc_len+jump_len); % the vector for the jumping convulutions
-a_rate = 10*ones(1,gen_len);     % a rate vector for the assembly of a nucleosome into each bp
-e_rate = ones(1,gen_len);     % a rate vector for the evicition of a nucleosome from each bp
-r_rate = 10*ones(1,gen_len);     % a rate vector for the right slide from each bp
-l_rate = 10*ones(1,gen_len);     % a rate vector for the left slide from each bp
-num_steps = 20000;              % the number of steps to simulate
-rand_nums = rand(1,num_steps);  % random numbers for calculating the dt of each change (GILLESPIE)
-state = zeros(1,gen_len);     % the initial state
-
-state_hist = zeros(num_steps+1,gen_len); % the state history
-time = zeros(num_steps,1); % keeping track of simulation time
-state_hist(1,:) = state; 
-
-% change the input probabilities so that we have an NFR in the middle:
-nfr_hw = 400;
-a_rate((gen_len/2-nfr_hw):(gen_len/2)+nfr_hw) = 0;
-l_rate((gen_len/2-nfr_hw):(gen_len/2)+nfr_hw) = 0;
-r_rate((gen_len/2-nfr_hw):(gen_len/2)+nfr_hw) = 0;
->>>>>>> 912e43d72aa988d7a3ae92bb758b453b9e830560
-
-s_hist = [sp.s0; zeros(sp.n_steps, mp.genlen)]; % the state history
-t = zeros(sp.n_steps, 1); % keeping track of simulation time
+% the linker vector is a normalized 3-sigma gaussian in the length of the linker, to be used in the convolution
+% of the assembly:
+linker_vec = -3: 6/params.linker_len :3;
+linker_vec = exp(-(linker_vec.^2) ./ 2);
+linker_vec = linker_vec ./ sum(linker_vec);
 
 % time loop
-state = sp.s0;
-for i = 1:sp.n_steps
+state = extra_inputs.s0;
+for i = 1:extra_inputs.n_steps
     % report progress:
-    if sp.to_report && mod(i,sp.report) == 0
+    if extra_inputs.to_report && mod(i,extra_inputs.report) == 0
         clc;
-        fprintf('At iteration %i (%d%%)...\n', i, 100*i./sp.n_steps);
+        fprintf('At iteration %i (%d%%)...\n', i, 100*i./extra_inputs.n_steps);
     end;
     
 	% generate the assembly, eviction and sliding rate vectors
-    er = state .* mp.e; % eviction rate
-    free_dna = (1-min(1,conv(state, mp.nuc_fp, 'same')));
-	ar = free_dna.*mp.a; %assembly rate
-	lr = zeros(1,mp.genlen);
-    rr = zeros(1,mp.genlen);
-% 	can_slide = conv(state, slide_k, 'same');
-% 	temp_jump_vec(temp_jump_vec ~= 0) = 1;
-%     temp_jump_vec = ~temp_jump_vec; % ones are the positions that indicate that there is enough space for a jump
+    evic_rate = state .* params.e_rate; % eviction rate
+    free_dna = (1-min(1,conv(state, params.nuc_footprint, 'same')));
+	assem_rate = free_dna.*params.a_rate; % assembly rate
+	assem_rate = conv(assem_rate, linker_vec, 'same');
+	left_rate = params.l_rate;
+    right_rate = params.r_rate;
 	
-% 	temp_right_vec = find(temp_jump_vec) - (jump_len/2) - (2*fix(nuc_len/2)); % find the bps that can jump right
-% 	temp_left_vec = find(temp_jump_vec) + (jump_len/2) + (2*fix(nuc_len/2)); % find the bps that can jump left
-% 	
-% 	right_vec = zeros(1,gen_len); % which bp have a nuc that can jump right
-%     temp = temp_right_vec > 0;
-% 	right_vec(temp_right_vec(temp)) = 1; % remove bps that are left of the edge (can't jump right)
-% 	left_vec = zeros(1,gen_len); % which bp have a nuc that can jump left
-%     temp = temp_left_vec <= gen_len;
-% 	left_vec(temp_left_vec(temp)) = 1; % remove bps that are right of the edge (can't jump left)
-
+ 	can_slide = conv(state, slide_vec, 'same');
+ 	can_slide(can_slide ~= 0) = 1;
+    can_slide = ~can_slide; % ones are the positions that indicate that there is enough space for a slide
+	
+ 	temp_right_vec = find(can_slide) - (params.slide_len/2) - (2*fix(params.nuc_width/2)); % find the bps that can jump right
+ 	temp_left_vec = find(can_slide) + (params.slide_len/2) + (2*fix(params.nuc_width/2)); % find the bps that can jump left
+	
+ 	right_vec = zeros(1,params.genlen); % which bp have a nuc that can jump right
+    temp = temp_right_vec > 0;
+ 	right_vec(temp_right_vec(temp)) = 1; % remove bps that are left of the edge (can't jump right)
+ 	left_vec = zeros(1,params.genlen); % which bp have a nuc that can jump left
+    temp = temp_left_vec <= params.genlen;
+ 	left_vec(temp_left_vec(temp)) = 1; % remove bps that are right of the edge (can't jump left)
+    right_vec = conv(right_vec, linker_vec, 'same');
+	left_vec = conv(left_vec, linker_vec, 'same');
+	right_rate = right_rate.*right_vec.*state;
+	left_rate = left_rate.*left_vec.*state;
+    		
     % sample next time point
-    all_rates = er + ar + lr + rr;
+    all_rates = evic_rate + assem_rate + left_rate + right_rate;
     dt = -log(rand_nums(i))./sum(all_rates);
     
     % sample a position, and a state change:
-	p = [er,ar,lr,rr];
-    nzidx = find(p~=0);
-    p = p(p~=0)./sum(p);
-	ind = nzidx(mnrnd(1,p)==1);
-    pos = mod(ind, mp.genlen);
-    step = (ind-pos)./mp.genlen + 1;
-	if pos == 0
-        pos = mp.genlen;
-        step = step - 1;
+	all_rates = [evic_rate,assem_rate,left_rate,right_rate];
+    possible_rates = find(all_rates~=0);
+    all_rates = all_rates(all_rates~=0)./sum(all_rates); % normalize all_rates
+	ind = possible_rates(mnrnd(1,all_rates)==1);
+    bp = mod(ind, params.genlen);
+    change = (ind-bp)./params.genlen + 1;
+    if (bp == 0)
+        bp = params.genlen;
+        change = change - 1;
     end
-    
-<<<<<<< HEAD
-=======
-	% generate the change_matrix:
-	ep = evic .* e_rate; % probability of eviction
-	ap = assem .* a_rate;  % .. of assembly
-	lp = left_vec .* state .* l_rate; % .. sliding left 
-	rp = right_vec .* state .* r_rate; % .. and sliding right
-	p = ep + ap + lp + rp;
-    sp = sum(p);
-    
-    ep = ep./p; % normalize the vectors for mnrnd
-    ap = ap./p;
-    lp = lp./p;
-    rp = rp./p;
-    p = p./sp;
-	
-	% find how much time passed until the next change (simulating exponential distribution):
-	dt = -log(rand_nums(i))./sp;
-	
-	% sample a bp for a change, and sample a state change:
-	bp = find(mnrnd(1,p));
-	change = find(mnrnd(1,[ep(bp),ap(bp),lp(bp),rp(bp)]));
-	
->>>>>>> 912e43d72aa988d7a3ae92bb758b453b9e830560
+  
 	% make the change in the state:
-	if (step == 2) %assembly
-		state(pos) = 1;
+	if (change == 2) %assembly
+		state(bp) = 1;
     else %eviction
-        state(pos) = 0;
-        if (step == 3) %left slide
-            state(pos-jump_len) = 1;
+        state(bp) = 0;
+        if (change == 3) %left slide
+            state(bp-params.slide_len) = 1;
         end
-        if (step == 4) %right slide
-            state(pos+jump_len) = 1;
+        if (change == 4) %right slide
+            state(bp+params.slide_len) = 1;
         end
 	end
-	s_hist(i+1,:) = state;
-    t(i+1) = t(i) + dt;
+	state_history(i+1,:) = state;
+    time(i+1) = time(i) + dt;
 end
 
-if sp.to_report, clc; end;
+if extra_inputs.to_report, clc; end;
 end
 
 function s = rand_state(N,w)
