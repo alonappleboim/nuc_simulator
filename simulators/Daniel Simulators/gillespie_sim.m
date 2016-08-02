@@ -73,10 +73,10 @@ for i = 1:extra_inputs.n_steps
  	temp_right_slide_vector = 1-min(1,conv(state, slide_right_vec, 'same'));
    	temp_left_slide_vector = 1-min(1,conv(state, slide_left_vec, 'same'));
 
-	right_vec = circshift(temp_right_slide_vector, -(params.slide_len/2)-(fix(params.nuc_width/2))-(2*params.linker_len), 2);
-	right_vec(end - ((params.slide_len/2)+(fix(params.nuc_width/2))+(2*params.linker_len)):end) = 0;
-	left_vec = circshift(temp_left_slide_vector, (params.slide_len/2)+(fix(params.nuc_width/2))+(2*params.linker_len), 2);
-	left_vec(1:(params.slide_len/2)+(fix(params.nuc_width/2))+(2*params.linker_len)) = 0;
+	right_vec = circshift(temp_right_slide_vector, -(fix(params.slide_len/2))-(fix(params.nuc_width/2))-(2*params.linker_len), 2);
+	right_vec(end - ((fix(params.slide_len/2))+(fix(params.nuc_width/2))+(2*params.linker_len)):end) = 0;
+	left_vec = circshift(temp_left_slide_vector, (fix(params.slide_len/2))+(fix(params.nuc_width/2))+(2*params.linker_len), 2);
+	left_vec(1:(fix(params.slide_len/2))+(fix(params.nuc_width/2))+(2*params.linker_len)) = 0;
 	
 	right_rate = params.r_rate.*right_vec.*state;
 	left_rate = params.l_rate.*left_vec.*state;
