@@ -1,3 +1,4 @@
+function [peak_distance] = simulate_polymerase(l_rate)
 
 %% %%% PARAMETERS %%%%%
 
@@ -11,14 +12,14 @@ params.e_rate = ones(1,gen_len);
 params.r_rate = 0.1*ones(1,gen_len); 
 params.l_rate = 0.1*ones(1,gen_len); 
 params.nuc_footprint = ones(1,(params.nuc_width.*2) - 1);
-params.linker_len = 20;
+params.linker_len = 5;
 
 % NFRs
 params.r_rate(5050:5200) = 30;
 params.l_rate(5000:5050) = 30;
 
 % Polymerase Parameters
-params.l_rate(5200:end) = 5;
+params.l_rate(5200:end) = l_rate;
 
 %%
 
@@ -28,31 +29,4 @@ params.l_rate(5200:end) = 5;
 
 % get the number of times each bp had a nuceosome center on it
 centers_vector = sum(s_hist(:,4161:6660));
-smooth_vector =  conv(centers_vector, ones(1,51), 'same');
-
-% rescale graphs
-smooth_vector = smooth_vector .* (max(centers_vector)/mean(smooth_vector));
-
-%% %%% OUTPUT GRAPHS %%%%%
-
-%{
-figure;
-plot(centers_vector)
-title('Number of Nucleosome Centers VS Base Pair')
-%}
-
-figure;
-plot(smooth_vector,'g')
-title('Number of Nucleosome Coverage VS Base Pair')
-
-%{
-figure;
-plot(centers_vector,'r')
-hold on
-plot(smooth_vector,'g')
-legend('centers','coverage')
-title('Combined')
-xlabel('Position')
-ylabel('Time')
-hold off
-%}
+peak_distance = get_average_peak_distance(centers_vector,25);
