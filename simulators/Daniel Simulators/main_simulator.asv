@@ -22,7 +22,7 @@ params.l_rate(750:900) = 20;
 
 %%
 
-[time, s_hist] = gillespie(params, 'n_steps', n_steps, 's0', zeros(1,gen_len));
+[time, s_hist] = gillespie_sim(params, 'n_steps', n_steps, 's0', zeros(1,gen_len));
 
 %% %%% FINAL CALCULATIONS %%%%%
 
