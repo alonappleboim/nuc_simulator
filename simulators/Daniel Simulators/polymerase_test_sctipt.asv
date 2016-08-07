@@ -1,0 +1,24 @@
+poly_params = 0:0.5:7;
+distances = zeros(1,15);
+simulations = zeros(3,1500,15);
+simulations(:,:,1) = 
+for i=1:15
+    clc;
+    fprintf('At iteration %i',i);
+    a = simulate_polymerase(poly_params(i));
+    clc;
+    fprintf('At iteration %i',i);
+    b = simulate_polymerase(poly_params(i));
+    clc;
+    fprintf('At iteration %i',i);
+    c = simulate_polymerase(poly_params(i));
+    distances(i) = (a+b+c)/3;
+    
+end
+
+meta_distance = get_average_peak_distance(smooth_metagene_5);
+
+bar(poly_params,distances)
+hold on
+bar(8, meta_distance, 'g')
+plot([-1 14],[meta_distance meta_distance], 'g')

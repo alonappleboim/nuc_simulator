@@ -1,4 +1,4 @@
-function [peak_distance, peak_ratio, simulation] = simulate_polymerase(poly_rate)
+function [peak_distance, simulation] = simulate_polymerase(poly_rate)
 
 %% %%% PARAMETERS %%%%%
 
@@ -30,9 +30,6 @@ params.l_rate(1200:3200) = poly_rate;
 % get the number of times each bp had a nuceosome center on it
 centers_vector = sum(s_hist(:,161:2660));
 smooth_vector = ksdensity(1000:length(centers_vector)-1,1000:length(centers_vector)-1,'weights',double(centers_vector(1000:end-1)),'width',20);
-smooth_vector_ratio = ksdensity(1000:1800,1000:1800,'weights',double(centers_vector(1000:1800)),'width',20);
-
-% extract the desired parameters from the simulation:
-peak_distance = get_average_peak_distance(smooth_vector);
-peak_ratio = get_peak_decline_ratio(smooth_vector_ratio);
+%peak_distance = get_average_peak_distance(smooth_vector);
+peak_ratio 
 simulation = smooth_vector;
