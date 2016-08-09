@@ -1,3 +1,0 @@
-Sim 1 - first model, allowing for assembly and eviction of nucleosomes.
-Sim 2 - addition of the ability to alide left and right, for each nucleosome.
-Sim 3 - change from probabilities to rates (GILLESPIE)

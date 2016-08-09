@@ -1,9 +1,9 @@
 
 %% %%% PARAMETERS %%%%%
 
-n_steps = 15000;
+n_steps = 20000;
 params = struct();
-gen_len = 10000;
+gen_len = 3500;
 params.nuc_width = 147;
 params.slide_len = 10;
 params.a_rate = ones(1,gen_len); 
@@ -14,17 +14,11 @@ params.nuc_footprint = ones(1,(params.nuc_width.*2) - 1);
 params.linker_len = 5;
 
 % NFRs
-params.r_rate(5050:5200) = 30;
-params.l_rate(5000:5050) = 30;
+params.r_rate(1050:1200) = 30;
+params.l_rate(1000:1050) = 30;
 
 % Polymerase Parameters
-params.l_rate(5200:end) = 5;
-
-% Test just the downstream:
-params.l_rate(1:4000) = 0;
-params.r_rate(1:4000) = 0;
-params.a_rate(1:4000) = 0;
-params.e_rate(1:4000) = 0;
+params.l_rate(1200:3200) = 5;
 
 %%
 
@@ -33,8 +27,7 @@ params.e_rate(1:4000) = 0;
 %% %%% FINAL CALCULATIONS %%%%%
 
 % get the number of times each bp had a nuceosome center on it
-centers_vector = sum(s_hist(:,4161:6660));
-%smooth_vector =  conv(centers_vector, ones(1,51), 'same');
+centers_vector = sum(s_hist(:,161:2660));
 smooth_vector = ksdensity(1000:length(centers_vector)-1,1000:length(centers_vector)-1,'weights',double(centers_vector(1000:end-1)),'width',20);
 
 % rescale graphs
@@ -50,6 +43,9 @@ title('Number of Nucleosome Centers VS Base Pair')
 
 figure;
 plot(smooth_vector,'g')
+hold on
+plot(smooth_metagene_5,'b')
+%plot((params.l_rate(1161:2660) - params.r_rate(1161:2660)).*max(smooth_vector)./100,'k')
 title('Number of Nucleosome Coverage VS Base Pair')
 
 %{

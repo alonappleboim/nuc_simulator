@@ -41,7 +41,7 @@ rand_nums = rand(1, extra_inputs.n_steps);  % random numbers for calculating the
 state_history = [extra_inputs.s0; zeros(extra_inputs.n_steps, params.genlen)]; % the state history
 time = zeros(extra_inputs.n_steps, 1); % keeping track of simulation time
 
-x = -5 : 5/params.linker_len : 5;
+x = -5 : 10/params.linker_len : 5;
 y = fliplr(x);
 linker_left_vector = 1 ./ (1 + exp(-x)); % a sigmoid to be added to the nuc_vector
 linker_right_vector = 1 ./ (1 + exp(-y)); % a sigmoid to be added to the nuc_vector
