@@ -56,8 +56,11 @@ params.l_rate(inputs.poly_pos(1) : inputs.poly_pos(end)) = inputs.poly_rate;
 
 %% %%% FINAL CALCULATIONS %%%%%
 
-% get the peak distances
+% save the state histories:
 centers_vector = sum(s_hist(:,:));
-s_hist_coverage = ksdensity(inputs.NFR_pos(end):length(centers_vector),inputs.NFR_pos(end):length(centers_vector),'weights',double(centers_vector(inputs.NFR_pos(end):end)),'width',20);
-[peak_distance_1_2, peak_distance_2_3] = get_peak_distances(s_hist_coverage(1:1500)); % 1500 for the function...
+s_hist_coverage = ksdensity(1:length(centers_vector),1:length(centers_vector),'weights',double(centers_vector(1:end)),'width',20);
+
+% get the peak distances
+peak_coverage_hist = s_hist_coverage((inputs.NFR_pos(end) + inputs.NFR_pos(1)) / 2:end);
+[peak_distance_1_2, peak_distance_2_3] = get_peak_distances(peak_coverage_hist(1:1500)); % 1500 for the function...
 

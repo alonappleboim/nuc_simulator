@@ -1,4 +1,4 @@
-linker_lengths = 1:10;
+linker_lengths = 2:2:20;
 distances_1_2 = zeros(10,10);
 distances_2_3 = zeros(10,10);
 ratios = zeros(10,10);
@@ -7,7 +7,7 @@ for i=1:10
     for j=1:10
     clc;
     fprintf('ITERATION %i-%i',i,j);
-    [tmp1, tmp2, distances_1_2(j,i), distances_2_3(j,i)] = run_simulation('poly_rate',linker_lengths(i));
+    [tmp1, tmp2, distances_1_2(j,i), distances_2_3(j,i)] = run_simulation('linker_len',linker_lengths(i));
     end
 end
 
@@ -24,12 +24,12 @@ bar(linker_lengths,mean_distances_1_2)
 hold on
 errorbarxy(linker_lengths,mean_distances_1_2,0.001.*ones(size(linker_lengths)), variance_distance_1_2.^0.5,{'.','r','r'})
 hold on
-bar(11, meta_distance_1_2, 'g')
+bar(22, meta_distance_1_2, 'g')
 hold on
-plot([1 11],[meta_distance_1_2 meta_distance_1_2], 'g')
+plot([1 22],[meta_distance_1_2 meta_distance_1_2], 'g')
 hold on
-title('Distance between +1 and +2 Peaks VS Polymerase Parameter')
-xlabel('Polymerase Parameter (left slide rate)')
+title('Distance between +1 and +2 Peaks VS Linker Length')
+xlabel('Linker Length')
 ylabel('Peak Distance')
 
 subplot(1,2,2)
@@ -37,12 +37,12 @@ bar(linker_lengths,mean_distances_2_3)
 hold on
 errorbarxy(linker_lengths,mean_distances_2_3,0.001.*ones(size(linker_lengths)), variance_distance_2_3.^0.5,{'.','r','r'})
 hold on
-bar(11, meta_distance_2_3, 'g')
+bar(22, meta_distance_2_3, 'g')
 hold on
-plot([1 11],[meta_distance_2_3 meta_distance_2_3], 'g')
+plot([1 22],[meta_distance_2_3 meta_distance_2_3], 'g')
 hold on
-title('Distance between +2 and +3 Peaks VS Polymerase Parameter')
-xlabel('Polymerase Parameter (left slide rate)')
+title('Distance between +2 and +3 Peaks VS Linker Length')
+xlabel('Linker Length')
 ylabel('Peak Distance')
 
 annotation('textbox',[0 0.8 0.2 0.2], ...
