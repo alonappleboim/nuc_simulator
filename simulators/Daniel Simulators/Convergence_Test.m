@@ -7,7 +7,7 @@ distance_1_2 = zeros(6,5,5,1); % n_steps, sim_num, width_used, distance...
 distance_2_3 = zeros(6,5,5,1); % n_steps, sim_num, width_used, distance...
 
 % run the simulations:
-for i=1:6 % n_steps
+for i=1:5 % n_steps
     for j=1:5 % sim_num
         clc;
         fprintf('n_steps %i, sim_num %i',i,j);

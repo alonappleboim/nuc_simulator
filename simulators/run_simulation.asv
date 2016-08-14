@@ -46,7 +46,7 @@ params.nuc_footprint = ones(1,(params.nuc_width.*2) - 1);
 % make NFRs
 params.l_rate(inputs.NFR_pos(1) : inputs.NFR_pos((inputs.NFR_pos(end)-inputs.NFR_pos(1)) / 2)) = 10;
 params.r_rate(inputs.NFR_pos((inputs.NFR_pos(end)-inputs.NFR_pos(1)) / 2) : inputs.NFR_pos(end)) = 10;
-params.e_rate(inputs.NFR_pos(20) : inputs.NFR_pos(end-20)) = 1;
+params.e_rate(inputs.NFR_pos((inputs.NFR_pos(20) : inputs.NFR_pos(end-20)) = 1;
 
 % make a Polymerase
 params.l_rate(inputs.poly_pos(1) : inputs.poly_pos(end)) = inputs.poly_rate;
