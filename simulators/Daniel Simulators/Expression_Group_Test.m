@@ -24,7 +24,7 @@ for i=1:5
 end
 
 % run simulations with different poly rates:
-poly_rates = 20:-4:4;
+poly_rates = 8.5:-2:0.5;
 sim_distances_1_2 = zeros(1,5);
 sim_distances_2_3 = zeros(1,5);
 for i=1:5
@@ -46,13 +46,19 @@ figure
 hold on
 plot(distances_1_2,'*g')
 plot(sim_distances_1_2,'sr')
-title('1 and 2')
-legend('metagene','simulation')
+errorbarxy([1:5], sim_distances_1_2, 0.001.*ones(1,5), 2.*ones(1,5),{'.','r','r'});
+title('Distance between +1 and +2 nucs - Poly rates and gene expression rates')
+xlabel(['Metagene - 5 expression groups from large to small' char(10) 'Simulation - poly rates from 8.5 to 0.5 in jumps of 2'])
+ylabel('Distance Between Peaks')
+legend('metagene','simulation','errorbar')
 
 figure
 hold on
 plot(distances_2_3,'*g')
 plot(sim_distances_2_3,'sr')
-title('2 and 3')
+errorbarxy([1:5], sim_distances_2_3, 0.001.*ones(1,5), 2.*ones(1,5),{'.','r','r'});
+title('Distance between +2 and +3 nucs - Poly rates and gene expression rates')
+xlabel(['Metagene - 5 expression groups from large to small' char(10) 'Simulation - poly rates from 8.5 to 0.5 in jumps of 2'])
+ylabel('Distance Between Peaks')
 legend('metagene','simulation')
 

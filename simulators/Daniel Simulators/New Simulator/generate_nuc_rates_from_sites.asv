@@ -1,0 +1,33 @@
+function [ e_rate, r_rate, l_rate ] = ...
+    generate_nuc_rates_from_sites( PolyA_sites, PolyT_sites, REB1_sites, ...
+    ABF1_sites, RAP1_sites, REB1_width, ABF1_width, RAP1_width )
+%generate_nuc_rates_from_sites Summary of this function goes here
+%   Detailed explanation goes here
+
+PolyAT_sites = PolyA_sites + PolyT_sites;
+
+% make the base rates:
+a_rate = ones(size(REB1_sites)); 
+e_rate = ones(size(REB1_sites)); 
+r_rate = 0.1.*ones(size(REB1_sites)); 
+l_rate = 0.1.*ones(size(REB1_sites)); 
+
+% make the eviction rates from the sites:
+RSC_evict = conv(PolyAT_sites, 0.2.*ones(1,20),'same');
+REB1_evict = conv(REB1_sites, XXX.*ones(1,REB1_width));
+ABF1_evict = conv(ABF1_sites, XXX.*ones(1,REB1_width));
+RAP1_evict = conv(RAP1_sites, XXX.*ones(1,REB1_width));
+e_rate = e_rate + RSC_evict + REB1_evict + ABF1_evict + RAP1_evict;
+
+% make the left-right sliding rates from the sites:
+PolyAT_right = conv(PolyA_sites, 1.*ones(1,50),'same');
+PolyAT_left  = conv(PolyT_sites, 1.*ones(1,50),'same');
+
+params.e_rate = params.e_rate + PolyAT_evict;
+params.r_rate = params.e_rate + PolyAT_right;
+params.l_rate = params.e_rate + PolyAT_left;
+
+
+
+end
+
