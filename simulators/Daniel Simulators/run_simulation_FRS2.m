@@ -56,24 +56,24 @@ PolyAT_right = conv(PolyA_sites, 1.*ones(1,50),'same');
 PolyAT_left  = conv(PolyT_sites, 1.*ones(1,50),'same');
 
 params.e_rate = params.e_rate + PolyAT_evict;
-params.r_rate = params.e_rate + PolyAT_right;
-params.l_rate = params.e_rate + PolyAT_left;
+params.r_rate = params.r_rate + PolyAT_right;
+params.l_rate = params.l_rate + PolyAT_left;
 
-
+%{
 figure;
 plot(params.r_rate(1:2500),'g')
 hold on
 plot(params.l_rate(1:2500),'b')
 plot(params.e_rate(1:2500),'k')
 legend('right','left','eviction')
-
+%}
 
 % make a Polymerase
 %params.l_rate(inputs.poly_pos(1) : inputs.poly_pos(end)) = inputs.poly_rate;
 
 %% Run the Simulation
 
-[time, s_hist] = gillespie(params, 'n_steps', n_steps);%, 's0', zeros(1,gen_len));
+[time, s_hist] = gillespie(params, 'n_steps', n_steps, 's0', zeros(1,gen_len));
 
 %% %%% FINAL CALCULATIONS %%%%%
 

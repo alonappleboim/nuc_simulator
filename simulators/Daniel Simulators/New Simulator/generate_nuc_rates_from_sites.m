@@ -6,6 +6,8 @@ function [ e_rate, r_rate, l_rate ] = ...
 %   given the PolyA, PolyT and trans sites, along with the nuc and trans widths,
 %   the function returns the relevant rates for the nucleosomes.
 
+XXX = 0;
+
 PolyAT_sites = PolyA_sites + PolyT_sites;
 
 % make the base rates:
@@ -15,9 +17,9 @@ l_rate = 0.1.*ones(size(REB1_sites));
 
 % make the eviction rates from the sites:
 RSC_evict = conv(PolyAT_sites, 0.2.*ones(1,20),'same');
-REB1_evict = conv(REB1_sites, XXX.*ones(1,REB1_width + nuc_width));
-ABF1_evict = conv(ABF1_sites, XXX.*ones(1,ABF1_width + nuc_width));
-RAP1_evict = conv(RAP1_sites, XXX.*ones(1,RAP1_width + nuc_width));
+REB1_evict = conv(REB1_sites, XXX.*ones(1,REB1_width + nuc_width),'same');
+ABF1_evict = conv(ABF1_sites, XXX.*ones(1,ABF1_width + nuc_width),'same');
+RAP1_evict = conv(RAP1_sites, XXX.*ones(1,RAP1_width + nuc_width),'same');
 e_rate = e_rate + RSC_evict + REB1_evict + ABF1_evict + RAP1_evict;
 
 % make the left-right sliding rates from the sites:

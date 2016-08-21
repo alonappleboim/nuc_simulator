@@ -31,10 +31,15 @@ PolyA_Sites(genome == 'A') = 1;
 PolyA_Sites = conv(PolyA_Sites, ones(1,7), 'same');
 PolyA_Sites(PolyA_Sites < 5) = 0;
 PolyA_Sites(PolyA_Sites > 4) = 1;
+PolyA_Sites = conv(PolyA_Sites,ones(1,5),'same');
+PolyA_Sites(PolyA_Sites > 0) = 1;
+
 PolyT_Sites(genome == 'T') = 1;
 PolyT_Sites = conv(PolyT_Sites, ones(1,7), 'same');
 PolyT_Sites(PolyT_Sites < 5) = 0;
 PolyT_Sites(PolyT_Sites > 4) = 1;
+PolyT_Sites = conv(PolyT_Sites,ones(1,5),'same');
+PolyT_Sites(PolyT_Sites > 0) = 1;
 
 % find the center of binding sites:
 [start_i, end_i] = regexp(genome, REB1_Weak_Bind);
@@ -51,6 +56,13 @@ ABF1_Sites(fix((start_i + end_i)/2)) = 1;
 RAP1_Sites(fix((start_i + end_i)/2)) = 0.5;
 [start_i, end_i] = regexp(genome, RAP1_Strong_Bind);
 RAP1_Sites(fix((start_i + end_i)/2)) = 1;
+
+% MAKE THE VECTOR BE 3500-LONG:
+PolyA_Sites = [PolyA_Sites , zeros(1,3500-2501)];
+PolyT_Sites = [PolyT_Sites , zeros(1,3500-2501)];
+REB1_Sites = [REB1_Sites , zeros(1,3500-2501)];
+ABF1_Sites = [ABF1_Sites , zeros(1,3500-2501)];
+RAP1_Sites = [RAP1_Sites , zeros(1,3500-2501)];
 
 end
 

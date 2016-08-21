@@ -89,50 +89,48 @@ for i = 1:extra_inputs.n_steps
         fprintf('At iteration %i (%d%%)...\n', i, 100*i./extra_inputs.n_steps);
     end;
         
+    %state = nuc_state + REB1_state + RAP1_state + ABF1_state;
+        
 	% generate the nucleosome eviction rate vector
     evic_rate = nuc_state .* params.nuc_e_rate;
 	
-    %%% TODO - see that the vectors are correct and that the multiplication
-    %%% of free_dna is OK
 	% generate the nucleosome assembly rate vector
     free_nuc_dna = (1-min(1,conv(nuc_state, assem_vector, 'same')));
     free_REB1_dna = (1-min(1,conv(REB1_state, ones(1,params.nuc_width+params.REB1_width), 'same')));
     free_ABF1_dna = (1-min(1,conv(ABF1_state, ones(1,params.nuc_width+params.ABF1_width), 'same')));
     free_RAP1_dna = (1-min(1,conv(RAP1_state, ones(1,params.nuc_width+params.RAP1_width), 'same')));
     free_dna = free_nuc_dna .* free_REB1_dna .* free_ABF1_dna .* free_RAP1_dna;
-	assem_rate = free_dna.*params.a_rate; % assembly rate
+	assem_rate = free_dna.*params.nuc_a_rate; % assembly rate
 	
 	% generate the left and right sliding rate vectors
- 	temp_right_slide_vector = 1-min(1,conv(state, slide_right_vec, 'same'));
-   	temp_left_slide_vector = 1-min(1,conv(state, slide_left_vec, 'same'));
+ 	temp_right_slide_vector = 1-min(1,conv(nuc_state, slide_right_vec, 'same'));
+    temp_right_slide_vector = temp_right_slide_vector - min(1,conv(REB1_state, ones(1,params.REB1_width + params.slide_len + fix(params.nuc_width/2)), 'same'));
+    temp_right_slide_vector = temp_right_slide_vector - min(1,conv(ABF1_state, ones(1,params.ABF1_width + params.slide_len + fix(params.nuc_width/2)), 'same'));
+    temp_right_slide_vector = temp_right_slide_vector - min(1,conv(RAP1_state, ones(1,params.RAP1_width + params.slide_len + fix(params.nuc_width/2)), 'same'));
+    temp_right_slide_vector(temp_right_slide_vector < 0) = 0;
+    temp_left_slide_vector = 1-min(1,conv(nuc_state, slide_left_vec, 'same'));
+    temp_left_slide_vector = temp_left_slide_vector - min(1,conv(REB1_state, ones(1,params.REB1_width + params.slide_len + fix(params.nuc_width/2)), 'same'));
+    temp_left_slide_vector = temp_left_slide_vector - min(1,conv(ABF1_state, ones(1,params.ABF1_width + params.slide_len + fix(params.nuc_width/2)), 'same'));
+    temp_left_slide_vector = temp_left_slide_vector - min(1,conv(RAP1_state, ones(1,params.RAP1_width + params.slide_len + fix(params.nuc_width/2)), 'same'));
+    temp_left_slide_vector(temp_left_slide_vector < 0) = 0;
 
 	right_vec = circshift(temp_right_slide_vector, -(fix(params.slide_len/2))-(fix(params.nuc_width/2))-(2*params.linker_len), 2);
 	right_vec(end - ((fix(params.slide_len/2))+(fix(params.nuc_width/2))+(2*params.linker_len)):end) = 0;
 	left_vec = circshift(temp_left_slide_vector, (fix(params.slide_len/2))+(fix(params.nuc_width/2))+(2*params.linker_len), 2);
 	left_vec(1:(fix(params.slide_len/2))+(fix(params.nuc_width/2))+(2*params.linker_len)) = 0;
-    
-    % take the trans factors into consideration with the sliding
-    right_vec = right_vec.*(1 - min(1,conv(REB1_state, ones(1,params.REB1_width))));
-    right_vec = right_vec.*(1 - min(1,conv(ABF1_state, ones(1,params.ABF1_width))));
-    right_vec = right_vec.*(1 - min(1,conv(RAP1_state, ones(1,params.RAP1_width))));
-    left_vec = left_vec.*(1 - min(1,conv(REB1_state, ones(1,params.REB1_width))));
-    left_vec = left_vec.*(1 - min(1,conv(ABF1_state, ones(1,params.ABF1_width))));
-    left_vec = left_vec.*(1 - min(1,conv(RAP1_state, ones(1,params.RAP1_width))));
-	
-	right_rate = params.r_rate.*right_vec.*state;
-	left_rate = params.l_rate.*left_vec.*state;
+    	
+	right_rate = params.nuc_r_rate.*right_vec.*nuc_state;
+	left_rate = params.nuc_l_rate.*left_vec.*nuc_state;
     
     % generate the trans factors eviction rates:
     REB1_evic_rate = REB1_state .* params.REB1_e_rate;
     ABF1_evic_rate = ABF1_state .* params.ABF1_e_rate;
     RAP1_evic_rate = RAP1_state .* params.RAP1_e_rate;
     
-    %%% TODO - check that the changes are like the nuc assem rate...
     % generate the trans factors assembly rates:
-    free_nuc_dna = (1-min(1,conv(nuc_state, assem_vector, 'same')));
-    free_REB1_dna = (1-min(1,conv(REB1_state, ones(1,REB1_vector), 'same')));
-    free_ABF1_dna = (1-min(1,conv(ABF1_state, ones(1,ABF1_vector), 'same')));
-    free_RAP1_dna = (1-min(1,conv(RAP1_state, ones(1,RAP1_vector), 'same')));
+    free_REB1_dna = (1-min(1,conv(REB1_state, ones(1,2*params.REB1_width), 'same')));
+    free_ABF1_dna = (1-min(1,conv(ABF1_state, ones(1,2.*params.ABF1_width), 'same')));
+    free_RAP1_dna = (1-min(1,conv(RAP1_state, ones(1,2.*params.RAP1_width), 'same')));
     free_dna = free_nuc_dna .* free_REB1_dna .* free_ABF1_dna .* free_RAP1_dna;
     REB1_assem_rate = free_dna .* (1 - REB1_state) .* params.REB1_a_rate;
     ABF1_assem_rate = free_dna .* (1 - ABF1_state) .* params.ABF1_a_rate;

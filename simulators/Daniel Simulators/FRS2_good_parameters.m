@@ -31,8 +31,8 @@ FRS2_PolyAT(FRS2_PolyT == 1) = 1;
 % plot wild type gene with PolyAT and the simulation (wt smoothed):
 smoothed_wt = ksdensity([1:length(FRS2_wt)],[1:length(FRS2_wt)],'weights',double(FRS2_wt),'width',5);
 figure;
-plot(smoothed_wt(1:end-1),'g')
+plot(smoothed_wt(1:end-1),'b')
 hold on
-plot(s_hist_coverage(1:2500),'b')
-plot(FRS2_PolyAT(1:end-1) .* mean(smoothed_wt(1:end-1)), 'r')
-legend('wild-type','simulation','Poly(dA:dT)')
+plot(s_hist_coverage(1:2500),'r')
+plot(FRS2_PolyAT(1:end-1) .* mean(smoothed_wt(1:end-1)), 'k')
+legend('wild-type','simulation','PolyAs & PolyTs)')
