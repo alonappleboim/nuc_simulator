@@ -8,14 +8,14 @@ function [ mean_plus_one, mean_minus_one, mean_NFR_width ] = get_NFR_features_si
 TSS = 1000;
 initial_steps = 500;
 max_distance = 400;
-max_position = 1075;
+max_position = 1100;
 
 distances = zeros(1,max_distance);
 plus_one = zeros(1,max_position);
 minus_one = zeros(1,max_position);
 
 % extract the relevant locations for the two nucleosomes:
-s_hist = s_hist(:, TSS-300 : TSS+75);
+s_hist = s_hist(:, TSS-300 : TSS+100);
 
 for i=initial_steps:size(s_hist,1)
     
