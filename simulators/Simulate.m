@@ -67,11 +67,6 @@ slide_vec = ones(1, params.nuc_width + params.slide_len); % the kernel for the s
 slide_right_vec = [linker_left_vector,slide_vec,zeros(1,params.linker_len*2 + 1)];
 slide_left_vec = [zeros(1,params.linker_len*2 + 1),slide_vec,linker_right_vector];
 
-% make the trans factors vectors (only assembly):
-REB1_vector = ones(1, (2.*params.REB1_width) - 1);
-ABF1_vector = ones(1, (2.*params.ABF1_width) - 1);
-RAP1_vector = ones(1, (2.*params.RAP1_width) - 1);
-
 % time loop
 state = extra_inputs.s0;
 nuc_state = zeros(1,params.genlen);
@@ -88,9 +83,7 @@ for i = 1:extra_inputs.n_steps
         clc;
         fprintf('At iteration %i (%d%%)...\n', i, 100*i./extra_inputs.n_steps);
     end;
-        
-    %state = nuc_state + REB1_state + RAP1_state + ABF1_state;
-        
+                
 	% generate the nucleosome eviction rate vector
     evic_rate = nuc_state .* params.nuc_e_rate;
 	

@@ -93,7 +93,7 @@ p.nuc_footprint = ones(1,(p.nuc_width.*2) - 1);
 
 % extract the relevant sites from the genome:
 [ PolyA_sites, PolyT_sites, REB1_sites, ABF1_sites, RAP1_sites ] = ...
-    Extract_Sites_From_Gene(genome, p.gen_len);
+    Extract_Sites_From_Gene_2(genome, p.gen_len);
 
 % get the rate vectors from the binding sites:
 [p.nuc_a_rate, p.nuc_e_rate, p.nuc_r_rate, p.nuc_l_rate,...
