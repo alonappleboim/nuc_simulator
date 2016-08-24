@@ -1,0 +1,26 @@
+Connecting to SLURM:
+	ssh sulfur-gw
+
+Running on SLURM:
+	srun "bash script.sh"
+	srun --chdir=/cs/bd/Daniel/simulations "bash script.sh"
+
+Checking my jobs on SLURM:
+	squeue
+
+Making bash files executable:
+	chmod u+rx filename.sh
+
+Running matlab commands in the shell:
+	matlab -nodesktop -nosplash -nodisplay -nojvm -r "command1; command2; command3;" & 
+	(the & is for not waiting during a loop in bash)
+
+Sleeping in linux bash (in seconds):
+	sleep 60
+
+Sending a mail from linux shell:
+	mail -a /cs/bd/Daniel/simulations/blahblahblah.mat -s "This is the mail subject" daniel.gissin@mail.huji.ac.il
+	Then we press ctrl+d because there is no mail content
+
+Concatenating commands, sending output to input:
+	squeue | grep dsgissin

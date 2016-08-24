@@ -122,5 +122,11 @@ RAP1_a = RAP1_sites .* RAP1_a;
 RAP1_sites(RAP1_sites > 0) = 1; % make all sites equal 1 for equal evic rate
 RAP1_e = RAP1_sites .* RAP1_e;
 
+% add polymerase effects for the TFs (kicking them off the DNA) - right now
+% the effect is half the effect of the sliding of the nucleosomes):
+REB1_e(REB1_e > 0) = REB1_e(REB1_e > 0) + (p.poly_rate / 2);
+ABF1_e(ABF1_e > 0) = ABF1_e(ABF1_e > 0) + (p.poly_rate / 2);
+RAP1_e(RAP1_e > 0) = RAP1_e(RAP1_e > 0) + (p.poly_rate / 2);
+
 end
 
