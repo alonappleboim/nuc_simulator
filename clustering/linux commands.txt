@@ -21,5 +21,5 @@ Waiting for background processes to finish before continuing:
 	wait [process num optional]
 
 Sending a mail from linux shell:
-	mail -a /cs/bd/Daniel/simulations/blahblahblah.mat -s "This is the mail subject" daniel.gissin@mail.huji.ac.il
+	mail -a /cs/bd/Daniel/simulations/output/mat.mat -s "Simulation Results!" daniel.gissin@mail.huji.ac.il < /cs/bd/Daniel/simulations/log
 	Then we press ctrl+d because there is no mail content

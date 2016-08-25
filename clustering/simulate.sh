@@ -1,0 +1,3 @@
+#!/bin/bash
+
+matlab -nodesktop -nosplash -nodisplay -nojvm -r "load('/cs/bd/Daniel/experiment_data/wt_centers.mat'); load('/cs/bd/Daniel/experiment_data/sequences_structure.mat'); addpath(genpath('/cs/bd/Daniel/nflab_scripts')); addpath(genpath('/cs/bd/Daniel/nuc_simulator')); FRS2_seq=sequences_structure(1001,:); FRS2_wt = wt_3h(1001,:);  RSC_slide_int=[0:9]; RSC_slide_len = [10:10:100]; nuc_sum_int$1=run_simulation_from_genome(FRS2_seq,'report',0,'RSC_slide_intensity',RSC_slide_int($1)); save('/cs/bd/Daniel/simulations/output/mat_int$1.mat','nuc_sum_int$1'); quit;"
