@@ -1,5 +1,5 @@
 function [nuc_sum, time, nuc_s_hist, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ... 
-        Simulate(model_params, varargin)
+        Simulate_new(model_params, varargin)
 %
 % gillespie simulation for nucleosome positioning, including trans factors
 % and using genomic data.
@@ -58,7 +58,7 @@ nuc_sum = zeros(1, params.genlen);
 
 % prep simulation
 rand_nums = rand(1, extra_inputs.n_steps);  % random numbers for calculating the dt of each change (GILLESPIE)
-nuc_s_hist(1, extra_inputs.s0 == 1) = true;
+nuc_s_hist(1, extra_input.s0 == 1) = true;
 time = zeros(extra_inputs.n_steps+1, 1); % keeping track of simulation time
 
 % build the linker vectors of the nucleosomes:
@@ -195,7 +195,7 @@ for i = 1:extra_inputs.n_steps
 
     if (i > 5000)
         nuc_sum = nuc_sum + (nuc_state .* dt);
-    end
+    eb
 end
 
 if extra_inputs.to_report, clc; end;

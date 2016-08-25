@@ -2,12 +2,14 @@ Connecting to SLURM:
 	ssh sulfur-gw
 
 Running on SLURM:
-	srun "bash script.sh"
-	srun --chdir=/cs/bd/Daniel/simulations "bash script.sh"
+	sbatch -D /cs/bd/Daniel/simulations -e log --mem 8000 "script.sh"
 
 Checking my jobs on SLURM:
-	squeue
+	squeue | grep dsgissin
 
+Checking maximum memory usage of a SLURM job:
+	sacct -o MaxRSS -j [job number]
+	
 Making bash files executable:
 	chmod u+rx filename.sh
 
@@ -15,12 +17,9 @@ Running matlab commands in the shell:
 	matlab -nodesktop -nosplash -nodisplay -nojvm -r "command1; command2; command3;" & 
 	(the & is for not waiting during a loop in bash)
 
-Sleeping in linux bash (in seconds):
-	sleep 60
+Waiting for background processes to finish before continuing:
+	wait [process num optional]
 
 Sending a mail from linux shell:
 	mail -a /cs/bd/Daniel/simulations/blahblahblah.mat -s "This is the mail subject" daniel.gissin@mail.huji.ac.il
 	Then we press ctrl+d because there is no mail content
-
-Concatenating commands, sending output to input:
-	squeue | grep dsgissin
