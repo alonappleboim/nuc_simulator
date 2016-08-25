@@ -106,10 +106,10 @@ l_rate = p.nuc_base_l_rate + PolyAT_left;
 
 
 % add the polymerase effects for the nucleosomes:
-l_rate(p.poly_pos) = l_rate(p.poly_pos) * RSC_Poly_slide_ratio;
+l_rate(p.poly_pos) = l_rate(p.poly_pos) .* RSC_Poly_slide_ratio;
 l_rate(p.poly_pos) = l_rate(p.poly_pos) + p.poly_rate;
-r_rate(p.poly_pos) = r_rate(p.poly_pos) * RSC_Poly_slide_ratio;
-e_rate(p.poly_pos) = e_rate(p.poly_pos) * RSC_Poly_evic_ratio;
+r_rate(p.poly_pos) = r_rate(p.poly_pos) .* RSC_Poly_slide_ratio;
+e_rate(p.poly_pos) = e_rate(p.poly_pos) .* RSC_Poly_evic_ratio;
 
 % make the TF rate vectors be only where the sites are:
 REB1_a = REB1_sites .* REB1_a;
