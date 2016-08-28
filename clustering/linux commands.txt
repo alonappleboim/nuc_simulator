@@ -6,6 +6,7 @@ Running on SLURM:
 
 Checking my jobs on SLURM:
 	squeue | grep dsgissin
+	squeue | grep dsgissin | wc -l    ***(to see how many jobs are running)***
 
 Checking maximum memory usage of a SLURM job:
 	sacct -o MaxRSS -j [job number]
