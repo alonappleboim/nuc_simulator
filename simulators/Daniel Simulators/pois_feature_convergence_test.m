@@ -2,7 +2,7 @@ features = zeros(1,6);
 
 % Starting Variables:
 FRS2_seq = sequences_structure(1001,:);
-FRS2_wt = round(wt_3h(1001,:) ./ (10^9));
+FRS2_wt = round(wt_3h(1001,:));
 
 %RSC_evic_intensity = [0.05, 0.1, 0.15];
 RSC_evic_intensity = 0.1.*ones(1,3);

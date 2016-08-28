@@ -9,6 +9,9 @@ Checking my jobs on SLURM:
 
 Checking maximum memory usage of a SLURM job:
 	sacct -o MaxRSS -j [job number]
+
+Cancel all my jobs:
+	scancel -u dsgissin
 	
 Making bash files executable:
 	chmod u+rx filename.sh
