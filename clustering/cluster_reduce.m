@@ -16,7 +16,7 @@ nuc_sums = zeros(1800, 3500);
 % load all of the results:
 for i = 1:1800
 	load(['/cs/bd/Daniel/simulations/output/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
-	features(i, 1) = feature;
+	features(i, 1) = feature_result;
 	nuc_sums(i, :) = nuc_sum;
 end
 

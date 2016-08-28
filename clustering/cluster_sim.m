@@ -65,8 +65,8 @@ nuc_sum5 = run_simulation_from_genome(seq,'report',0, ...
     
 % get the feature of the simulation:
 nuc_sum = nuc_sum1  + nuc_sum2 + nuc_sum3 + nuc_sum4 + nuc_sum5;
-feature = Compare_Sum_To_Data(nuc_sum(700:1100), wt_data(700:1100));
+feature_result = Compare_Sum_To_Data(nuc_sum(700:1100), wt_data(700:1100));
 		
 % save the data to a .mat file:
 save(['/cs/bd/Daniel/simulations/output/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
-	'nuc_sum', 'feature');
+	'nuc_sum', 'feature_result');
