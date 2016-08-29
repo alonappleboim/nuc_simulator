@@ -22,7 +22,6 @@ function [nuc_sum, time, nuc_s_hist, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ..
 %	slide_len - the amount of bps in a single slide
 % 	poly_rate - the rate of the left sliding that is due to the polymerase
 %	poly_pos - a vector indicating the positions of the polymerase (for example: 1200:2800)
-%	NFR_pos - a vector indicating the position of the NFR (for example: 1000:1200)
 %   REB1_a_rate - the REB1 assembly rate
 %   REB1_e_rate - the REB1 eviction rate
 %   ABF1_a_rate - the ABF1 assembly rate
