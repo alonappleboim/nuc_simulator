@@ -2,12 +2,12 @@ load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\wt_centers.m
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
 
 NFR_pos = [701:1200];
+gene_id = 6645;
 
 create_full_params;
-params(:,best_sim_index)'
 
-seq = sequences_structure(1001,:);
-wt =  wt_3h(1001,:);
+seq = sequences_structure(gene_id,:);
+wt =  wt_3h(gene_id,:);
 [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
     Extract_Sites_From_Gene(seq, 3500);
 
