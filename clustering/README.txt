@@ -11,4 +11,4 @@ In order to change the parameter set, we need to change the following files:
 
 In order to change the gene that is tested, we need to change the gene number in the following files:
 1. map.sh
-2. main_reduce.sh
+2. reduce.sh
