@@ -10,11 +10,11 @@ addpath(genpath('/cs/bd/Daniel/nuc_simulator'));
 create_full_params;
 
 % create a matrix for all the results:
-features = zeros(30, 1);
-nuc_sums = zeros(30, 3500);
+features = zeros(126, 1);
+nuc_sums = zeros(126, 3500);
 
 % load all of the results:
-for i = 1:30
+for i = 1:126
 	load(['/cs/bd/Daniel/simulations/output/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
 	features(i, 1) = feature_result;
 	nuc_sums(i, :) = nuc_sum;
