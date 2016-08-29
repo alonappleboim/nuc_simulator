@@ -1,8 +1,10 @@
 
-% Starting Variables:
-FRS2_seq = sequences_structure(6645,:);
-FRS2_wt =  wt_3h(6645,:);
 NFR_pos = [701:1200];
+Gene_id = 3333;
+
+% Starting Variables:
+FRS2_seq = sequences_structure(Gene_id,:);
+FRS2_wt =  wt_3h(Gene_id,:);
 
 [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
     Extract_Sites_From_Gene(FRS2_seq, 3500);
@@ -12,12 +14,12 @@ centers_vector = zeros(1,3500);
 % run the simulation:
 for i = 1:5
     [nuc_sum, time, nuc_s_hist, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ...
-        run_simulation_from_genome(FRS2_seq, 'linker_len', 10, 'n_steps', 15000, ...
+        run_simulation_from_genome(FRS2_seq, 'linker_len', 10, 'n_steps', 25000, ...
         'poly_rate', 0, 'REB1_a_rate', 0.001, 'REB1_e_rate', 0.001, 'ABF1_a_rate', 0.001, ...
                     'ABF1_e_rate', 0.001, 'RAP1_a_rate', 0.001, 'RAP1_e_rate', 0.001,...
-                    'TF_evic_intensity', 0.001, 'RSC_evic_intensity', 0.1, ...
+                    'TF_evic_intensity', 0.001, 'RSC_evic_intensity', 0.001, ...
                     'RSC_evic_length', 10, 'RSC_slide_length', 20, ...
-                    'RSC_slide_intensity', 1);
+                    'RSC_slide_intensity', 0.001);
                 
     centers_vector = centers_vector + nuc_sum;
 end
@@ -26,6 +28,10 @@ s_hist_coverage = ksdensity(1:length(centers_vector),1:length(centers_vector),'w
 
 % plot wild type gene with PolyAT and the simulation (wt smoothed):
 smoothed_wt = ksdensity([1:length(FRS2_wt)],[1:length(FRS2_wt)],'weights',double(FRS2_wt),'width',5);
+
+% trying out the MNase digestion:
+window = Get_MNase_Window(75);
+centers_vector = conv(centers_vector, window, 'same');
 
 feat = Compare_Sum_To_Data(centers_vector(1:2501), FRS2_wt, NFR_pos)
 
@@ -44,19 +50,20 @@ legend('wild-type','simulation','PolyA (right)','PolyT (left)', 'REB1', 'ABF1', 
 xlabel('Position')
 ylabel('Intensity')
 
-centers_vector = centers_vector(NFR_pos) ./ sum(centers_vector(NFR_pos));
-centers_vector = centers_vector .* sum(FRS2_wt(NFR_pos));
-
+%{
 % plot the NFR smoothed:
-s_hist_coverage = ksdensity(1:length(centers_vector),1:length(centers_vector),'weights',double(centers_vector(1:end)),'width',5);
+s_hist_coverage = ksdensity(1:length(FRS2_wt),1:length(FRS2_wt),'weights',double(centers_vector(1:length(FRS2_wt))),'width',5);
 smoothed_wt = ksdensity([1:length(FRS2_wt)],[1:length(FRS2_wt)],'weights',double(FRS2_wt),'width',5);
 figure;
 plot(smoothed_wt(NFR_pos) .* sum(FRS2_wt(NFR_pos)),'g')
 hold on
-plot(s_hist_coverage .* sum(FRS2_wt(NFR_pos)), 'r')
+plot(s_hist_coverage(NFR_pos) .* sum(FRS2_wt(NFR_pos)), 'r')
+%}
 
 % plot the NFR normal:
+centers_vector = centers_vector(NFR_pos) ./ sum(centers_vector(NFR_pos));
+centers_vector = centers_vector .* sum(FRS2_wt(NFR_pos));
 figure;
 plot(FRS2_wt(NFR_pos),'g')
 hold on
-plot(centers_vector(NFR_pos), 'r')
+plot(centers_vector, 'r')
