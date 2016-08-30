@@ -107,5 +107,9 @@ Examining The Results:
 ======================
 Once you have the results file, you can import it to your matlab and then run the "Review_Simulation" script (change the gene_id to your gene first), which will give you a couple of plots of the simulation that had the best likelihood, so you can see what how good the fit was and so on.
 
+If You Want To Clean All Of The Logs And Mat Files:
+===================================================
+just go to /cs/bd/Daniel/simulations and run a "make clean" command.
+
 
 And that's it!

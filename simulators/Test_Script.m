@@ -1,6 +1,6 @@
 
 NFR_pos = [701:1200];
-Gene_id = 1001;
+Gene_id = 6641;
 
 % Starting Variables:
 FRS2_seq = sequences_structure(Gene_id,:);
@@ -17,9 +17,9 @@ for i = 1:1
         run_simulation_from_genome(FRS2_seq, 'linker_len', 10, 'n_steps', 25000, ...
         'poly_rate', 0, 'REB1_a_rate', 0.001, 'REB1_e_rate', 0.001, 'ABF1_a_rate', 0.001, ...
                     'ABF1_e_rate', 0.001, 'RAP1_a_rate', 0.001, 'RAP1_e_rate', 0.001,...
-                    'TF_evic_intensity', 0.001, 'RSC_evic_intensity', 0.1, ...
-                    'RSC_evic_length', 20, 'RSC_slide_length', 40, ...
-                    'RSC_slide_intensity', 4);
+                    'TF_evic_intensity', 0.001, 'RSC_evic_intensity', 0.001, ...
+                    'RSC_evic_length', 15, 'RSC_slide_length', 30, ...
+                    'RSC_slide_intensity', 5);
                 
     centers_vector = centers_vector + nuc_sum;
 end
@@ -45,9 +45,9 @@ plot(s_hist_coverage(1:2500),'r')
 %plot(centers_vector(1:2500) ./ sum(centers_vector(1:2500)),'r')
 plot(PolyA_Sites(1:2500) .* mean(smoothed_wt),'k')
 plot(PolyT_Sites(1:2500) .* mean(smoothed_wt),'m')
-%plot(REB1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'g')
-%plot(ABF1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'b')
-%plot(RAP1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'y')
+plot(REB1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'g')
+plot(ABF1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'b')
+plot(RAP1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'y')
 legend('wild-type','simulation','PolyA (right)','PolyT (left)', 'REB1', 'ABF1', 'RAP1')
 xlabel('Position')
 ylabel('Intensity')

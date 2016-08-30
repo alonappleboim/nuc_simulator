@@ -2,7 +2,7 @@ Connecting to SLURM:
 	ssh sulfur-gw
 
 Running on SLURM:
-	sbatch -D /cs/bd/Daniel/simulations -e log --mem 8000 "script.sh"
+	sbatch -D /cs/bd/Daniel/simulations -e log --mem 2000 "script.sh"
 
 Checking my jobs on SLURM:
 	squeue | grep dsgissin
