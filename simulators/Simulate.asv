@@ -201,11 +201,8 @@ for i = 1:extra_inputs.n_steps
     end
 end
 
-%%% for now, until we actually use the TFs in the simulations:
 REB1_s_hist = 0; 
-ABF1_s_hist = 0;
-RAP1_s_hist = 0;
-%%%
+ABF1_s_hist = 0;, RAP1_s_hist = 
 
 if extra_inputs.to_report, clc; end;
 end

@@ -41,6 +41,22 @@ PolyT_Sites(PolyT_Sites < 5) = 0;
 PolyT_Sites(PolyT_Sites > 4) = 1;
 PolyT_Sites = conv(PolyT_Sites,ones(1,5),'same');
 PolyT_Sites(PolyT_Sites > 0) = 1;
+%{
+PolyA_Sites(genome == 'A') = 1;
+PolyA_Sites = conv(PolyA_Sites, ones(1,11), 'same');
+PolyA_Sites(PolyA_Sites < 7) = 0;
+PolyA_Sites(PolyA_Sites > 6) = 1;
+PolyA_Sites = conv(PolyA_Sites,ones(1,7),'same');
+PolyA_Sites(PolyA_Sites > 0) = 1;
+
+PolyT_Sites(genome == 'T') = 1;
+PolyT_Sites = conv(PolyT_Sites, ones(1,11), 'same');
+PolyT_Sites(PolyT_Sites < 7) = 0;
+PolyT_Sites(PolyT_Sites > 6) = 1;
+PolyT_Sites = conv(PolyT_Sites,ones(1,7),'same');
+PolyT_Sites(PolyT_Sites > 0) = 1;
+%}
+
 
 % find the center of binding sites:
 [start_i, end_i] = regexp(genome, REB1_Weak_Bind);

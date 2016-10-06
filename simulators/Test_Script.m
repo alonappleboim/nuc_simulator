@@ -1,6 +1,6 @@
 
 NFR_pos = [701:1200];
-Gene_id = 6641;
+Gene_id = 6637;
 
 % Starting Variables:
 FRS2_seq = sequences_structure(Gene_id,:);
@@ -18,8 +18,8 @@ for i = 1:1
         'poly_rate', 0, 'REB1_a_rate', 0.001, 'REB1_e_rate', 0.001, 'ABF1_a_rate', 0.001, ...
                     'ABF1_e_rate', 0.001, 'RAP1_a_rate', 0.001, 'RAP1_e_rate', 0.001,...
                     'TF_evic_intensity', 0.001, 'RSC_evic_intensity', 0.001, ...
-                    'RSC_evic_length', 15, 'RSC_slide_length', 30, ...
-                    'RSC_slide_intensity', 5);
+                    'RSC_evic_length', 30, 'RSC_slide_length', 60, ...
+                    'RSC_slide_intensity', 1);
                 
     centers_vector = centers_vector + nuc_sum;
 end
