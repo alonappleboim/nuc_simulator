@@ -1,6 +1,6 @@
 
 NFR_pos = [701:1200];
-Gene_id = 6637;
+Gene_id = 6641;
 
 % Starting Variables:
 FRS2_seq = sequences_structure(Gene_id,:);
@@ -29,11 +29,13 @@ s_hist_coverage = ksdensity(1:length(centers_vector),1:length(centers_vector),'w
 % plot wild type gene with PolyAT and the simulation (wt smoothed):
 smoothed_wt = ksdensity([1:length(FRS2_wt)],[1:length(FRS2_wt)],'weights',double(FRS2_wt),'width',5);
 
+%{
 %%%%%%%%%%%%%%%%%%%%%%%%
 % trying out the MNase digestion:
 window = Get_MNase_Window(20);
 centers_vector = conv(centers_vector, window, 'same');
 %%%%%%%%%%%%%%%%%%%%%%%%
+%}
 
 feat = Compare_Sum_To_Data(centers_vector(1:2501), FRS2_wt, NFR_pos)
 

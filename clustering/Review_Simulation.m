@@ -2,7 +2,7 @@ load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\wt_centers.m
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
 
 NFR_pos = [701:1200];
-gene_id = 6639;
+gene_id = 3333;
 
 create_full_params;
 
@@ -33,6 +33,7 @@ ylabel('Intensity')
 title(['Feature = ' num2str(features(best_sim_index)) char(10) 'Gene Index = '])
 
 % make the textbox string:
+%{
 textbox_string = [...
     'Poly Rate = ' num2str(params(1, best_sim_index)) char(10) ...
     'TF Eviction Effect = ' num2str(params(3, best_sim_index)) char(10) ...
@@ -41,6 +42,7 @@ textbox_string = [...
     'RSC Slide Effect = ' num2str(params(6, best_sim_index)) char(10) ...
     'RSC Slide Length = ' num2str(params(4, best_sim_index) * 2) ...
     ];
+%}
 
 % feature plot (only NFR):
 nuc_sum = nuc_sum ./ sum(nuc_sum);
