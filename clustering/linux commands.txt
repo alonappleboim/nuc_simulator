@@ -15,7 +15,7 @@ Cancel all my jobs:
 	scancel -u dsgissin
 	
 Making bash files executable:
-	chmod u+rx filename.sh
+	chmod u+rx <filename>
 
 Running matlab commands in the shell:
 	matlab -nodesktop -nosplash -nodisplay -nojvm -r "command1; command2; command3;" & 
