@@ -1,6 +1,6 @@
 
 NFR_pos = [701:1200];
-Gene_id = 6641;
+Gene_id = 9;
 genlen = 3500;
 
 % Starting Variables:
@@ -38,7 +38,7 @@ centers_vector = conv(centers_vector, window, 'same');
 %%%%%%%%%%%%%%%%%%%%%%%%
 %}
 
-feat = Compare_Sum_To_Data(centers_vector(1:2501), FRS2_wt, NFR_pos)
+feat = Compare_Sum_To_Data(centers_vector(1:2501), FRS2_wt, NFR_pos, true)
 
 figure;
 plot(smoothed_wt(1:end-1),'c')
@@ -66,8 +66,10 @@ plot(s_hist_coverage(NFR_pos) .* sum(FRS2_wt(NFR_pos)), 'r')
 %}
 
 % plot the NFR normal:
+centers_vector = conv(centers_vector,gausswin(5)./sum(gausswin(5)),'same');
 centers_vector = centers_vector(NFR_pos) ./ sum(centers_vector(NFR_pos));
 centers_vector = centers_vector .* sum(FRS2_wt(NFR_pos));
+FRS2_wt = conv(FRS2_wt,gausswin(5)./sum(gausswin(5)),'same');
 figure;
 plot(FRS2_wt(NFR_pos),'g')
 hold on
