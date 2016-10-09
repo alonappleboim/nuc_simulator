@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for ((i=1 ; i<=6648 ; i++));
+for ((i=1 ; i<=10 ; i++));
 do
 	/cs/bd/Daniel/nuc_simulator/clustering/main_map.sh $i $1 &
 done
