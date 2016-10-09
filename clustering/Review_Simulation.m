@@ -2,7 +2,7 @@ load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\wt_centers.m
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
 
 NFR_pos = [701:1200];
-gene_id = 3333;
+gene_id = 7;
 
 create_full_params;
 

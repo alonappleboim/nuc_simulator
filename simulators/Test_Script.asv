@@ -1,16 +1,15 @@
 
 NFR_pos = [701:1200];
 Gene_id = 6641;
-genlen = 3500;
 
 % Starting Variables:
 FRS2_seq = sequences_structure(Gene_id,:);
 FRS2_wt =  wt_3h(Gene_id,:);
 
 [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
-    Extract_Sites_From_Gene(FRS2_seq, genlen);
+    Extract_Sites_From_Gene(FRS2_seq, 3500);
 
-centers_vector = zeros(1,genlen);
+centers_vector = zeros(1,3500);
 
 % run the simulation:
 for i = 1:1
