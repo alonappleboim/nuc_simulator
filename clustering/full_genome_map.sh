@@ -2,7 +2,5 @@
 
 for ((i=1 ; i<=6648 ; i++));
 do
-	/cs/bd/Daniel/nuc_simulator/clustering/main_map.sh $i $1 &
+	/cs/bd/Daniel/nuc_simulator/clustering/main_map.sh $i $1
 done
-
-wait
