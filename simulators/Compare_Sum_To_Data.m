@@ -1,4 +1,4 @@
-function [ feature ] = Compare_Sum_To_Data( nuc_sum , data , NFR_pos, smooth)
+function [ likelihood, plus1_dist, minus1_dist ] = Compare_Sum_To_Data( nuc_sum , data , NFR_pos, smooth)
 %Compare_Sum_To_Data a function for comparison between a simulation and the
 %experimental data - this is what we want to maximize when we are fitting
 %parameters.
@@ -35,7 +35,13 @@ lambda_vector = prob_dist .* read_num;
 data(data == 0) = 0.0001; % actual zeros make problems in the log...
 pois_vec = log_poisspdf(data, lambda_vector);
 
-feature = sum(pois_vec(NFR_pos));
+likelihood = sum(pois_vec(NFR_pos));
+
+[plus1_data , minus1_data, temp] = get_NFR_features_data(data);
+[plus1_sim, minus1_sim, temp] = get_NFR_features_data(nuc_sum);
+
+plus1_dist = abs(plus1_sim - plus1_data);
+minus1_dist = abs(minus1_sim - minus1_data);
 
 end
 

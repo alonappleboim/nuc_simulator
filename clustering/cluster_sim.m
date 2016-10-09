@@ -73,10 +73,11 @@ else
 
     % get the feature of the simulation:
     nuc_sum = nuc_sum1 + nuc_sum2 + nuc_sum3 + nuc_sum4 + nuc_sum5;
-    feature_result = Compare_Sum_To_Data(nuc_sum(1:2501), wt_data, NFR_pos);
+    [likelihood, plus1_dist, minus1_dist] = ...
+        Compare_Sum_To_Data(nuc_sum(1:2501), wt_data, NFR_pos, true);
 
 end
 
 % save the data to a .mat file:
 save(['/cs/bd/Daniel/simulations/output/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
-	'nuc_sum', 'feature_result');
+	'nuc_sum', 'likelihood', 'plus1_dist', 'minus1_dist');

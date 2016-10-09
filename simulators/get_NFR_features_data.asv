@@ -6,7 +6,7 @@ function [ plus_one, minus_one, NFR_width ] = get_NFR_features_data( centers )
 %   and finding the peaks.
 
 smoothed = ksdensity([1:length(centers)],[1:length(centers)],'weights',double(centers),'width',20);
-[peaks,positions] = findpeaks(smoothed); %,'MinPeakHeight',10^-3);
+[peaks,positions] = findpeaks(smoothed,'MinPeakHeight',10^-3);
 
 % find the +1 position:
 temp = positions(positions > 950);

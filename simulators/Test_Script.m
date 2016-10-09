@@ -1,5 +1,5 @@
 
-NFR_pos = [701:1200];
+NFR_pos = [601:1200];
 Gene_id = 9;
 genlen = 3500;
 
@@ -38,7 +38,7 @@ centers_vector = conv(centers_vector, window, 'same');
 %%%%%%%%%%%%%%%%%%%%%%%%
 %}
 
-feat = Compare_Sum_To_Data(centers_vector(1:2501), FRS2_wt, NFR_pos, true)
+[likelihood, plus1, plus2] = Compare_Sum_To_Data(centers_vector(1:2501), FRS2_wt, NFR_pos, true)
 
 figure;
 plot(smoothed_wt(1:end-1),'c')

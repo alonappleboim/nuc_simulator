@@ -21,7 +21,7 @@ for i = 1:num_of_runs
         return
     end
     
-    features(i, 1) = feature_result;
+    features(i, 1) = likelihood;
 	nuc_sums(i, :) = nuc_sum;
 end
 
