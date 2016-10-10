@@ -6,7 +6,7 @@ do
 	for ((i=0 ; i<=11 ; i++));
 	do
 		let "k=$j*12+$i+1"
-		matlab -nodesktop -nosplash -nodisplay -nojvm -r "load('/cs/bd/Daniel/experiment_data/wt_centers.mat'); load('/cs/bd/Daniel/experiment_data/sequences_structure.mat'); addpath(genpath('/cs/bd/Daniel/nflab_scripts')); addpath(genpath('/cs/bd/Daniel/nuc_simulator')); [nuc_sum,feature]=cluster_sim($k,$1,sequences_structure,wt_3h); quit;" &
+		matlab -nodesktop -nosplash -nodisplay -nojvm -r "load('/cs/bd/Daniel/experiment_data/wt_centers.mat'); load('/cs/bd/Daniel/experiment_data/sequences_structure.mat'); addpath(genpath('/cs/bd/Daniel/nflab_scripts')); addpath(genpath('/cs/bd/Daniel/nuc_simulator')); cluster_sim($k,$1,sequences_structure,wt_3h); quit;" &
 	done
 
 	wait
