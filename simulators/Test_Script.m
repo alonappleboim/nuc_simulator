@@ -18,9 +18,9 @@ for i = 1:1
         run_simulation_from_genome(FRS2_seq, 'linker_len', 10, 'n_steps', 25000, ...
         'poly_rate', 0, 'REB1_a_rate', 0.001, 'REB1_e_rate', 0.001, 'ABF1_a_rate', 0.001, ...
                     'ABF1_e_rate', 0.001, 'RAP1_a_rate', 0.001, 'RAP1_e_rate', 0.001,...
-                    'TF_evic_intensity', 0.001, 'RSC_evic_intensity', 0.001, ...
+                    'TF_evic_intensity', 0.001, 'RSC_evic_intensity', 0.05, ...
                     'RSC_evic_length', 30, 'RSC_slide_length', 60, ...
-                    'RSC_slide_intensity', 1, 'gen_len', genlen);
+                    'RSC_slide_intensity', 0.5, 'gen_len', genlen);
                 
     centers_vector = centers_vector + nuc_sum;
 end
@@ -38,7 +38,7 @@ centers_vector = conv(centers_vector, window, 'same');
 %%%%%%%%%%%%%%%%%%%%%%%%
 %}
 
-[likelihood, plus1, plus2] = Compare_Sum_To_Data(centers_vector(1:2501), FRS2_wt, NFR_pos, true)
+[likelihood, plus1, minus1] = Compare_Sum_To_Data(centers_vector(1:2501), FRS2_wt, NFR_pos, true)
 
 figure;
 plot(smoothed_wt(1:end-1),'c')
