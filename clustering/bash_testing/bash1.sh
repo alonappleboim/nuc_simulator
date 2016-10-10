@@ -1,13 +1,9 @@
 #!/bin/bash
 
-print "blah"
+i=10
+j=2
+let "k=$j*12+$i+1"
 
-echo $1
-echo $2
-echo $3
-
-for ((i=0; i<=$2; i++)); do
-echo 1
-done
+echo $k
 
 sleep 5
