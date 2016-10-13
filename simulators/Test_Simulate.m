@@ -1,5 +1,5 @@
 function [nuc_sum, time, nuc_s_hist, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ... 
-        Simulate(model_params, varargin)
+        Test_Simulate(model_params, varargin)
 %
 % gillespie simulation for nucleosome positioning, including trans factors
 % and using genomic data.
@@ -196,9 +196,12 @@ for i = 1:extra_inputs.n_steps
     %%% RAP1_s_hist(i+1, RAP1_state > 0) = true;
     time(i+1) = time(i) + dt;
 
+    %{
     if (i > 5000) % start taking states into account only after a while
         nuc_sum = nuc_sum + (nuc_state .* dt);
     end
+    %}
+    nuc_sum = nuc_sum + (nuc_state .* dt);
 end
 
 %%% for now, until we actually use the TFs in the simulations:

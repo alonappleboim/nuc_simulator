@@ -20,7 +20,7 @@ for i = 1:1
                     'ABF1_e_rate', 0.001, 'RAP1_a_rate', 0.001, 'RAP1_e_rate', 0.001,...
                     'TF_evic_intensity', 0.001, 'RSC_evic_intensity', 0.05, ...
                     'RSC_evic_length', 30, 'RSC_slide_length', 60, ...
-                    'RSC_slide_intensity', 0.5, 'gen_len', genlen);
+                    'RSC_slide_intensity', 0.5, 'gen_len', genlen, 'slide_len', 3);
                 
     centers_vector = centers_vector + nuc_sum;
 end
@@ -39,6 +39,7 @@ centers_vector = conv(centers_vector, window, 'same');
 %}
 
 [likelihood, plus1, minus1] = Compare_Sum_To_Data(centers_vector(1:2501), FRS2_wt, NFR_pos, true)
+%plus_one_turnover(nuc_s_hist, time, [700,900], 5)
 
 figure;
 plot(smoothed_wt(1:end-1),'c')
