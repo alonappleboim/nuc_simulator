@@ -24,6 +24,7 @@ open(v);
 
 [T, ~] = size(s_hist);
 s_hist = 1.*(s_hist>0);
+F = figure;
 colormap(args.cmap);
 
 %TODO: use interp2 to interpolate to simulation time
@@ -48,7 +49,8 @@ for i = 0:round(args.frame_overlap*args.sample_frame):T
     xlabel('position')
     set(gcf, 'Color',[1 1 1], 'PaperPosition',[0 0 args.frame_size], ...
         'PaperSize', args.frame_size);
-    fr = print(gcf,'-RGBImage');
+    %fr = print(gcf,'-RGBImage');
+    fr = getframe(F);
     writeVideo(v, fr);
     pause(.1);
 end
