@@ -15,7 +15,7 @@ nuc_sums = zeros(num_of_runs, 3500);
 
 % load all of the results:
 for i = 1:num_of_runs
-	load(['/cs/bd/Daniel/simulations/output/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
+	load(['/cs/bd/Daniel/simulations/full_output/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
     
     if (length(nuc_sum) == 1) % in case the gene was a NaN gene...
         return
