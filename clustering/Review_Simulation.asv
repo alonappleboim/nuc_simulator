@@ -44,15 +44,17 @@ textbox_string = [...
     ];
 %}
 
-data = conv(wt(NFR_pos), gausswin(5)./sum(gausswin(5)), 'same');
+prob_dist = conv(prob_dist, gausswin(5)./sum(gausswin(5)), 'same');
+prob_dist = prob_dist ./ sum(prob_dist);
+data = round(conv(data, gausswin(5)./sum(gausswin(5)), 'same'));
 
 % feature plot (only NFR):
-nuc_sum = conv(nuc_sum, gausswin(5)./sum(gausswin(5)), 'same');
-nuc_sum = nuc_sum(NFR_pos) .* sum(data) ./ sum(nuc_sum(NFR_pos));
+nuc_sum = nuc_sum ./ sum(nuc_sum);
+nuc_sum = nuc_sum .* sum(wt);
 figure;
-plot(data, 'g')
+plot(wt(NFR_pos),'g')
 hold on
-plot(nuc_sum, 'r')
+plot(nuc_sum(NFR_pos), 'r')
 legend('wild-type','simulation')
 xlabel('Position')
 ylabel('Intensity')
