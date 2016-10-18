@@ -39,12 +39,15 @@ ker = fspecial('gaussian',[2,150],50);
 for i = 0:round(args.frame_overlap*args.sample_frame):T
     clf;
     if i+args.sample_frame > T, break; end;
+    
     fr = s_hist(i+1:i+args.sample_frame,:); % get the current s_hist data
     centers = sum(fr);
     fr = conv2(fr, ker, 'same');
     coverage = sum(fr);
+    
     subplot(10,1,1:6)
     imagesc(fr)
+    title('Gene 9 Simulation')
     set(gca,'xtick',[],'ytick',1:50:args.sample_frame,...
         'yticklabel',i+1:50:i+args.sample_frame, 'ticklength', [0 0]);
     ylabel('time');
