@@ -2,7 +2,7 @@ load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\wt_centers.m
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
 
 NFR_pos = [601:1200];
-gene_id = 19;
+gene_id = 99;
 
 create_full_params;
 
@@ -30,7 +30,7 @@ plot(PolyT_Sites(1:2500) .* mean(smoothed_wt),'m')
 legend('wild-type','simulation','PolyA (right)','PolyT (left)', 'REB1', 'ABF1', 'RAP1')
 xlabel('Position')
 ylabel('Intensity')
-title(['Feature = ' num2str(features(best_sim_index)) char(10) 'Gene Index = ' num2str(gene_id)])
+title(['Likelihood = ' num2str(features(best_sim_index)) char(10) 'Gene Index = ' num2str(gene_id)])
 
 % make the textbox string:
 %{
