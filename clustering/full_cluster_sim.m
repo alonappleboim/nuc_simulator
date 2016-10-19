@@ -62,5 +62,5 @@ else
 end
 
 % save the data to a .mat file:
-save(['/cs/bd/Daniel/simulations/full_output_6h/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
+save(['/cs/bd/Daniel/simulations/full_output_3h/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
 	'nuc_sum', 'likelihood', 'plus1_dist', 'minus1_dist');
