@@ -2,7 +2,7 @@ load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\wt_centers.m
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
 
 NFR_pos = [601:1200];
-gene_id = 99;
+gene_id = 60;
 
 create_full_params;
 
@@ -28,7 +28,7 @@ plot(PolyT_Sites(1:2500) .* mean(smoothed_wt),'m')
 %plot(ABF1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'c')
 %plot(RAP1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'y')
 legend('wild-type','simulation','PolyA (right)','PolyT (left)', 'REB1', 'ABF1', 'RAP1')
-xlabel('Position')
+xlabel('Position (TSS at 1000)')
 ylabel('Intensity')
 title(['Likelihood = ' num2str(features(best_sim_index)) char(10) 'Gene Index = ' num2str(gene_id)])
 
@@ -50,11 +50,11 @@ data = conv(wt(NFR_pos), gausswin(5)./sum(gausswin(5)), 'same');
 nuc_sum = conv(nuc_sum, gausswin(5)./sum(gausswin(5)), 'same');
 nuc_sum = nuc_sum(NFR_pos) .* sum(data) ./ sum(nuc_sum(NFR_pos));
 figure;
-plot(data, 'g')
+plot(data, 'b')
 hold on
 plot(nuc_sum, 'r')
 legend('wild-type','simulation')
-xlabel('Position')
+xlabel('Position (TSS at 400)')
 ylabel('Intensity')
-title(['Feature = ' num2str(features(best_sim_index)) char(10) 'Gene Index = ' num2str(gene_id)])
+title(['Likelihood = ' num2str(features(best_sim_index)) char(10) 'Gene Index = ' num2str(gene_id)])
 annotation('textbox','String',textbox_string,'FitBoxToText','on')

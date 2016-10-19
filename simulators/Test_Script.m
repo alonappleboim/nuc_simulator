@@ -1,6 +1,6 @@
 
 NFR_pos = [601:1200];
-Gene_id = 9;
+Gene_id = 16;
 genlen = 3500;
 
 % Starting Variables:

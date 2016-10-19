@@ -14,6 +14,8 @@ function nucsim_movie(s_hist, t, path, varargin)
 %  cmap - colormap. default = white->yellow->red->black
 %
 
+nuc_sum = sum(s_hist(500:end,:));
+
 defs = struct('sample_frame', 200, 'frame_overlap', .2, ...
               'frame_rate', 12, 'cmap', AdvancedColormap('w wy wyr wrk rrk'), ...
               'frame_size', [16,8]);
