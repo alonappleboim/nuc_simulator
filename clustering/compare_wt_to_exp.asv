@@ -1,0 +1,100 @@
+create_full_params;
+
+wt_length = zeros(1,100);
+wt_evic = zeros(1,100);
+wt_slide = zeros(1,100);
+sth1_length = zeros(1,100);
+sth1_evic = zeros(1,100);
+sth1_slide = zeros(1,100);
+
+for i = 1:100
+    try
+        load(['C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\results\wt_101016\results_' num2str(gene) '.mat'])
+    catch a
+        wt_length(i) = nan;
+        wt_evic(i) = nan;
+        wt_slide(i) = nan;
+        continue
+    end
+    parameters = params(: , best_sim_index);
+    wt_length(i) = parameters(4);
+    wt_evic(i) = parameters(5);
+    wt_slide(i) = parameters(6);
+    
+    try
+        load(['C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\results\sth1_6h_201016\results_' num2str(gene) '.mat'])
+    catch a
+        sth1_length(i) = nan;
+        sth1_evic(i) = nan;
+        sth1_slide(i) = nan;
+        continue
+    end
+    parameters = params(: , best_sim_index);
+    sth1_length(i) = parameters(4);
+    sth1_evic(i) = parameters(5);
+    sth1_slide(i) = parameters(6);
+end
+
+figure
+subplot(3,1,1)
+plot(wt_evic,'^r')
+hold on
+plot(sth1_evic,'ob')
+title('Very Good Genes')
+ylabel('Eviction Intensity')
+xlabel('Gene ID')
+legend('wild type','sth1 6h')
+subplot(3,1,2)
+plot(very_good_genes,very_good_slide,'ob')
+ylabel('Slide Intensity')
+xlabel('Gene ID')
+subplot(3,1,3)
+plot(very_good_genes,very_good_length,'xk')
+ylabel('RSC Length')
+xlabel('Gene ID')
+
+figure
+subplot(3,1,1)
+plot(good_genes,good_evic,'^r')
+title('Good Genes')
+ylabel('Eviction Intensity')
+xlabel('Gene ID')
+subplot(3,1,2)
+plot(good_genes,good_slide,'ob')
+ylabel('Slide Intensity')
+xlabel('Gene ID')
+subplot(3,1,3)
+plot(good_genes,good_length,'xk')
+ylabel('RSC Length')
+xlabel('Gene ID')
+
+figure
+subplot(3,1,1)
+plot(middle_genes,middle_evic,'^r')
+title('Middle Genes')
+ylabel('Eviction Intensity')
+xlabel('Gene ID')
+subplot(3,1,2)
+plot(middle_genes,middle_slide,'ob')
+ylabel('Slide Intensity')
+xlabel('Gene ID')
+subplot(3,1,3)
+plot(middle_genes,middle_length,'xk')
+ylabel('RSC Length')
+xlabel('Gene ID')
+
+
+figure
+subplot(3,1,1)
+plot(bad_genes,bad_evic,'^r')
+title('Bad Genes')
+ylabel('Eviction Intensity')
+xlabel('Gene ID')
+subplot(3,1,2)
+plot(bad_genes,bad_slide,'ob')
+ylabel('Slide Intensity')
+xlabel('Gene ID')
+subplot(3,1,3)
+plot(bad_genes,bad_length,'xk')
+ylabel('RSC Length')
+xlabel('Gene ID')
