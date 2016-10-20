@@ -1,15 +1,18 @@
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\wt_centers.mat')
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
 
-NFR_pos = [601:1200];
-gene_id = 60;
+genlen = 3500;
+TSS = fix(genlen/2);
+NFR_pos = [TSS-399 : TSS+200];
+
+gene_id = 55;
 
 create_full_params;
 
 seq = sequences_structure(gene_id,:);
 wt =  wt_3h(gene_id,:);
 [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
-    Extract_Sites_From_Gene(seq, 3500);
+    Extract_Sites_From_Gene_old(seq, genlen);
 
 nuc_sum = nuc_sums(best_sim_index, 1:2500);
 coverage = ksdensity(1:length(nuc_sum),1:length(nuc_sum),'weights',double(nuc_sum(1:end)),'width',5);
@@ -18,15 +21,13 @@ smoothed_wt = ksdensity([1:length(wt)],[1:length(wt)],'weights',double(wt),'widt
 % full gene plot:
 figure;
 plot(smoothed_wt(1:end-1),'b')
-%plot(wt(1:end-1),'b')
 hold on
 plot(coverage,'r')
-%plot((nuc_sum .* sum(wt)) ./ sum(nuc_sum),'r')
 plot(PolyA_Sites(1:2500) .* mean(smoothed_wt),'k')
 plot(PolyT_Sites(1:2500) .* mean(smoothed_wt),'m')
-%plot(REB1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'g')
-%plot(ABF1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'c')
-%plot(RAP1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'y')
+plot(REB1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'g')
+plot(ABF1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'c')
+plot(RAP1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'y')
 legend('wild-type','simulation','PolyA (right)','PolyT (left)', 'REB1', 'ABF1', 'RAP1')
 xlabel('Position (TSS at 1000)')
 ylabel('Intensity')

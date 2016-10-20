@@ -1,4 +1,4 @@
-function full_sim_movie(s_hist, t, path, seq, varargin)
+function full_sim_movie(s_hist, t, path, seq, gene_id, varargin)
 % record a movie of the simulation for easy viewing.
 % 
 % Arguments:
@@ -20,9 +20,9 @@ defs = struct('sample_frame', 200, 'frame_overlap', .2, ...
 args = parse_namevalue_pairs(defs, varargin);
 
 % get the data for the PolyAT positions:
-[ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = Extract_Sites_From_Gene(seq, 2500);
-PolyA_Sites = [PolyA_Sites, zeros(1,999)];
-PolyT_Sites = [PolyT_Sites, zeros(1,999)];
+[ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = Extract_Sites_From_Gene(seq, 3500);
+%PolyA_Sites = [PolyA_Sites, zeros(1,999)];
+%PolyT_Sites = [PolyT_Sites, zeros(1,999)];
 polyA = conv(PolyA_Sites, gausswin(20), 'same');
 polyT = conv(PolyT_Sites, gausswin(20), 'same');
 
@@ -35,7 +35,7 @@ v.FrameRate = args.frame_rate;
 open(v);
 [T, ~] = size(s_hist);
 s_hist = 1.*(s_hist>0);
-F = figure;
+F = figure('units','normalized','outerposition',[0 0 1 1]);
 colormap(args.cmap);
 
 %TODO: use interp2 to interpolate to simulation time
@@ -55,30 +55,31 @@ for i = 0:round(args.frame_overlap*args.sample_frame):T
     % making the top screen:
     subplot(10,1,1:6)
     imagesc(fr)
-    title('Gene 9 Simulation')
+    title(['Gene ' num2str(gene_id) ' Simulation'])
     set(gca,'xtick',[],'ytick',1:50:args.sample_frame,...
         'yticklabel',i+1:50:i+args.sample_frame, 'ticklength', [0 0]);
     ylabel('time');
     
     % making the middle screen:
     subplot(10,1,7:8)
-    area(nuc_sum./max(), 'FaceColor', [0.8 0.8 0.8])
+    area(nuc_sum./max(nuc_sum), 'FaceColor', [0.8 0.8 0.8])
     hold all;
     plot(coverage./max(coverage), 'b', 'linewidth', 2);
     plot(centers./max(centers), 'r', 'linewidth', 2)
     set(gca,'ytick', [], 'ticklength', [0 0]);
     xlabel('position')
-    legend('total coverage')
+    legend('total sim centers', 'Location', 'NorthWest')
     set(gcf, 'Color',[1 1 1], 'PaperPosition',[0 0 args.frame_size], ...
         'PaperSize', args.frame_size);
     
     % making the lower screen:
     subplot(10,1,9:10)
-    rectangle('Position',[600 0 400 1],'FaceColor','y')
+    rectangle('Position',[1350 0 400 1],'FaceColor','y')
     hold all
     plot(polyA./max(polyA),'b', 'linewidth', 2)
     plot(polyT./max(polyT),'r', 'linewidth', 2)
-    legend('PolyA','PolyT')
+    legend('PolyA (pushes right)','PolyT (pushes left)', 'Location', 'NorthWest')
+    xlabel('Position (TSS at 1750)')
     
     
     fr = getframe(F);

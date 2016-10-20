@@ -2,7 +2,8 @@ function [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] =...
     Extract_Sites_From_Gene( genome, gen_len )
 %Extract_Data_From_Gene The function that extracts Poly(dA:dT) and binding
 %sites from the genome.
-%   Given a 2501-bp-long genome, where the TSS is at position 1000, the
+%   Given a 2501-bp-long genome, where the TSS is at position 1000, and at 
+%   least a 3000 gen_len, the
 %   function goes over the known trans-factors binding sites and finds
 %   their positions in the genome, along with the Poly(dA:dT) positions.
 %   For the binding sites I used the data from
@@ -74,12 +75,18 @@ RAP1_Sites(fix((start_i + end_i)/2)) = 0.5;
 [start_i, end_i] = regexp(genome, RAP1_Strong_Bind);
 RAP1_Sites(fix((start_i + end_i)/2)) = 1;
 
-% make the vector be the length of the genome:
-PolyA_Sites = [PolyA_Sites , zeros(1,gen_len-2501)];
-PolyT_Sites = [PolyT_Sites , zeros(1,gen_len-2501)];
-REB1_Sites = [REB1_Sites , zeros(1,gen_len-2501)];
-ABF1_Sites = [ABF1_Sites , zeros(1,gen_len-2501)];
-RAP1_Sites = [RAP1_Sites , zeros(1,gen_len-2501)];
+% make the vector be the length of the genome with the TSS in the middle:
+buffer = gen_len - 2501;
+right_buffer = fix((buffer-500)/2);
+left_buffer = right_buffer + 500;
+if (right_buffer + left_buffer < buffer)
+    left_buffer = left_buffer + 1;
+end
+PolyA_Sites = [zeros(1,left_buffer), PolyA_Sites , zeros(1,right_buffer)];
+PolyT_Sites = [zeros(1,left_buffer), PolyT_Sites , zeros(1,right_buffer)];
+REB1_Sites = [zeros(1,left_buffer), REB1_Sites , zeros(1,right_buffer)];
+ABF1_Sites = [zeros(1,left_buffer), ABF1_Sites , zeros(1,right_buffer)];
+RAP1_Sites = [zeros(1,left_buffer), RAP1_Sites , zeros(1,right_buffer)];
 
 end
 

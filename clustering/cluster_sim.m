@@ -1,6 +1,8 @@
 function cluster_sim( params_index , gene_index, sequences_structure, wt_3h)
 
-NFR_pos = [601:1200];
+genlen = 3500;
+TSS = fix(genlen/2);
+NFR_pos = [TSS-399 : TSS+200];
 
 % load all the necessary data:
 addpath(genpath('/cs/bd/Daniel/nflab_scripts'));
@@ -15,6 +17,15 @@ if (isnan(wt_data(1)))
     minus1_dist = 0;
 
 else
+    
+    % make the wt data the right length:
+    buffer = genlen - 2501;
+    right_buffer = fix((buffer-500)/2);
+    left_buffer = right_buffer + 500;
+    if (right_buffer + left_buffer < buffer)
+        left_buffer = left_buffer + 1;
+    end
+    wt_data = [zeros(1,left_buffer), wt_data, zeros(1,right_buffer)];
     
     % create the full parameter matrix
     create_full_params;
@@ -57,7 +68,7 @@ else
     % get the feature of the simulation:
     nuc_sum = nuc_sum1 + nuc_sum2 + nuc_sum3;
     [likelihood, plus1_dist, minus1_dist] = ...
-        Compare_Sum_To_Data(nuc_sum(1:2501), wt_data, NFR_pos, true);
+        Compare_Sum_To_Data(nuc_sum, wt_data, NFR_pos, true);
 
 end
 
