@@ -5,31 +5,41 @@ genlen = 3500;
 TSS = fix(genlen/2);
 NFR_pos = [TSS-399 : TSS+200];
 
-gene_id = 55;
+gene_id = 63;
 
 create_full_params;
 
 seq = sequences_structure(gene_id,:);
 wt =  wt_3h(gene_id,:);
-[ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
-    Extract_Sites_From_Gene_old(seq, genlen);
 
-nuc_sum = nuc_sums(best_sim_index, 1:2500);
+% make the wt data the right length:
+buffer = genlen - 2501;
+right_buffer = fix((buffer-500)/2);
+left_buffer = right_buffer + 500;
+if (right_buffer + left_buffer < buffer)
+    left_buffer = left_buffer + 1;
+end
+wt = [zeros(1,left_buffer), wt, zeros(1,right_buffer)];
+
+[ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
+    Extract_Sites_From_Gene(seq, genlen);
+
+nuc_sum = nuc_sums(best_sim_index, :);
 coverage = ksdensity(1:length(nuc_sum),1:length(nuc_sum),'weights',double(nuc_sum(1:end)),'width',5);
 smoothed_wt = ksdensity([1:length(wt)],[1:length(wt)],'weights',double(wt),'width',5);
 
 % full gene plot:
 figure;
-plot(smoothed_wt(1:end-1),'b')
+plot(smoothed_wt,'b')
 hold on
 plot(coverage,'r')
-plot(PolyA_Sites(1:2500) .* mean(smoothed_wt),'k')
-plot(PolyT_Sites(1:2500) .* mean(smoothed_wt),'m')
-plot(REB1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'g')
-plot(ABF1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'c')
-plot(RAP1_Sites(1:2500) .* 4 .* mean(smoothed_wt), 'y')
+plot(PolyA_Sites(:) .* mean(smoothed_wt),'k')
+plot(PolyT_Sites(:) .* mean(smoothed_wt),'m')
+plot(REB1_Sites(:) .* 4 .* mean(smoothed_wt), 'g')
+plot(ABF1_Sites(:) .* 4 .* mean(smoothed_wt), 'c')
+plot(RAP1_Sites(:) .* 4 .* mean(smoothed_wt), 'y')
 legend('wild-type','simulation','PolyA (right)','PolyT (left)', 'REB1', 'ABF1', 'RAP1')
-xlabel('Position (TSS at 1000)')
+xlabel(['Position (TSS at ' num2str(fix(genlen/2)) ')'])
 ylabel('Intensity')
 title(['Likelihood = ' num2str(features(best_sim_index)) char(10) 'Gene Index = ' num2str(gene_id)])
 
