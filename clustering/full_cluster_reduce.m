@@ -1,7 +1,7 @@
 function full_cluster_reduce(gene_index)
 
 % load all the necessary data:
-load('/cs/bd/Daniel/nuc_simulator/clustering/experimental_data/sth1_6h_centers.mat');
+load('/cs/bd/Daniel/nuc_simulator/clustering/experimental_data/wt_centers.mat');
 load('/cs/bd/Daniel/experiment_data/sequences_structure.mat');
 addpath(genpath('/cs/bd/Daniel/nflab_scripts'));
 addpath(genpath('/cs/bd/Daniel/nuc_simulator'));
@@ -17,7 +17,7 @@ nuc_sums = zeros(num_of_runs, 3500);
 % load all of the results:
 for i = 1:num_of_runs
 	try
-        load(['/cs/bd/Daniel/simulations/full_output_6h/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
+        load(['/cs/bd/Daniel/simulations/full_output/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
     catch a
         features(i,1) = -100000;
         continue
@@ -35,5 +35,5 @@ end
 [best_sim_feature, best_sim_index] = max(features);
 
 % save to a new .mat file:
-save(['/cs/bd/Daniel/simulations/full_output_6h/results_' num2str(gene_index)] , ...
+save(['/cs/bd/Daniel/simulations/full_output/results_' num2str(gene_index)] , ...
 	'best_sim_feature', 'best_sim_index', 'features', 'nuc_sums');
