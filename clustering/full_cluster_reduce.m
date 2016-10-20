@@ -1,13 +1,14 @@
-function full_cluster_reduce(gene_index, num_of_runs)
+function full_cluster_reduce(gene_index)
 
 % load all the necessary data:
-load('/cs/bd/Daniel/experiment_data/wt_centers.mat');
+load('/cs/bd/Daniel/nuc_simulator/clustering/experimental_data/sth1_6h_centers.mat');
 load('/cs/bd/Daniel/experiment_data/sequences_structure.mat');
 addpath(genpath('/cs/bd/Daniel/nflab_scripts'));
 addpath(genpath('/cs/bd/Daniel/nuc_simulator'));
 
 % create the full parameter matrix
 create_full_params;
+num_of_runs = length(params(1,:));
 
 % create a matrix for all the results:
 features = zeros(num_of_runs, 1);
