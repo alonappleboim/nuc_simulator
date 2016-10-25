@@ -1,5 +1,6 @@
+%%
 
-Gene_id = 23;
+Gene_id = 9;
 genlen = 3500;
 TSS = round(genlen/2);
 NFR_pos = [TSS-399 : TSS+200];
@@ -52,12 +53,7 @@ for i = 1:20
 end
 
 %%
-%ksdensity([1:length(FRS2_wt)],[1:length(FRS2_wt)],'weights',double(FRS2_wt),'width',5);
 
-%[likelihood, plus1, minus1] = Compare_Sum_To_Data(centers_vector, FRS2_wt, NFR_pos, true)
-%plus_one_turnover(nuc_s_hist, time, [700,900], 5)
-
-%%
 for i = 1:20
     figure;
     plot(NFR_pos,smoothed_wt(i,NFR_pos),'b')
@@ -65,10 +61,11 @@ for i = 1:20
     FRS_smooth = FRS_smooth .* (sum(smoothed_wt(i,:)) / sum(FRS_smooth));
     plot(NFR_pos,FRS_smooth(NFR_pos),'g')
 
-    [peaks,positions] = findpeaks(smoothed_wt(i,:), 'MinPeakHeight', sum(smoothed_wt(i,:))./length(smoothed_wt(i,:)));
-    [FRS_peaks,FRS_positions] = findpeaks(FRS_smooth, 'MinPeakHeight', sum(FRS_smooth)./length(FRS_smooth));
+    [peaks,positions] = findpeaks(smoothed_wt(i,:), 'MinPeakHeight', (sum(smoothed_wt(i,:)))./(1.5*length(smoothed_wt(i,:))));
+    [FRS_peaks,FRS_positions] = findpeaks(FRS_smooth, 'MinPeakHeight', (sum(FRS_smooth))./(1.5*length(FRS_smooth)));
 
     plot(positions((positions > NFR_pos(1)) & (positions < NFR_pos(end))), peaks((positions > NFR_pos(1)) & (positions < NFR_pos(end))), '^r')
     plot(FRS_positions((FRS_positions > NFR_pos(1)) & (FRS_positions < NFR_pos(end))), FRS_peaks((FRS_positions > NFR_pos(1)) & (FRS_positions < NFR_pos(end))), '^k')
 end
+
 %%
