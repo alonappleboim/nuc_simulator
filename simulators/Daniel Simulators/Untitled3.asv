@@ -1,5 +1,5 @@
 
-Gene_id = 23;
+Gene_id = 63;
 genlen = 3500;
 TSS = round(genlen/2);
 NFR_pos = [TSS-399 : TSS+200];
@@ -38,12 +38,8 @@ end
 % plot wild type gene with PolyAT and the simulation (wt smoothed):
 smoothed_wt = zeros(20,genlen);
 
-%%
-
-FRS_smooth = 0;
 FRS_smooth = conv(FRS2_wt, gausswin(100), 'same');
 FRS_smooth = conv(FRS_smooth, gausswin(20), 'same');
-[FRS_peaks,FRS_positions] = findpeaks(FRS_smooth, 'MinPeakHeight', sum(FRS_smooth)./length(FRS_smooth));
 
 %%
 for i = 1:20
@@ -61,14 +57,9 @@ end
 for i = 1:20
     figure;
     plot(NFR_pos,smoothed_wt(i,NFR_pos),'b')
+    plot(NFR_pos,FRS_s
     hold on
-    FRS_smooth = FRS_smooth .* (sum(smoothed_wt(i,:)) / sum(FRS_smooth));
-    plot(NFR_pos,FRS_smooth(NFR_pos),'g')
-
     [peaks,positions] = findpeaks(smoothed_wt(i,:), 'MinPeakHeight', sum(smoothed_wt(i,:))./length(smoothed_wt(i,:)));
-    [FRS_peaks,FRS_positions] = findpeaks(FRS_smooth, 'MinPeakHeight', sum(FRS_smooth)./length(FRS_smooth));
-
     plot(positions((positions > NFR_pos(1)) & (positions < NFR_pos(end))), peaks((positions > NFR_pos(1)) & (positions < NFR_pos(end))), '^r')
-    plot(FRS_positions((FRS_positions > NFR_pos(1)) & (FRS_positions < NFR_pos(end))), FRS_peaks((FRS_positions > NFR_pos(1)) & (FRS_positions < NFR_pos(end))), '^k')
 end
 %%
