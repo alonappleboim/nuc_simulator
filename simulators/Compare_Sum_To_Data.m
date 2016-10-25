@@ -37,18 +37,8 @@ pois_vec = log_poisspdf(data, lambda_vector);
 
 likelihood = sum(pois_vec(NFR_pos));
 
-% stop using get_NFR_features_data until we fix the problems (temp is
-% sometimes of length 0)
-%{
-[plus1_data , minus1_data, temp] = get_NFR_features_data(data);
-[plus1_sim, minus1_sim, temp] = get_NFR_features_data(nuc_sum);
-
-plus1_dist = abs(plus1_sim - plus1_data);
-minus1_dist = abs(minus1_sim - minus1_data);
-%}
-
-plus1_dist = 100;
-minus1_dist = 100;
+% get the delta of the plus and minus 1:
+[plus1_dist, minus1_dist, peak_num_dist] = get_NFR_features_data(nuc_sum, data, NFR_pos);
 
 end
 
