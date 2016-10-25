@@ -1,4 +1,4 @@
-function full_cluster_sim( params_index , gene_index, sequences_structure, wt_3h)
+function full_cluster_sim(params_index , gene_index, sequences_structure, wt_3h)
 
 genlen = 3500;
 TSS = fix(genlen/2);
@@ -73,5 +73,5 @@ else
 end
 
 % save the data to a .mat file:
-save(['/cs/bd/Daniel/simulations/full_output_wt_201016/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
+save(['/cs/bd/Daniel/simulations/full_output_6h_201016/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
 	'nuc_sum', 'likelihood', 'plus1_dist', 'minus1_dist');

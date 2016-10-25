@@ -20,9 +20,9 @@ function [ likelihood, plus1_dist, minus1_dist ] = Compare_Sum_To_Data( nuc_sum 
 prob_dist = nuc_sum ./ sum(nuc_sum);
 
 if (smooth == true)
-    prob_dist = conv(prob_dist, gausswin(5)./sum(gausswin(5)), 'same');
+    prob_dist = conv(prob_dist, gausswin(10)./sum(gausswin(10)), 'same');
     prob_dist = prob_dist ./ sum(prob_dist);
-    data = round(conv(data, gausswin(5)./sum(gausswin(5)), 'same'));
+    data = round(conv(data, gausswin(10)./sum(gausswin(10)), 'same'));
 end
 
 % the number of reads from the experimental data:
