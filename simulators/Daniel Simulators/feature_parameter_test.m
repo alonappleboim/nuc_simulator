@@ -1,6 +1,6 @@
 %%
 
-Gene_id = 63;
+Gene_id = 16;
 genlen = 3500;
 TSS = round(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
@@ -30,8 +30,8 @@ for j = 1:15
             'poly_rate', 0, 'REB1_a_rate', 0.0001, 'REB1_e_rate', 0.0001, 'ABF1_a_rate', 0.0001, ...
                         'ABF1_e_rate', 0.0001, 'RAP1_a_rate', 0.0001, 'RAP1_e_rate', 0.0001,...
                         'TF_evic_intensity', 0.0001, 'RSC_evic_intensity', 0.05, ...
-                        'RSC_evic_length', 10*8.5, 'RSC_slide_length', 20*8.5, ...
-                        'RSC_slide_intensity', 0.1*j, 'gen_len', genlen, 'slide_len', 3);
+                        'RSC_evic_length', 10*j, 'RSC_slide_length', 20*j, ...
+                        'RSC_slide_intensity', 0.6, 'gen_len', genlen, 'slide_len', 3);
 
         centers_vector(j,:) = centers_vector(j,:) + nuc_sum;
     end
@@ -56,6 +56,36 @@ plot(minus1,'or')
 legend('+1 difference','-1 difference')
 xlabel('RSC Length Parameter (a.u.)')
 ylabel('Nucleosome Difference (bp)')
-title('+1 and -1 Features as a Function of RSC Length Parameter')
+title('+1 and -1 Features as a Function of RSC Length Parameter (Gene 16)')
 
 %%
+
+smooth_wt = conv(FRS2_wt, gausswin(100), 'same');
+smooth_wt = conv(smooth_wt, gausswin(20), 'same');
+
+smooth_vector = zeros(15,genlen);
+for j=1:15
+    smooth_vector(j,:) = conv(centers_vector(j,:), gausswin(100), 'same');
+    smooth_vector(j,:) = conv(smooth_vector(j,:), gausswin(20), 'same');
+end
+
+%%
+
+figure
+plot(FRS2_wt(NFR_pos), 'b')
+hold on
+plot(centers_vector(8,NFR_pos) .* (sum(FRS2_wt(NFR_pos)) ./ sum(centers_vector(8,NFR_pos))),'r')
+legend('wild type', 'simulation')
+xlabel('Position in NFR (bp)')
+ylabel('Reads')
+title('The Simulation Results When the Distance Between Peaks is ~20 (not smoothed)')
+
+figure
+plot(smooth_wt(NFR_pos), 'b')
+hold on
+plot(smooth_vector(8,NFR_pos) .* (sum(smooth_wt(NFR_pos)) ./ sum(smooth_vector(8,NFR_pos))),'r')
+legend('wild type', 'simulation')
+xlabel('Position in NFR (bp)')
+ylabel('Reads')
+title('The Simulation Results When the Distance Between Peaks is ~20 (smoothed)')
+
