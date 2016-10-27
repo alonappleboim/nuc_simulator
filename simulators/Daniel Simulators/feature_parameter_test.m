@@ -62,17 +62,18 @@ for j=1:15
         = Compare_Sum_To_Data(centers_vector(j,:), FRS2_wt, NFR_pos, true);
 end
 
-std_plus1 = std(plus1)
-std_minus1 = std(minus1)
-std_likelihood = std(likelihood)
-std_plus1width = std(plus1width)
-std_minus1width = std(minus1width)
-std_ratio = std(ratio)
+std_plus1 = std(plus1(~isnan(plus1)))
+std_minus1 = std(minus1(~isnan(minus1)))
+std_likelihood = std(likelihood(~isnan(likelihood)))
+std_plus1width = std(plus1width(~isnan(plus1width)))
+std_minus1width = std(minus1width(~isnan(minus1width)))
+std_ratio = std(ratio(~isnan(ratio)))
 
 %%
 
 figure
 plot(plus1width,'^b')
+%plot(ratio,'^b')
 hold on
 plot(minus1width,'or')
 plot((-likelihood ./ 5),'xk')
@@ -94,10 +95,12 @@ end
 
 %%
 
+ind = 5;
+
 figure
 plot(FRS2_wt(NFR_pos), 'b')
 hold on
-plot(centers_vector(15,NFR_pos) .* (sum(FRS2_wt(NFR_pos)) ./ sum(centers_vector(15,NFR_pos))),'r')
+plot(centers_vector(ind,NFR_pos) .* (sum(FRS2_wt(NFR_pos)) ./ sum(centers_vector(ind,NFR_pos))),'r')
 legend('wild type', 'simulation')
 xlabel('Position in NFR (bp)')
 ylabel('Reads')
@@ -106,7 +109,7 @@ title('The Simulation Results When the Distance Between Peaks is ~20 (not smooth
 figure
 plot(smooth_wt(NFR_pos), 'b')
 hold on
-plot(smooth_vector(15,NFR_pos) .* (sum(smooth_wt(NFR_pos)) ./ sum(smooth_vector(15,NFR_pos))),'r')
+plot(smooth_vector(ind,NFR_pos) .* (sum(smooth_wt(NFR_pos)) ./ sum(smooth_vector(ind,NFR_pos))),'r')
 legend('wild type', 'simulation')
 xlabel('Position in NFR (bp)')
 ylabel('Reads')

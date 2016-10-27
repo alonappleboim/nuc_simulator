@@ -28,19 +28,23 @@ if (length(sim_peaks)<2 || length(data_peaks)<2)
     ratio = nan;
     
 else
-    sim_plus1 = sim_peaks(end);
-    sim_minus1 = sim_peaks(end-1);
-    data_plus1 = data_peaks(end);
-    data_minus1 = data_peaks(end-1);
+    data_plus1_pos = data_positions(end);
+    data_minus1_pos = data_positions(end-1);
+    data_plus1_peak = data_peaks(end);
+    data_minus1_peak = data_peaks(end-1); 
+    [~, index] = min(abs(sim_positions - data_plus1_pos));
+    sim_plus1_peak = sim_peaks(index);
+    [~, index] = min(abs(sim_positions - data_minus1_pos));
+    sim_minus1_peak = sim_peaks(index);
     
     % make sure we use the larger than 1 ratio, with the right sign. we use 
     % 0.9 because we don't want close peaks to get a 2 in the ratio, even 
     % though it should be low:
-    sim_ratio = sim_plus1 / sim_minus1;
+    sim_ratio = sim_plus1_peak / sim_minus1_peak;
     if (sim_ratio < 0.9)
         sim_ratio = -1/sim_ratio;
     end
-    data_ratio = data_plus1 / data_minus1;
+    data_ratio = data_plus1_peak / data_minus1_peak;
     if (data_ratio < 0.9)
         data_ratio = -1/data_ratio;
     end
@@ -49,10 +53,12 @@ else
     
 end
 
+%{
     plot(NFR_pos, sim_smooth(NFR_pos), 'r')
     hold on
     plot(NFR_pos, data_smooth(NFR_pos) .* (sum(sim_smooth(NFR_pos)) ./ sum(data_smooth(NFR_pos))), 'b')
     legend('sim','wt')
+%}
 
 end
 

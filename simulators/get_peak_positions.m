@@ -27,28 +27,40 @@ temp = data_positions((data_positions > NFR_pos(1)) & (data_positions < NFR_pos(
 data_peaks = data_peaks((data_positions > NFR_pos(1)) & (data_positions < NFR_pos(end)));
 data_positions = temp;
 
-% for every data peak, find the distance to the closest simulation peak:
-deltas = zeros(size(data_positions));
-for i = 1:length(data_positions)
-    deltas(i) = min(abs(data_positions(i) - sim_positions));
-end
-
-% find the plus and minus one deltas (assumin the right-most peak is the +1)
-if (length(deltas) > 1)
-    plus_one_delta = deltas(end);
-    minus_one_delta = deltas(end-1);
-else
-    % if there aren't at least two peaks:
+if (length(sim_peaks) < 2 || length(data_peaks) < 2)
     plus_one_delta = nan;
     minus_one_delta = nan;
+    peak_num_delta = nan;
+    sim_plus1_pos = nan;
+    sim_minus1_pos = nan;
+    data_plus1_pos = nan;
+    data_minus1_pos = nan;
+    
+else
+    % for every data peak, find the distance to the closest simulation peak:
+    deltas = zeros(size(data_positions));
+    for i = 1:length(data_positions)
+        deltas(i) = min(abs(data_positions(i) - sim_positions));
+    end
+
+    % find the plus and minus one deltas (assumin the right-most peak is the +1)
+    if (length(deltas) > 1)
+        plus_one_delta = deltas(end);
+        minus_one_delta = deltas(end-1);
+    else
+        % if there aren't at least two peaks:
+        plus_one_delta = nan;
+        minus_one_delta = nan;
+    end
+
+    peak_num_delta = abs(length(sim_peaks)-length(data_peaks));
+
+    data_plus1_pos = data_positions(end);
+    data_minus1_pos = data_positions(end-1);
+    [~, index] = min(abs(sim_positions - data_plus1_pos));
+    sim_plus1_pos = sim_positions(index);
+    [~, index] = min(abs(sim_positions - data_minus1_pos));
+    sim_minus1_pos = sim_positions(index);
+
 end
-
-peak_num_delta = abs(length(sim_peaks)-length(data_peaks));
-
-sim_plus1_pos = sim_positions(end);
-sim_minus1_pos = sim_positions(end-1);
-data_plus1_pos = data_positions(end);
-data_minus1_pos = data_positions(end-1);
-
 end
-
