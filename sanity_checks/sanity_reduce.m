@@ -14,7 +14,7 @@ for i = 1:10
         try
             load(['/cs/bd/Daniel/simulations/sanity_checks/sim_' num2str(i) '_' num2str(j) 'gene_' num2str(gene_index) '.mat']);
         catch a
-            features(i,j) = -100000;
+            features(i,j) = nan;
             continue
         end
 
