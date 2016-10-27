@@ -1,8 +1,8 @@
 
-Gene_id = 63;
+Gene_id = 23;
 genlen = 3500;
 TSS = round(genlen/2);
-NFR_pos = [TSS-399 : TSS+200];
+NFR_pos = [TSS-299 : TSS+150];
 
 % Starting Variables:
 FRS2_seq = sequences_structure(Gene_id,:);

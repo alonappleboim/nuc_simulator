@@ -17,27 +17,33 @@ function [ likelihood, plus1_dist, minus1_dist ] = Compare_Sum_To_Data( nuc_sum 
 %         distribution from the simulation, is Poissonal.
 
 % the normalized probability distribution from the simulation:
-prob_dist = nuc_sum ./ sum(nuc_sum);
+%prob_dist = nuc_sum ./ sum(nuc_sum);
+prob_dist = nuc_sum(NFR_pos) ./ sum(nuc_sum(NFR_pos));
+
+%
+data_likelihood = data(NFR_pos);
 
 if (smooth == true)
-    prob_dist = conv(prob_dist, gausswin(10)./sum(gausswin(10)), 'same');
+    prob_dist = conv(prob_dist, gausswin(5)./sum(gausswin(5)), 'same');
     prob_dist = prob_dist ./ sum(prob_dist);
-    data = round(conv(data, gausswin(10)./sum(gausswin(10)), 'same'));
+    data_conv = conv(data_likelihood, gausswin(5)./sum(gausswin(5)), 'same');
+    data_likelihood = round(data_conv .* (sum(data_likelihood) / sum(data_conv)));
 end
 
 % the number of reads from the experimental data:
-read_num = sum(data);
+read_num = sum(data_likelihood);
 
 % find the average amount of reads we expect in every bp:
 lambda_vector = prob_dist .* read_num;
 
 % get the log-chance that we get the data from the given distribution:
-data(data == 0) = 0.0001; % actual zeros make problems in the log...
-pois_vec = log_poisspdf(data, lambda_vector);
+data_likelihood(data_likelihood == 0) = (min(data_likelihood(data_likelihood ~= 0)) / 1000); % actual zeros make problems in the log...
+pois_vec = log_poisspdf(data_likelihood, lambda_vector);
 
-likelihood = sum(pois_vec(NFR_pos));
+%likelihood = sum(pois_vec(NFR_pos));
+likelihood = sum(pois_vec);
 
-% get the delta of the plus and minus 1:
+% get the delta of the plus and minus 1, along with Peak Ratio and Width:
 [plus1_dist, minus1_dist, peak_num_dist] = get_NFR_features_data(nuc_sum, data, NFR_pos);
 
 end
