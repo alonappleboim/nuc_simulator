@@ -17,6 +17,9 @@ Cancel all my jobs:
 Making bash files executable:
 	chmod u+rx <filename>
 
+Checking on a Single job:
+	scontrol show job <jobID>
+
 Running matlab commands in the shell:
 	matlab -nodesktop -nosplash -nodisplay -nojvm -r "command1; command2; command3;" & 
 	(the & is for not waiting during a loop in bash)
