@@ -1,7 +1,7 @@
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\wt_centers.mat')
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
 
-for i = 1:10
+for i = 50:75
 
     try
         load(['C:\Users\Daniel\Documents\MATLAB\nuc_simulator\sanity_checks\results\sanity_results_' num2str(i)])
