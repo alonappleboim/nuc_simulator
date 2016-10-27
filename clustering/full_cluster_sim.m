@@ -12,9 +12,13 @@ wt_data = wt_3h(gene_index,:);
 
 if (isnan(wt_data(1)))
     nuc_sum = 0;
-    likelihood = 0;
-    plus1_dist = 0;
-    minus1_dist = 0;
+    likelihood = nan;
+    plus1_dist = nan;
+    minus1_dist = nan;
+    peak_num_delta = nan;
+    plus1width = nan;
+    minus1width = nan; 
+    height_ratio = nan;
 
 else
     
@@ -28,7 +32,7 @@ else
     wt_data = [zeros(1,left_buffer), wt_data, zeros(1,right_buffer)];
 
     % create the full parameter matrix
-    create_full_params_201016;
+    create_full_params_271016;
 
     % choose this specific sim parameters:
     sim_params = params(: , params_index);
@@ -47,16 +51,16 @@ else
         'TF_evic_intensity', sim_params(3), ...
         'RSC_evic_length', sim_params(4), 'RSC_slide_length', sim_params(4).*2, ...
         'RSC_evic_intensity', sim_params(5), ...
-        'RSC_slide_intensity', sim_params(6), 'slide_len', 3, 'gen_len', genlen, n_steps, 10000);
+        'RSC_slide_intensity', sim_params(6), 'slide_len', 3, 'gen_len', genlen, 'n_steps', 10000);
 	nuc_sum = nuc_sum + nuc_sum1;
 	end
 	
     % get the feature of the simulation:
-    [likelihood, plus1_dist, minus1_dist] = ...
+    [likelihood, plus1_dist, minus1_dist, peak_num_delta, plus1width, minus1width, height_ratio] = ...
         Compare_Sum_To_Data(nuc_sum, wt_data, NFR_pos, true);
-
+    
 end
 
 % save the data to a .mat file:
-save(['/cs/bd/Daniel/simulations/full_output_6h_201016/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
-	'nuc_sum', 'likelihood', 'plus1_dist', 'minus1_dist');
+save(['/cs/bd/Daniel/simulations/full_output_wt_271016/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
+	'nuc_sum', 'likelihood', 'plus1_dist', 'minus1_dist','peak_num_delta','plus1width','minus1width','height_ratio');

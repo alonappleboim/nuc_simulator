@@ -3,11 +3,11 @@ load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_st
 
 genlen = 3500;
 TSS = fix(genlen/2);
-NFR_pos = [TSS-399 : TSS+200];
+NFR_pos = [TSS-399 : TSS+150];
 
 gene_id = 63;
 
-create_full_params;
+create_full_params_271016;
 
 seq = sequences_structure(gene_id,:);
 wt =  wt_3h(gene_id,:);

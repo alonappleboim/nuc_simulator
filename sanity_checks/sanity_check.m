@@ -50,7 +50,7 @@ else
 	end
 	
     % get the feature of the simulation:
-    [likelihood, plus1, minus1, peak_num_delta, plus1width, minus1width, ratio] ...
+    [likelihood, plus1_dist, minus1_dist, peak_num_delta, plus1width, minus1width, ratio] ...
         = Compare_Sum_To_Data(nuc_sum, wt_data, NFR_pos, true);
 
 end
