@@ -10,11 +10,11 @@ features = zeros(10,10);
 
 % load all of the results:
 for i = 1:10
-    for j = 1:10
+    for l = 1:10
         try
-            load(['/cs/bd/Daniel/simulations/sanity_checks/sim_' num2str(i) '_' num2str(j) 'gene_' num2str(gene_index) '.mat']);
+            load(['/cs/bd/Daniel/simulations/sanity_checks/sim_' num2str(i) '_' num2str(l) 'gene_' num2str(gene_index) '.mat']);
         catch a
-            features(i,j) = nan;
+            features(i,l) = nan;
             continue
         end
 
@@ -22,7 +22,7 @@ for i = 1:10
             return
         end
 
-        features(i,j) = likelihood;
+        features(i,l) = likelihood;
     end
 end
 

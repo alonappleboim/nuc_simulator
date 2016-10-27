@@ -4,11 +4,12 @@ load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_st
 for i = 1:10
 
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\nuc_simulator\sanity_checks\results\sanity_results_' num2str(gene_index)])
+        load(['C:\Users\Daniel\Documents\MATLAB\nuc_simulator\sanity_checks\results\sanity_results_' num2str(i)])
     catch a
         continue
     end
 
+    figure
     contour(features)
     xlabel('RSC Length Parameter')
     ylabel('RSC Eviction Intensity Parameter')
