@@ -1,5 +1,5 @@
 
-Gene_id = 23;
+Gene_id = 21;
 genlen = 3500;
 TSS = round(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
@@ -23,9 +23,9 @@ FRS2_wt = [zeros(1,left_buffer), FRS2_wt, zeros(1,right_buffer)];
 centers_vector = zeros(1,genlen);
 
 % run the simulation:
-for i = 1:1
+for i = 1:10
     [nuc_sum, time, nuc_s_hist, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ...
-        run_simulation_from_genome(FRS2_seq, 'linker_len', 10, 'n_steps', 25000, ...
+        run_simulation_from_genome(FRS2_seq, 'linker_len', 10, 'n_steps', 10000, ...
         'poly_rate', 0, 'REB1_a_rate', 0.0001, 'REB1_e_rate', 0.0001, 'ABF1_a_rate', 0.0001, ...
                     'ABF1_e_rate', 0.0001, 'RAP1_a_rate', 0.0001, 'RAP1_e_rate', 0.0001,...
                     'TF_evic_intensity', 0.0001, 'RSC_evic_intensity', 0.05, ...
@@ -48,7 +48,9 @@ centers_vector = conv(centers_vector, window, 'same');
 %%%%%%%%%%%%%%%%%%%%%%%%
 %}
 
-[likelihood, plus1, minus1] = Compare_Sum_To_Data(centers_vector, FRS2_wt, NFR_pos, true)
+[likelihood, plus1, minus1, peak_num_delta, plus1width, minus1width, ratio] ...
+    = Compare_Sum_To_Data(centers_vector, FRS2_wt, NFR_pos, true)
+
 %plus_one_turnover(nuc_s_hist, time, [700,900], 5)
 
 figure;

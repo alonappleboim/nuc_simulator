@@ -1,5 +1,5 @@
-function [ plus_one_delta, minus_one_delta, peak_num_delta] ...% plus_one_width_delta, minus_one_width_delta, ...
-    %peak_num_delta, peak_ratio_delta ] ...
+function [ plus_one_delta, minus_one_delta, peak_num_delta, ... 
+    plus_one_width_delta, minus_one_width_delta, peak_ratio_delta ] ...
         = get_NFR_features_data( sim_centers, data_centers, NFR_pos )
 %get_NFR_features_data a function for extracting NFR features from the experimental
 %data.
@@ -46,8 +46,6 @@ end
 
 peak_num_delta = abs(length(sim_peaks)-length(data_peaks));
 
-%{
-
 %%
 
 %%% find the PEAK WIDTHS of the simulation and the data:
@@ -82,46 +80,98 @@ data_minus1_drop = data_smooth(data_minus1_pos) .* (3/4);
 temp = sim_smooth(1:sim_plus1_pos);
 temp(temp > sim_plus1_drop) = 0;
 temp = find(temp);
-sim_left_index = temp(end);
+if (isempty(temp))
+    plus_sim_left_index = NFR_pos(1);
+else
+    plus_sim_left_index = temp(end);
+end
+
 temp = data_smooth(1:data_plus1_pos);
 temp(temp > data_plus1_drop) = 0;
 temp = find(temp);
-data_left_index = temp(end);
+if (isempty(temp))
+    plus_data_left_index = NFR_pos(1);
+else
+    plus_data_left_index = temp(end);
+end 
+
 temp = sim_smooth(sim_plus1_pos:end);
 temp(temp > sim_plus1_drop) = 0;
 temp = find(temp);
-sim_right_index = temp(1) + sim_plus1_pos;
+if (isempty(temp))
+    plus_sim_right_index = NFR_pos(end);
+else
+    plus_sim_right_index = temp(1) + sim_plus1_pos;
+end 
+
 temp = data_smooth(data_plus1_pos:end);
 temp(temp > data_plus1_drop) = 0;
 temp = find(temp);
-data_right_index = temp(1) + data_plus1_pos;
-plus_one_width_delta = abs(abs(sim_right_index - sim_left_index) - abs(data_right_index - data_left_index));
+if (isempty(temp))
+    plus_data_right_index = NFR_pos(end);
+else
+    plus_data_right_index = temp(1) + data_plus1_pos;
+end 
+
+plus_one_width_delta = abs(abs(plus_sim_right_index - plus_sim_left_index) - abs(plus_data_right_index - plus_data_left_index));
 
 % minus1 widths calculation:
 temp = sim_smooth(1:sim_minus1_pos);
 temp(temp > sim_minus1_drop) = 0;
 temp = find(temp);
-sim_left_index = temp(end);
+if (isempty(temp))
+    minus_sim_left_index = NFR_pos(1);
+else
+    minus_sim_left_index = temp(end);
+end
+
 temp = data_smooth(1:data_minus1_pos);
 temp(temp > data_minus1_drop) = 0;
 temp = find(temp);
-data_left_index = temp(end);
+if (isempty(temp))
+    minus_data_left_index = NFR_pos(1);
+else
+    minus_data_left_index = temp(end);
+end
+
 temp = sim_smooth(sim_minus1_pos:end);
 temp(temp > sim_minus1_drop) = 0;
 temp = find(temp);
-sim_right_index = temp(1) + sim_minus1_pos;
-temp = data_smooth(data_minus1_pos:end);
-temp(temp > data_plus1_drop) = 0;
-temp = find(temp);
-data_right_index = temp(1) + data_minus1_pos;
-minus_one_width_delta = abs(abs(sim_right_index - sim_left_index) - abs(data_right_index - data_left_index));
+if (isempty(temp))
+    minus_sim_right_index = NFR_pos(end);
+else
+    minus_sim_right_index = temp(1) + sim_minus1_pos;
+end
 
+temp = data_smooth(data_minus1_pos:end);
+temp(temp > data_minus1_drop) = 0;
+temp = find(temp);
+if (isempty(temp))
+    minus_data_right_index = NFR_pos(end);
+else
+    minus_data_right_index = temp(1) + data_minus1_pos;
+end
+
+minus_one_width_delta = abs(abs(minus_sim_right_index - minus_sim_left_index) - abs(minus_data_right_index - minus_data_left_index));
+
+figure
+plot(NFR_pos, sim_smooth(NFR_pos), 'r')
+hold on
+plot(NFR_pos, data_smooth(NFR_pos) .* (sum(sim_smooth(NFR_pos)) ./ sum(data_smooth(NFR_pos))), 'b')
+plot(plus_sim_left_index, sim_plus1_drop, '^r')
+plot(plus_sim_right_index, sim_plus1_drop, '^r')
+plot(minus_sim_left_index, sim_minus1_drop, '^r')
+plot(minus_sim_right_index, sim_minus1_drop, '^r')
+plot(plus_data_left_index, data_plus1_drop.* (sum(sim_smooth(NFR_pos)) ./ sum(data_smooth(NFR_pos))), '^b')
+plot(plus_data_right_index, data_plus1_drop.* (sum(sim_smooth(NFR_pos)) ./ sum(data_smooth(NFR_pos))), '^b')
+plot(minus_data_left_index, data_minus1_drop.* (sum(sim_smooth(NFR_pos)) ./ sum(data_smooth(NFR_pos))), '^b')
+plot(minus_data_right_index, data_minus1_drop.* (sum(sim_smooth(NFR_pos)) ./ sum(data_smooth(NFR_pos))), '^b')
+legend('sim','wt')
 
 %%
 
 %%% find the PEAK HEIGHT RATIO feature:
-
-%}
+peak_ratio_delta = 0;
 
 end
 

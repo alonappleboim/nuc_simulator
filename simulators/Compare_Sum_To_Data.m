@@ -1,4 +1,5 @@
-function [ likelihood, plus1_dist, minus1_dist ] = Compare_Sum_To_Data( nuc_sum , data , NFR_pos, smooth)
+function [ likelihood, plus1_dist, minus1_dist, peak_num_delta, plus_one_width_delta, minus_one_width_delta, peak_ratio_delta ] ...
+    = Compare_Sum_To_Data( nuc_sum , data , NFR_pos, smooth)
 %Compare_Sum_To_Data a function for comparison between a simulation and the
 %experimental data - this is what we want to maximize when we are fitting
 %parameters.
@@ -44,7 +45,8 @@ pois_vec = log_poisspdf(data_likelihood, lambda_vector);
 likelihood = sum(pois_vec);
 
 % get the delta of the plus and minus 1, along with Peak Ratio and Width:
-[plus1_dist, minus1_dist, peak_num_dist] = get_NFR_features_data(nuc_sum, data, NFR_pos);
+[plus1_dist, minus1_dist, peak_num_delta, plus_one_width_delta, minus_one_width_delta, peak_ratio_delta] ...
+    = get_NFR_features(nuc_sum, data, NFR_pos);
 
 end
 
