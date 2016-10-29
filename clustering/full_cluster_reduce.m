@@ -18,7 +18,7 @@ nuc_sums = zeros(num_of_runs, 3500);
 % load all of the results:
 for i = 1:num_of_runs
 	try
-        load(['/cs/bd/Daniel/simulations/full_output_6h/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
+        load(['/cs/bd/Daniel/simulations/full_output_wt_271016/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
     catch a
         features(i,1) = nan;
         continue
