@@ -1,6 +1,7 @@
 function full_cluster_reduce(gene_index)
 
 % load all the necessary data:
+
 load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat');
 load('/cs/bd/Daniel/experiment_data/sequences_structure.mat');
 addpath(genpath('/cs/bd/Daniel/nflab_scripts'));

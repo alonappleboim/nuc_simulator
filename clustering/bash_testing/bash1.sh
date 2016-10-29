@@ -1,8 +1,9 @@
 #!/bin/bash
 
-i=10
-j=2
-let "k=$j*12+$i+1"
+i=4
+j=10
+let "k=$j*10+$i+1" 
+
 
 echo $k
 
