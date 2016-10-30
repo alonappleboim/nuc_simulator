@@ -4,8 +4,8 @@ poly_rates = [0];
 tf_rates = [0.0001]; % this is the TF assembly rate, and the eviction will be half of this
 tf_evic_eff = [0.0001];
 rsc_length = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200]; % this is the eviction length of RSC - the sliding length will be twice this
-rsc_evic_eff = [0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2];
-rsc_slide_eff = [0.5];
+rsc_evic_eff = [0.05];
+rsc_slide_eff = [0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2];
 
 genlen = 3500;
 TSS = fix(genlen/2);
