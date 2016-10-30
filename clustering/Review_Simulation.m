@@ -5,7 +5,7 @@ genlen = 3500;
 TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
-gene_id = 53;
+gene_id = 44;
 
 create_full_params_271016;
 

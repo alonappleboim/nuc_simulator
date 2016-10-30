@@ -14,11 +14,11 @@ function [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] =...
 %   of a 5-bp-long PolyA or PolyT.
 
 % define the REGEXs for the binding sites:
-REB1_Strong_Bind = '(CCGGGTAA)|(GGCCCATT)';
-REB1_Weak_Bind = '(GGGT)|(CCCA)';
-ABF1_Strong_Bind = '(TCAC.....ACG)|(AGTG.....TGC)';
+REB1_Strong_Bind = '(CGGGTAA)|(GCCCATT)';
+REB1_Weak_Bind = '(CGGGT)|(GCCCA)';
+ABF1_Strong_Bind = '(TCAC.....ACG)|(AGTG.....TGC)|(TCAT.....ACG)|(AGTA.....TGC)';
 ABF1_Weak_Bind = '(TC.......ACG)|(AG.......TGC)';
-RAP1_Strong_Bind = '(TGT.TGGGTG)|(ACA.ACCCAC)';
+RAP1_Strong_Bind = '(TGT.TGG.T.)|(ACA.ACC.A.)';
 RAP1_Weak_Bind = '(G...GGGT)|(C...CCCA)';
 
 % define the vectors that will be returned:
@@ -42,21 +42,6 @@ PolyT_Sites(PolyT_Sites < 5) = 0;
 PolyT_Sites(PolyT_Sites > 4) = 1;
 PolyT_Sites = conv(PolyT_Sites,ones(1,5),'same');
 PolyT_Sites(PolyT_Sites > 0) = 1;
-%{
-PolyA_Sites(genome == 'A') = 1;
-PolyA_Sites = conv(PolyA_Sites, ones(1,11), 'same');
-PolyA_Sites(PolyA_Sites < 7) = 0;
-PolyA_Sites(PolyA_Sites > 6) = 1;
-PolyA_Sites = conv(PolyA_Sites,ones(1,7),'same');
-PolyA_Sites(PolyA_Sites > 0) = 1;
-
-PolyT_Sites(genome == 'T') = 1;
-PolyT_Sites = conv(PolyT_Sites, ones(1,11), 'same');
-PolyT_Sites(PolyT_Sites < 7) = 0;
-PolyT_Sites(PolyT_Sites > 6) = 1;
-PolyT_Sites = conv(PolyT_Sites,ones(1,7),'same');
-PolyT_Sites(PolyT_Sites > 0) = 1;
-%}
 
 
 % find the center of binding sites:
