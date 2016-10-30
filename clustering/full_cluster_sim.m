@@ -1,5 +1,10 @@
 function full_cluster_sim(params_index , gene_index, sequences_structure, wt_3h)
 
+load_bad_genes;
+if (~isempty(find(bad_genes(bad_genes==gene_index),1)))
+    return
+end
+
 genlen = 3500;
 TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
@@ -32,7 +37,7 @@ else
     wt_data = [zeros(1,left_buffer), wt_data, zeros(1,right_buffer)];
 
     % create the full parameter matrix
-    create_full_params_271016;
+    create_full_params_301016;
 
     % choose this specific sim parameters:
     sim_params = params(: , params_index);
@@ -62,5 +67,5 @@ else
 end
 
 % save the data to a .mat file:
-save(['/cs/bd/Daniel/simulations/full_output_wt_271016/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
+save(['/cs/bd/Daniel/simulations/full_output_wt_301016/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
 	'nuc_sum', 'likelihood', 'plus1_dist', 'minus1_dist','peak_num_delta','plus1width','minus1width','height_ratio');

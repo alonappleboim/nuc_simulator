@@ -3,9 +3,9 @@ load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_st
 
 genlen = 3500;
 TSS = fix(genlen/2);
-NFR_pos = [TSS-399 : TSS+150];
+NFR_pos = [TSS-299 : TSS+150];
 
-gene_id = 7;
+gene_id = 53;
 
 create_full_params_271016;
 
@@ -55,10 +55,10 @@ textbox_string = [...
     ];
 %}
 
-data = conv(wt(NFR_pos), gausswin(5)./sum(gausswin(5)), 'same');
+data = conv(wt(NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
 
 % feature plot (only NFR):
-nuc_sum = conv(nuc_sum, gausswin(5)./sum(gausswin(5)), 'same');
+nuc_sum = conv(nuc_sum, gausswin(10)./sum(gausswin(10)), 'same');
 nuc_sum = nuc_sum(NFR_pos) .* sum(data) ./ sum(nuc_sum(NFR_pos));
 figure;
 plot(data, 'b')

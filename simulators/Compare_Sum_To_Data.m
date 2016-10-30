@@ -25,9 +25,9 @@ prob_dist = nuc_sum(NFR_pos) ./ sum(nuc_sum(NFR_pos));
 data_likelihood = data(NFR_pos);
 
 if (smooth == true)
-    prob_dist = conv(prob_dist, gausswin(5)./sum(gausswin(5)), 'same');
+    prob_dist = conv(prob_dist, gausswin(10)./sum(gausswin(10)), 'same');
     prob_dist = prob_dist ./ sum(prob_dist);
-    data_conv = conv(data_likelihood, gausswin(5)./sum(gausswin(5)), 'same');
+    data_conv = conv(data_likelihood, gausswin(10)./sum(gausswin(10)), 'same');
     data_likelihood = round(data_conv .* (sum(data_likelihood) / sum(data_conv)));
 end
 
