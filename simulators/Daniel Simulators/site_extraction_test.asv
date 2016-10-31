@@ -1,0 +1,26 @@
+gene_id = 1001;
+
+genlen = 3500;
+TSS = 1750;
+seq = sequences_structure(gene_id,:);
+%NFR_pos = [1:genlen];
+NFR_pos = [TSS-299 : TSS+150];
+
+[ polyA_old, polyT_old, REB1_old, ABF1_old, RAP1_old ] = Extract_Sites_From_Gene(seq, genlen);
+[ polyA_new, polyT_new, REB1_new, ABF1_new, RAP1_new ] = Extract_Sites_From_Gene_new(seq, genlen);
+
+figure
+subplot(2,1,1)
+plot(REB1_old(NFR_pos),'b')
+hold on
+plot(ABF1_old(NFR_pos),'r')
+plot(RAP1_old(NFR_pos),'k')
+legend('REB1','ABF1','RAP1')
+ylabel('OLD')
+subplot(2,1,2)
+plot(REB1_new(NFR_pos),'b')
+hold on
+plot(ABF1_new(NFR_pos),'r')
+plot(RAP1_new(NFR_pos),'k')
+legend('REB1','ABF1','RAP1')
+ylabel('NEW')

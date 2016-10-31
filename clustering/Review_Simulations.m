@@ -6,7 +6,7 @@ TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
 
-for gene_id=1:80
+for gene_id=50:59
 
     create_full_params_271016;
     
@@ -29,7 +29,7 @@ for gene_id=1:80
     wt = [zeros(1,left_buffer), wt, zeros(1,right_buffer)];
 
     [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
-        Extract_Sites_From_Gene(seq, genlen);
+        Extract_Sites_From_Gene_new(seq, genlen);
 
     nuc_sum = nuc_sums(best_sim_index, :);
     data = conv(wt(NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');

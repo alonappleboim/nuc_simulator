@@ -1,5 +1,5 @@
 
-Gene_id = 21;
+Gene_id = 53;
 genlen = 3500;
 TSS = round(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
@@ -23,7 +23,7 @@ FRS2_wt = [zeros(1,left_buffer), FRS2_wt, zeros(1,right_buffer)];
 centers_vector = zeros(1,genlen);
 
 % run the simulation:
-for i = 1:10
+for i = 1:3
     [nuc_sum, time, nuc_s_hist, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ...
         run_simulation_from_genome(FRS2_seq, 'linker_len', 10, 'n_steps', 10000, ...
         'poly_rate', 0, 'REB1_a_rate', 0.0001, 'REB1_e_rate', 0.0001, 'ABF1_a_rate', 0.0001, ...
