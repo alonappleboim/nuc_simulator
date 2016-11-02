@@ -5,9 +5,9 @@ genlen = 3500;
 TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
-gene_id = 44;
+gene_id = 200;
 
-create_full_params_271016;
+create_full_params_301016;
 
 seq = sequences_structure(gene_id,:);
 wt =  wt_3h(gene_id,:);
@@ -44,7 +44,6 @@ ylabel('Intensity')
 title(['Likelihood = ' num2str(features(best_sim_index)) char(10) 'Gene Index = ' num2str(gene_id)])
 
 % make the textbox string:
-%{
 textbox_string = [...
     'Poly Rate = ' num2str(params(1, best_sim_index)) char(10) ...
     'TF Eviction Effect = ' num2str(params(3, best_sim_index)) char(10) ...
@@ -53,7 +52,6 @@ textbox_string = [...
     'RSC Slide Effect = ' num2str(params(6, best_sim_index)) char(10) ...
     'RSC Slide Length = ' num2str(params(4, best_sim_index) * 2) ...
     ];
-%}
 
 data = conv(wt(NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
 
