@@ -1,18 +1,15 @@
 function [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] =... 
-    Extract_Sites_From_Gene_new( genome, gen_len )
+    Extract_Sites_From_Gene_new( genome, gen_len, NFR_pos )
 %Extract_Sites_From_Gene The function that extracts Poly(dA:dT) and binding
 %sites from the genome.
 %   Given a 2501-bp-long genome, where the TSS is at position 1000, and at 
-%   least a 3000 gen_len, the
+%   least a 3000 gen_len, and the NFR positions, the
 %   function goes over the known trans-factors binding sites and finds
 %   their positions in the genome, along with the Poly(dA:dT) positions.
 %   For the binding sites I used the data from
-%   http://yetfasco.ccbr.utoronto.ca/ and used two thresholds for each
-%   TF - a strong one and a weak one, and took into account the 
-%   concentration ratio of each TF. the vector that is returned
-%   values between 0 and 1 for binding sites of different strengths (the
-%   strongest will be a REB1 strong site, since REB1 is the most abundant 
-%   in the cells). 
+%   http://yetfasco.ccbr.utoronto.ca/ and used the PWD result of each bp as 
+%   the strength of the site, and took into account the 
+%   concentration ratio of each TF.
 %   For the PolyA and PolyT, I just return 1 for positions that are the 
 %   center of a 5-bp-long PolyA or PolyT.
 
@@ -41,10 +38,6 @@ RAP1_pwm = ...
     1.22456025801916,1.40168794561982,0.0151068923902083,2.35198532874354,-5.56985560833095,0.797910021341842,-5.56985560833095,2.27864515475224,2.18336114084801,1.95762139772945,-1.81641007889869,1.83102382795124,-0.736965594166206;
     -3.24792751344359,-5.56985560833095,-6.56985560833095,-4.39993060688864,-0.627341102991708,-1.66152159729546,0.543886557718241,-5.56841219290397,-4.39993060688864,-2.81496810616748,-2.01670872938452,-1.32192809488736,0.0954803088542283];
 
-% define the thresholds to decide if a sequence is a binding site or not:
-strong_threshold = 5;
-weak_threshold = 2;
-
 % define the factors (these are the consentration ratios of ABF1 and RAP1 
 % in relation to the REB1 concentration, calculated from SGD). The idea is 
 % that the concentration of TFs in the cell effects the chance of binding, 
@@ -67,63 +60,48 @@ inverted_genome_indices(genome == 'G') = 4;
 % check for every bp if it is a binding site, using the PWMs:
 for i = 200 : length(genome)-200
     gen = genome_indices(i-6 : i+6);
-    REB1_check = sum(REB1_pwm((gen) + [0:12].*4)); % indexing the right parts of the matrix)
-    RAP1_check = sum(RAP1_pwm((gen) + [0:12].*4));
+    REB1_check = sum(REB1_pwm((gen) + [0:12].*4)) / 13; % indexing the right parts of the matrix)
+    RAP1_check = sum(RAP1_pwm((gen) + [0:12].*4)) / 13;
 
     gen = genome_indices(i-9 : i+8);
-    ABF1_check = sum(ABF1_pwm((gen) + [0:17].*4));
+    ABF1_check = sum(ABF1_pwm((gen) + [0:17].*4)) / 18;
     
     % decide using the threshold for each TF:
-    if (REB1_check > weak_threshold)
-        REB1_Sites(i) = 0.2;
+    if (REB1_check > 0)
+        REB1_Sites(i) = REB1_check;
     end
-    if (ABF1_check > weak_threshold)
-        ABF1_Sites(i) = 0.2 .* ABF1_factor;
+    if (ABF1_check > 0)
+        ABF1_Sites(i) = ABF1_check .* ABF1_factor;
     end
-    if (RAP1_check > weak_threshold)
-        RAP1_Sites(i) = 0.2 .* RAP1_factor;
+    if (RAP1_check > 0)
+        RAP1_Sites(i) = RAP1_check .* RAP1_factor;
     end
-    if (REB1_check > strong_threshold)
-        REB1_Sites(i) = 1;
-    end
-    if (ABF1_check > strong_threshold)
-        ABF1_Sites(i) = 1 .* ABF1_factor;
-    end
-    if (RAP1_check > strong_threshold)
-        RAP1_Sites(i) = 1 .* RAP1_factor;
-    end
-
     
     % now for inverted nucleotides:
     
     gen = inverted_genome_indices(i-6 : i+6);
-    REB1_check = sum(REB1_pwm((gen) + [0:12].*4));
-    RAP1_check = sum(RAP1_pwm((gen) + [0:12].*4));
+    REB1_check = sum(REB1_pwm((gen) + [0:12].*4)) / 13;
+    RAP1_check = sum(RAP1_pwm((gen) + [0:12].*4)) / 13;
 
     gen = inverted_genome_indices(i-9 : i+8);
-    ABF1_check = sum(ABF1_pwm((gen) + [0:17].*4));
+    ABF1_check = sum(ABF1_pwm((gen) + [0:17].*4)) / 18;
     
     % decide using the threshold for each TF:
-    if (REB1_check > weak_threshold)
-        REB1_Sites(i) = 0.2;
+    if (REB1_check > 0)
+        REB1_Sites(i) = REB1_check; 
     end
-    if (ABF1_check > weak_threshold)
-        ABF1_Sites(i) = 0.2 .* ABF1_factor;
+    if (ABF1_check > 0)
+        ABF1_Sites(i) = ABF1_check .* ABF1_factor;
     end
-    if (RAP1_check > weak_threshold)
-        RAP1_Sites(i) = 0.2 .* RAP1_factor;
+    if (RAP1_check > 0)
+        RAP1_Sites(i) = RAP1_check .* RAP1_factor;
     end
-    if (REB1_check > strong_threshold)
-        REB1_Sites(i) = 1;
-    end
-    if (ABF1_check > strong_threshold)
-        ABF1_Sites(i) = 1 .* ABF1_factor;
-    end
-    if (RAP1_check > strong_threshold)
-        RAP1_Sites(i) = 1 .* RAP1_factor;
-    end
-    
 end
+
+% increase the effect of binding sites in the NFR:
+REB1_Sites(NFR_pos) = REB1_Sites(NFR_pos) .* 4;
+ABF1_Sites(NFR_pos) = ABF1_Sites(NFR_pos) .* 4;
+RAP1_Sites(NFR_pos) = RAP1_Sites(NFR_pos) .* 4;
 
 % make vectors of PolyA and PolyT centers of 5 or longer lengths:
 PolyA_Sites(genome == 'A') = 1;

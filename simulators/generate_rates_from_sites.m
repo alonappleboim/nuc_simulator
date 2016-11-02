@@ -94,18 +94,18 @@ e_rate = p.nuc_base_e_rate + RSC_evict + REB1_evict + ABF1_evict + RAP1_evict;
 
 
 % make the left-right sliding rates from the sites:
+%{
 PolyAT_right = conv(PolyA_sites, p.RSC_slide_intensity.*ones(1,p.RSC_slide_length),'same');
 PolyAT_left  = conv(PolyT_sites, p.RSC_slide_intensity.*ones(1,p.RSC_slide_length),'same');
 PolyAT_right = conv(PolyAT_right, gausswin(p.RSC_slide_length)./sum(gausswin(p.RSC_slide_length)), 'same');
 PolyAT_left = conv(PolyAT_left, gausswin(p.RSC_slide_length)./sum(gausswin(p.RSC_slide_length)), 'same');
 r_rate = p.nuc_base_r_rate + PolyAT_right;
 l_rate = p.nuc_base_l_rate + PolyAT_left;
-%{
-PolyAT_right = conv(PolyA_sites, p.RSC_slide_intensity.*gausswin(2*p.RSC_slide_length,4)','same');
-PolyAT_left  = conv(PolyT_sites, p.RSC_slide_intensity.*gausswin(2*p.RSC_slide_length,4)','same');
+%}
+PolyAT_right = conv(PolyA_sites, p.RSC_slide_intensity.*(gausswin(p.RSC_slide_length,1.5).*p.RSC_slide_length./sum(gausswin(p.RSC_slide_length,1.5))),'same');
+PolyAT_left  = conv(PolyT_sites, p.RSC_slide_intensity.*(gausswin(p.RSC_slide_length,1.5).*p.RSC_slide_length./sum(gausswin(p.RSC_slide_length,1.5))),'same');
 r_rate = p.nuc_base_r_rate + PolyAT_right;
 l_rate = p.nuc_base_l_rate + PolyAT_left;
-%}
 
 
 % add the polymerase effects for the nucleosomes:

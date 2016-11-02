@@ -1,4 +1,4 @@
-function [nuc_sum, time, nuc_s_hist, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ... 
+function [nuc_sum, time, nuc_s_hist, nuc_evics, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ... 
         run_simulation_from_genome(genome, varargin)
 %run_simulation_from_genome the function for running a single simulation from genomic data.
 %
@@ -113,6 +113,6 @@ p.nuc_footprint = ones(1,(p.nuc_width.*2) - 1);
 
 %% Run the Simulation
 
-[nuc_sum, time, nuc_s_hist, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ...
+[nuc_sum, time, nuc_s_hist, nuc_evics, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ...
         Simulate(p, 'n_steps', p.n_steps, 's0', zeros(1,p.gen_len), 'report', p.report);
 

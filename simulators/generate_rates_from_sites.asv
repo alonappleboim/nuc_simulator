@@ -87,25 +87,25 @@ RAP1_evict = conv(RAP1_sites, p.TF_evic_intensity.*ones(1,p.RAP1_width + p.nuc_w
 e_rate = p.nuc_base_e_rate + RSC_evict + REB1_evict + ABF1_evict + RAP1_evict;
 %}
 RSC_evict = conv(PolyAT_sites, p.RSC_evic_intensity.*(gausswin(p.RSC_evic_length,2).*p.RSC_evic_length./sum(gausswin(p.RSC_evic_length,2)))','same');
-REB1_evict = conv(REB1_sites, p.TF_evic_intensity.*gausswin((p.REB1_width + p.nuc_width),2) .* (p.REB1_width + p.nuc_width) ./ sum(gausswin((p.REB1_width + p.nuc_width),2)),'same');
-ABF1_evict = conv(ABF1_sites, p.TF_evic_intensity.*gausswin((p.ABF1_width + p.nuc_width),2) .* (p.ABF1_width + p.nuc_width) ./ sum(),'same');
-RAP1_evict = conv(RAP1_sites, p.TF_evic_intensity.*gausswin((p.RAP1_width + p.nuc_width),2) .* (p.RAP1_width + p.nuc_width) ./ su,'same');
+REB1_evict = conv(REB1_sites, p.TF_evic_intensity.*gausswin((p.REB1_width + p.nuc_width),1.5) .* (p.REB1_width + p.nuc_width) ./ sum(gausswin((p.REB1_width + p.nuc_width),1.5)),'same');
+ABF1_evict = conv(ABF1_sites, p.TF_evic_intensity.*gausswin((p.ABF1_width + p.nuc_width),1.5) .* (p.ABF1_width + p.nuc_width) ./ sum(gausswin((p.ABF1_width + p.nuc_width),1.5)),'same');
+RAP1_evict = conv(RAP1_sites, p.TF_evic_intensity.*gausswin((p.RAP1_width + p.nuc_width),1.5) .* (p.RAP1_width + p.nuc_width) ./ sum(gausswin((p.RAP1_width + p.nuc_width),1.5)),'same');
 e_rate = p.nuc_base_e_rate + RSC_evict + REB1_evict + ABF1_evict + RAP1_evict;
 
 
 % make the left-right sliding rates from the sites:
+%{
 PolyAT_right = conv(PolyA_sites, p.RSC_slide_intensity.*ones(1,p.RSC_slide_length),'same');
 PolyAT_left  = conv(PolyT_sites, p.RSC_slide_intensity.*ones(1,p.RSC_slide_length),'same');
 PolyAT_right = conv(PolyAT_right, gausswin(p.RSC_slide_length)./sum(gausswin(p.RSC_slide_length)), 'same');
 PolyAT_left = conv(PolyAT_left, gausswin(p.RSC_slide_length)./sum(gausswin(p.RSC_slide_length)), 'same');
 r_rate = p.nuc_base_r_rate + PolyAT_right;
 l_rate = p.nuc_base_l_rate + PolyAT_left;
-%{
+%}
 PolyAT_right = conv(PolyA_sites, p.RSC_slide_intensity.*gausswin(2*p.RSC_slide_length,4)','same');
 PolyAT_left  = conv(PolyT_sites, p.RSC_slide_intensity.*gausswin(2*p.RSC_slide_length,4)','same');
 r_rate = p.nuc_base_r_rate + PolyAT_right;
 l_rate = p.nuc_base_l_rate + PolyAT_left;
-%}
 
 
 % add the polymerase effects for the nucleosomes:

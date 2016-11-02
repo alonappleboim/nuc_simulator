@@ -75,11 +75,10 @@ ylabel('Intensity')
     generate_rates_from_sites( PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites);
 
 figure
-plot(conv(centers_vector(NFR_pos), gausswin(10), 'same'), 'b')
+plot(conv(centers_vector, gausswin(10), 'same'), 'b')
 hold on
-plot(conv(evics(NFR_pos), gausswin(10), 'same') .* sum(conv(centers_vector(NFR_pos), gausswin(10), 'same')) ./ sum(conv(evics(NFR_pos), gausswin(10), 'same')), 'r')
-plot(e_rate(NFR_pos) .* sum(conv(centers_vector(NFR_pos), gausswin(10), 'same')) ./ sum(e_rate(NFR_pos)), 'k')
-legend('nucleosome coverage', 'eviction count', 'eviction rates')
+plot(conv(evics, gausswin(10), 'same'), 'r')
+plot(conv())
 
 %{
 % plot the NFR smoothed:

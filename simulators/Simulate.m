@@ -1,4 +1,4 @@
-function [nuc_sum, time, nuc_s_hist, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ... 
+function [nuc_sum, time, nuc_s_hist, nuc_evics, REB1_s_hist, ABF1_s_hist, RAP1_s_hist] = ... 
         Simulate(model_params, varargin)
 %
 % gillespie simulation for nucleosome positioning, including trans factors
@@ -55,6 +55,7 @@ nuc_s_hist = false(1 + extra_inputs.n_steps, params.genlen);
 %%% ABF1_s_hist = false(1 + extra_inputs.n_steps, params.genlen);
 %%% RAP1_s_hist = false(1 + extra_inputs.n_steps, params.genlen);
 nuc_sum = zeros(1, params.genlen);
+nuc_evics = zeros(1, params.genlen);
 
 % prep simulation
 rand_nums = rand(1, extra_inputs.n_steps);  % random numbers for calculating the dt of each change (GILLESPIE)
@@ -156,6 +157,7 @@ for i = 1:extra_inputs.n_steps
 	% make the change in the state:
     if (change == 1) % nuc eviction
         nuc_state(bp) = 0;
+        nuc_evics(bp) = nuc_evics(bp) + 1;
     end
     if (change == 2) % nuc assembly
 		nuc_state(bp) = 1;
