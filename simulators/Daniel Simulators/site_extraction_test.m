@@ -17,8 +17,17 @@ NFR_pos = [TSS-299 : TSS+150];
 [ a_rate, e_rate, r_rate, l_rate, ... 
             REB1_a, REB1_e, ABF1_a, ABF1_e, RAP1_a, RAP1_e] = ...
     generate_rates_from_sites( polyA_new, polyT_new, REB1_new, ...
-    ABF1_new, RAP1_new, 'TF_evic_intensity', 0.1);
+    ABF1_new, RAP1_new); %, 'TF_evic_intensity', 0.1);
 
+figure
+plot(polyA_new(750:end-751)*20, 'b')
+hold on
+plot(polyT_new(750:end-751)*20, 'm')
+plot(r_rate(750:end-751), 'r')
+plot(l_rate(750:end-751), 'k')
+xlabel('Position')
+ylabel('Rate Intensity')
+legend('Poly A','Poly T','Right Sliding Rate','Left Sliding Rate')
 
 figure
 plot(r_rate(NFR_pos))

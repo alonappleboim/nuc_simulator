@@ -42,14 +42,6 @@ s_hist_coverage = ksdensity(1:length(centers_vector),1:length(centers_vector),'w
 % plot wild type gene with PolyAT and the simulation (wt smoothed):
 smoothed_wt = ksdensity([1:length(FRS2_wt)],[1:length(FRS2_wt)],'weights',double(FRS2_wt),'width',5);
 
-%{
-%%%%%%%%%%%%%%%%%%%%%%%%
-% trying out the MNase digestion:
-window = Get_MNase_Window(20);
-centers_vector = conv(centers_vector, window, 'same');
-%%%%%%%%%%%%%%%%%%%%%%%%
-%}
-
 [likelihood, plus1, minus1, peak_num_delta, plus1width, minus1width, ratio] ...
     = Compare_Sum_To_Data(centers_vector, FRS2_wt, NFR_pos, true)
 
