@@ -8,7 +8,7 @@ addpath(genpath('/cs/bd/Daniel/nflab_scripts'));
 addpath(genpath('/cs/bd/Daniel/nuc_simulator'));
 
 % create the full parameter matrix
-create_full_params_021116;
+create_full_params_RSC_length;
 num_of_runs = length(params(1,:));
 
 % create a matrix for all the results:
@@ -18,7 +18,7 @@ nuc_sums = zeros(num_of_runs, 3500);
 % load all of the results:
 for i = 1:num_of_runs
 	try
-        load(['/cs/bd/Daniel/simulations/full_output_wt_021116/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
+        load(['/cs/bd/Daniel/simulations/full_output_RSC_length/sim_' num2str(i) 'gene_' num2str(gene_index) '.mat']);
     catch a
         features(i,1) = nan;
         continue
@@ -44,5 +44,5 @@ end
 [best_sim_feature, best_sim_index] = max(features);
 
 % save to a new .mat file:
-save(['/cs/bd/Daniel/simulations/full_output_wt_021116/results_' num2str(gene_index)] , ...
+save(['/cs/bd/Daniel/simulations/full_output_RSC_length/results_' num2str(gene_index)] , ...
 	'best_sim_feature', 'best_sim_index', 'features', 'nuc_sums');
