@@ -39,7 +39,7 @@ else
     wt_data = [zeros(1,left_buffer), wt_data, zeros(1,right_buffer)];
 
     % create the full parameter matrix
-    create_full_params_RSC_length;
+    create_full_params_RSC_ratio;
 
     % choose this specific sim parameters:
     sim_params = params(: , params_index);
@@ -58,7 +58,7 @@ else
         'TF_evic_intensity', sim_params(3), ...
         'RSC_evic_length', sim_params(4), 'RSC_slide_length', sim_params(4).*2, ...
         'RSC_evic_intensity', sim_params(5), ...
-        'RSC_slide_intensity', sim_params(6), 'slide_len', 3, 'gen_len', genlen, 'n_steps', 10000);
+        'RSC_slide_intensity', sim_params(6)*sim_params(5), 'slide_len', 3, 'gen_len', genlen, 'n_steps', 10000);
 	nuc_sum = nuc_sum + nuc_sum1;
 	end
 	
@@ -69,5 +69,5 @@ else
 end
 
 % save the data to a .mat file:
-save(['/cs/bd/Daniel/simulations/full_output_RSC_length/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
+save(['/cs/bd/Daniel/simulations/full_output_RSC_ratio/sim_' num2str(params_index) 'gene_' num2str(gene_index) '.mat'] , ...
 	'nuc_sum', 'likelihood', 'plus1_dist', 'minus1_dist','peak_num_delta','plus1width','minus1width','height_ratio');

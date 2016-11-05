@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for ((j=0 ; j<=5 ; j++));
+for ((j=0 ; j<=14 ; j++));
 do
 
 	for ((i=0 ; i<=9 ; i++));
