@@ -6,12 +6,12 @@ TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
 
-for gene_id=1:80
+for gene_id=1:100
 
     create_full_params_RSC_ratio;
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio\results_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio_101116\results_' num2str(gene_id) '.mat'])
     catch a
         continue
     end
@@ -115,7 +115,7 @@ end
 %% make the histogram of each parameter to find global parameters
 
 good_genes = [16,22,28,38,53,54,62,65,80];
-good_genes_2 = [9,14,16,19,22,23,24,28,29,30,31,33,37,40,41,42,46,61,62,63,77,79,80];
+good_genes_2 = [195,190,189,188,187,185,184,183,180,178,177,176,170,169,168,160,155,159,144,138,93,90,89,80,79,77,73,46,31,30,29,23,22,16,9];
 RSC_evics = zeros(1,length(good_genes) + length(good_genes_2));
 RSC_slides = zeros(1,length(good_genes) + length(good_genes_2));
 RSC_len = zeros(1,length(good_genes) + length(good_genes_2));
@@ -142,7 +142,7 @@ for i = 1:length(good_genes_2)
     create_full_params_RSC_ratio;
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio\results_' num2str(good_genes_2(i)) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio_101116\results_' num2str(good_genes_2(i)) '.mat'])
     catch a
         continue
     end
