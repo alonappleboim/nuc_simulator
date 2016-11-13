@@ -1,0 +1,24 @@
+the parameters are: 
+-------------------
+start gene 
+end gene 
+number of sims per gene (calculated from create_params)
+path of data 
+path of results (MUST END IN "/")
+
+
+PATH OF DATA:
+-------------
+wt: /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat
+sth1_3h: /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_3h_centers.mat
+sth1_6h: /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_6h_centers.mat
+
+
+PATH OF RESULTS:
+----------------
+beginning: /cs/bd/Daniel/simulations/
+
+
+EXAMPLE:
+--------
+genome_sim.sh 1 10 XXX#simsXXX /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat /cs/bd/Daniel/simulations/XXX
