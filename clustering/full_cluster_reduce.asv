@@ -45,17 +45,13 @@ for i = 1:num_of_runs
     likelihoods(i,1) = likelihood;
     features(i, 1) = likelihood - plus1_dist - minus1_dist;
 	nuc_sums(i, :) = nuc_sum;
-    
-    % TODO - make the features be the ratio between the sim and the uniform
-    % distribution?
 end
 
 % find the best result:
 [best_sim_feature, best_sim_index] = max(features);
 [best_likelihood, best_likelihood_index] = max(likelihoods);
-nuc_sum_feature = nuc_sums(best_sim_index);
-nuc_sum_likelihood = nuc_sums(best_likelihood_index);
+nuc_sum_feature = nuc_sums(best_sim_index)
 
 % save to a new .mat file:
 save(['/cs/bd/Daniel/simulations/full_output_RSC_ratio/results_' num2str(gene_index)] , ...
-	'best_sim_feature', 'best_sim_index', 'best_likelihood', 'best_likelihood_index', 'features', 'nuc_sum_feature', 'nuc_sum_likelihood');
+	'best_sim_feature', 'best_sim_index', 'features', 'nuc_sums');

@@ -8,10 +8,10 @@ NFR_pos = [TSS-299 : TSS+150];
 
 for gene_id=101:200
 
-    create_full_params_RSC_ratio;
+    create_full_params_RSC_length;
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio_101116\results_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_131116\results_' num2str(gene_id) '.mat'])
     catch a
         continue
     end
@@ -32,6 +32,8 @@ for gene_id=101:200
         Extract_Sites_From_Gene_new(seq, genlen, NFR_pos);
 
     nuc_sum = nuc_sums(best_sim_index, :);
+    best_sim = Compare_Sum_To_Data(nuc_sum, wt, NFR_pos, true); %%%%%
+
     data = conv(wt(NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
     nuc_sum = conv(nuc_sum, gausswin(10)./sum(gausswin(10)), 'same');
     nuc_sum = nuc_sum(NFR_pos) .* sum(data) ./ sum(nuc_sum(NFR_pos));
@@ -40,7 +42,7 @@ for gene_id=101:200
         Compare_Sum_To_Data(wt, wt, NFR_pos, true);
     [bad_likelihood,~,~,~,~,~,~] = ...
         Compare_Sum_To_Data(ones(size(wt)), wt, NFR_pos, true);
-    ratio = (features(best_sim_index) - bad_likelihood) / (optimum_likelihood - bad_likelihood);
+    ratio = (best_sim - bad_likelihood) / (optimum_likelihood - bad_likelihood);
 
     figure;
     %subplot(2,1,1);
@@ -145,10 +147,10 @@ for i = 1:length(good_genes)
 end
 %}
 for i = 1:length(good_genes_2)
-    create_full_params_RSC_ratio;
+    create_full_params_RSC_length;
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio_101116\results_' num2str(good_genes_2(i)) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_131116\results_' num2str(good_genes_2(i)) '.mat'])
     catch a
         continue
     end
