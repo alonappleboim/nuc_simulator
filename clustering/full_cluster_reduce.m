@@ -53,8 +53,8 @@ end
 % find the best result:
 [best_sim_feature, best_sim_index] = max(features);
 [best_likelihood, best_likelihood_index] = max(likelihoods);
-nuc_sum_feature = nuc_sums(best_sim_index);
-nuc_sum_likelihood = nuc_sums(best_likelihood_index);
+nuc_sum_feature = nuc_sums(best_sim_index, :);
+nuc_sum_likelihood = nuc_sums(best_likelihood_index, :);
 
 % save to a new .mat file:
 save(['/cs/bd/Daniel/simulations/full_output_RSC_ratio/results_' num2str(gene_index)] , ...

@@ -8,10 +8,10 @@ NFR_pos = [TSS-299 : TSS+150];
 
 for gene_id=101:200
 
-    create_full_params_RSC_length;
+    create_full_params_RSC_ratio;
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_131116\results_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio_141116\results_' num2str(gene_id) '.mat'])
     catch a
         continue
     end
