@@ -1,8 +1,8 @@
-function cluster_reduce(gene_index, results_path)
+function cluster_reduce(gene_index, all_data, results_path)
 
 % ignore NaN genes:
-wt_data = wt_3h(gene_index,:);
-if (isnan(wt_data(1)))
+exp_data = all_data(gene_index,:);
+if (isnan(exp_data(1)))
     return
 end
 
