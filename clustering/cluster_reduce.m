@@ -7,7 +7,7 @@ if (isnan(exp_data(1)))
 end
 
 % create the full parameter matrix
-create_full_params_RSC_ratio;
+create_full_params_RSC_length;
 num_of_runs = length(params(1,:));
 
 % create a matrix for all the results:
@@ -21,6 +21,8 @@ for i = 1:num_of_runs
         load([results_path 'sim_' num2str(i) '_gene_' num2str(gene_index) '.mat']);
     catch a
         features(i,1) = nan;
+        likelihoods(i,1) = nan;
+        nuc_sums(i,:) = zeros(1,3500);
         continue
     end
             

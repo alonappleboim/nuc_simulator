@@ -124,10 +124,10 @@ end
 
 good_genes = [16,22,28,38,53,54,62,65,80];
 good_genes_2 = [195,193,190,189,188,187,185,184,183,180,178,177,176,175,173,169,168,161,160,157,155,152,150,149,148,144,138,130,117,97,93,86,82,80,77,74,73,70,61,46,38,31,30,29,28,23,16];
-RSC_evics = zeros(1,length(good_genes_2));
-RSC_slides = zeros(1,length(good_genes_2));
-RSC_len = zeros(1,length(good_genes_2));
-TF_evic = zeros(1,length(good_genes_2));
+RSC_evics = zeros(1,length(good_genes) + length(good_genes_2));
+RSC_slides = zeros(1,length(good_genes) + length(good_genes_2));
+RSC_len = zeros(1,length(good_genes) + length(good_genes_2));
+TF_evic = zeros(1,length(good_genes) + length(good_genes_2));
 
 %{
 for i = 1:length(good_genes)
@@ -150,7 +150,7 @@ for i = 1:length(good_genes_2)
     create_full_params_RSC_ratio;
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio_141116\results_' num2str(good_genes_2(i)) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_131116\results_' num2str(good_genes_2(i)) '.mat'])
     catch a
         continue
     end
