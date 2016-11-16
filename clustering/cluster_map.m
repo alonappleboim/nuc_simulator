@@ -1,5 +1,8 @@
 function cluster_map( gene_index, params_index, sequences_structure, all_data, results_path)
 
+% create the full parameter matrix
+create_full_params_RSC_ratio;
+
 %{
 load_bad_genes;
 if (~isempty(find(bad_genes(bad_genes==gene_index),1)))
@@ -35,9 +38,6 @@ else
         left_buffer = left_buffer + 1;
     end
     exp_data = [zeros(1,left_buffer), exp_data, zeros(1,right_buffer)];
-
-    % create the full parameter matrix
-    create_full_params_RSC_length;
 
     % choose this specific sim parameters:
     sim_params = params(: , params_index);
