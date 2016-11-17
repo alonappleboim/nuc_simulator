@@ -3,6 +3,6 @@ tf_rates = [0.0001]; % this is the TF assembly rate, and the eviction will be ha
 tf_evic_eff = [0.0001];
 rsc_length = [20, 40, 45, 50, 65, 75]; % this is the eviction length of RSC - the sliding length will be twice this
 rsc_evic_eff = [0.02, 0.04, 0.07, 0.1, 0.2];
-rsc_slide_eff = [1, 2, 3, 4]; % the ratio between slide and eviction
+rsc_slide_eff = [4,6,8,16]; % the ratio between slide and eviction
 
 params = combvec(poly_rates, tf_rates, tf_evic_eff, rsc_length, rsc_evic_eff, rsc_slide_eff);

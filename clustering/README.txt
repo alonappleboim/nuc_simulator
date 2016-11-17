@@ -1,14 +1,14 @@
-The clustering scripts are based on two steps - map and reduce.
+The clustering scripts are based on one main script - genome_sim.
+genome_sim then calls gene_sim for every gene we want to simulate, each getting its own job on the cluster.
 
-The map step is run through main_map.sh, and it simulataniously runs all the simulations, each saves a .m file in the output folder in /cs/bd/Daniel/simulations/output.
-The reduce step goes over all those .m files and finds the best feature (the best parameter set), and then saves a final "result" .m file in the same folder, which we can take and extract the parameters from that file.
+genome_sim gets 5 parameters:
+1. lower bound gene
+2. upper bound gene
+3. number of sims per gene (calculated from create_params - the product of the vector lengths)
+4. the path of the data containing the .mat file with the experimental data
+5. the output path of the result files (MUST END IN "/")
 
-In order to change the parameter set, we need to change the following files:
-1. update the actual parameters we want to check in create_full_params.
-2. change the sim_params indices to reflect the new params in cluster_sim.
-3. update the number of iterations that are needed (one for every parameter set) in main_map.sh
-4. update the number of iterations and vector lengths in cluster_reduce.
+example for genome_sim for the genes 20-53:
+genome_sim.sh 20 53 120 /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat /cs/bd/Daniel/simulations/OUTPUT/
 
-In order to change the gene that is tested, we need to change the gene number in the following files:
-1. map.sh
-2. reduce.sh
+The only thing we need to touch in order to run our simulation, is the parameters in the create_params function, and to make sure that that is the function that is called in cluster_sim.m and cluster_reduce.m
