@@ -1,7 +1,7 @@
 function cluster_reduce(gene_index, all_data, results_path)
 
 % create the full parameter matrix
-create_full_params_RSC_ratio;
+create_params_new;
 num_of_runs = length(params(1,:));
 
 % ignore NaN genes:
