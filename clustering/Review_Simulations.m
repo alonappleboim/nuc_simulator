@@ -5,12 +5,12 @@ genlen = 3500;
 TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
-create_full_params_RSC_ratio;
+create_params_new;
 
 for gene_id=101:200
 
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio_32\results_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_ratio\results_' num2str(gene_id) '.mat'])
     catch a
         continue
     end
@@ -148,7 +148,7 @@ end
 for i = 1:length(good_genes_2)
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_ratio_8\results_' num2str(good_genes_2(i)) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_ratio\results_' num2str(good_genes_2(i)) '.mat'])
     catch a
         continue
     end

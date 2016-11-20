@@ -1,7 +1,7 @@
 function cluster_reduce(gene_index, all_data, results_path)
 
 % change the gene id for avital's simulation:
-testtest;
+load('/cs/bd/Daniel/nuc_simulator/clustering/genes.mat')
 gene_index = genes(gene_index);
 
 % create the full parameter matrix

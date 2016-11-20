@@ -1,7 +1,7 @@
 function cluster_map( gene_index, params_index, sequences_structure, all_data, results_path)
 
 % change the gene id for avital's simulation:
-testtest;
+load('/cs/bd/Daniel/nuc_simulator/clustering/genes.mat')
 gene_index = genes(gene_index);
 
 % create the full parameter matrix
@@ -31,6 +31,8 @@ if (isnan(exp_data(1)))
     plus1width = nan;
     minus1width = nan; 
     height_ratio = nan;
+    optimum_likelihood = nan;
+    bad_likelihood = nan;
 
 else
     
