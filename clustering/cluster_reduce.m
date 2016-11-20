@@ -1,7 +1,11 @@
 function cluster_reduce(gene_index, all_data, results_path)
 
+% change the gene id for avital's simulation:
+testtest;
+gene_index = genes(gene_index);
+
 % create the full parameter matrix
-create_params_new;
+create_params_avital;
 num_of_runs = length(params(1,:));
 
 % ignore NaN genes:

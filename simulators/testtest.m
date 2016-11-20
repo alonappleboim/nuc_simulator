@@ -34,3 +34,4 @@ low_poly_genes = find(As+Ts < quantile(As+Ts,0.05));
 high_poly_genes = find(As+Ts > quantile(As+Ts,0.95));
 high_A_low_T_genes = find(As > quantile(As,0.8) & Ts < quantile(Ts,0.2));
 low_A_high_T_genes = find(Ts > quantile(Ts,0.8) & As < quantile(As,0.2));
+genes = [low_poly_genes, high_poly_genes, high_A_low_T_genes, low_A_high_T_genes];

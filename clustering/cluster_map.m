@@ -1,16 +1,15 @@
 function cluster_map( gene_index, params_index, sequences_structure, all_data, results_path)
 
-% create the full parameter matrix
-create_params_new;
+% change the gene id for avital's simulation:
+testtest;
+gene_index = genes(gene_index);
 
-genes = [97,93,90,89,86,84,83,82,80,79,77,76,74,73,61,56,46,40,38,30,29,28,24,23,22,16,9,195,193,190,189,188,187,185,184,183,180,178,177,176,173,170,169,168,161,160,155,152,150,149,148,144,138,117];
-if (isempty(find(genes==gene_index, 1)))
-    return
-end
+% create the full parameter matrix
+create_params_avital;
 
 %{
-load_bad_genes;
-if (~isempty(find(bad_genes(bad_genes==gene_index),1)))
+genes = [97,93,90,89,86,84,83,82,80,79,77,76,74,73,61,56,46,40,38,30,29,28,24,23,22,16,9,195,193,190,189,188,187,185,184,183,180,178,177,176,173,170,169,168,161,160,155,152,150,149,148,144,138,117];
+if (isempty(find(genes==gene_index, 1)))
     return
 end
 %}
@@ -46,9 +45,6 @@ else
 
     % choose this specific sim parameters:
     sim_params = params(: , params_index);
-
-    % the combvec params, for reference:
-    % combvec(poly_rates, tf_rates, tf_evic_eff, rsc_length, rsc_evic, rsc_slide)
 
     % create ten simulations that will be combined:
 	nuc_sum = zeros(1,genlen);
