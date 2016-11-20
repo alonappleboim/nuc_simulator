@@ -1,5 +1,3 @@
-load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
-
 NFR = [800:1100];
 genes = find(~(sequences_structure(:,1) == ' '));
 As = zeros(1,length(genes));
