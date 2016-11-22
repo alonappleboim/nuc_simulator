@@ -45,8 +45,17 @@ pois_vec = log_poisspdf(data_likelihood, lambda_vector);
 likelihood = sum(pois_vec);
 
 % get the delta of the plus and minus 1, along with Peak Ratio and Width:
-[plus1_dist, minus1_dist, peak_num_delta, plus_one_width_delta, minus_one_width_delta, peak_ratio_delta] ...
-    = get_NFR_features(nuc_sum, data, NFR_pos);
+try
+    [plus1_dist, minus1_dist, peak_num_delta, plus_one_width_delta, minus_one_width_delta, peak_ratio_delta] ...
+        = get_NFR_features(nuc_sum, data, NFR_pos);
+catch a
+    plus1_dist = 0;
+    minus1_dist = 0;
+    peak_num_delta = 0;
+    plus_one_width_delta = 0;
+    minus_one_width_delta = 0; 
+    peak_ratio_delta = 0;
+end
 
 end
 
