@@ -4,8 +4,11 @@ function cluster_reduce(gene_index, all_data, results_path)
 %load('/cs/bd/Daniel/nuc_simulator/clustering/genes.mat')
 %gene_index = genes(gene_index);
 
+testtest;
+gene_index = genes(gene_index);
+
 % create the full parameter matrix
-create_params_global_search;
+create_params_avital;
 num_of_runs = length(params(1,:));
 
 % ignore NaN genes:
