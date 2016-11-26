@@ -4,6 +4,7 @@ function cluster_reduce(gene_index, all_data, results_path)
 %load('/cs/bd/Daniel/nuc_simulator/clustering/genes.mat')
 %gene_index = genes(gene_index);
 
+load('/cs/bd/Daniel/experiment_data/sequences_structure.mat');
 testtest;
 gene_index = genes(gene_index);
 
