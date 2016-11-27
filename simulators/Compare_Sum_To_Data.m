@@ -38,7 +38,9 @@ read_num = sum(data_likelihood);
 lambda_vector = prob_dist .* read_num;
 
 % get the log-chance that we get the data from the given distribution:
-lambda_vector(lambda_vector == 0) = (min(lambda_vector(lambda_vector ~= 0)) / 1000); % actual zeros make problems in the log...
+if ~isempty(lambda_vector(lambda_vector == 0)) && ~isempty(find(lambda_vector, 1))
+    lambda_vector(lambda_vector == 0) = (min(lambda_vector(lambda_vector ~= 0)) / 1000); % actual zeros make problems in the log...
+end
 pois_vec = log_poisspdf(data_likelihood, lambda_vector);
 
 %likelihood = sum(pois_vec(NFR_pos));
