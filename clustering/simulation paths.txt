@@ -22,4 +22,4 @@ beginning: /cs/bd/Daniel/simulations/
 EXAMPLE:
 --------
 genome_sim.sh 1 10 XXX#simsXXX /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat /cs/bd/Daniel/simulations/XXX
-temp_genome_reduce.sh 1 600 60 /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat /cs/bd/Daniel/simulations/output_global_search/
+genome_sim.sh 1 54 600 /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat /cs/bd/Daniel/simulations/output_global_search/

@@ -7,10 +7,10 @@ NFR_pos = [TSS-299 : TSS+150];
 
 create_params_new;
 
-for gene_id=101:200
+for gene_id=1:100
 
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_ratio\results_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_141116\results_' num2str(gene_id) '.mat'])
     catch a
         continue
     end
@@ -28,7 +28,7 @@ for gene_id=101:200
     wt = [zeros(1,left_buffer), wt, zeros(1,right_buffer)];
 
     [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
-        Extract_Sites_From_Gene_new(seq, genlen, NFR_pos);
+        Extract_Sites_From_Gene(seq, genlen);
 
     nuc_sum = nuc_sum_likelihood; %nuc_sums(best_sim_index, :);
     best_sim = Compare_Sum_To_Data(nuc_sum, wt, NFR_pos, true); %%%%%

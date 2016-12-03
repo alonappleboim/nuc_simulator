@@ -1,11 +1,7 @@
 function cluster_map( gene_index, params_index, sequences_structure, all_data, results_path)
 
-% change the gene id for avital's simulation:
-%load('/cs/bd/Daniel/nuc_simulator/clustering/genes.mat')
-%gene_index = genes(gene_index);
-
 % create the full parameter matrix
-create_params_global_search;
+create_params_sth1;
 gene_index = genes(gene_index);
 
 genlen = 3500;
