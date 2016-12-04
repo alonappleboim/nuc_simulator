@@ -5,9 +5,9 @@ genlen = 3500;
 TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
-create_params_new;
+create_params_sth1;
 
-for gene_id=1:100
+for gene_id=1:54
 
     try
         load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_141116\results_' num2str(gene_id) '.mat'])
