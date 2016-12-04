@@ -64,5 +64,4 @@ else
 end
 
 % save the data to a .mat file:
-save([results_path 'sim_' num2str(params_index) '_gene_' num2str(gene_index) '.mat'] , ...
-	'nuc_sum', 'likelihood', 'optimum_likelihood', 'bad_likelihood', 'plus1_dist', 'minus1_dist','peak_num_delta','plus1width','minus1width','height_ratio');
+save([results_path 'sim_' num2str(params_index) '_gene_' num2str(gene_index) '.mat'] ,'nuc_sum');

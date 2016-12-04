@@ -31,12 +31,6 @@ for i=1:54
     nuc_sum = conv(nuc_sum, gausswin(10)./sum(gausswin(10)), 'same');
     nuc_sum = nuc_sum(NFR_pos) .* sum(data) ./ sum(nuc_sum(NFR_pos));
     
-    [optimum_likelihood, ~,~,~,~,~,~] = ...
-        Compare_Sum_To_Data(wt, wt, NFR_pos, true);
-    [bad_likelihood,~,~,~,~,~,~] = ...
-        Compare_Sum_To_Data(ones(size(wt)), wt, NFR_pos, true);
-    ratio = (best_sim - bad_likelihood) / (optimum_likelihood - bad_likelihood);
-
     figure;
     subplot(2,1,1);
     plot(data, 'b')
@@ -47,7 +41,7 @@ for i=1:54
     legend('sth1_0m','simulation','PolyA', 'PolyT')
     xlabel('Position (TSS at 300)')
     ylabel('Nucleosome Intensity (0m)')
-    title(['Gene ' num2str(gene_id) ' 0 minutes' char(10) num2str(ratio)])
+    title(['Gene ' num2str(gene_id) ' 0 minutes' char(10) num2str(best_ratio)])
      
     
     load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
@@ -68,13 +62,7 @@ for i=1:54
     exp_data = conv(wt(NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
     nuc_sum = conv(nuc_sum, gausswin(10)./sum(gausswin(10)), 'same');
     nuc_sum = nuc_sum(NFR_pos) .* sum(exp_data) ./ sum(nuc_sum(NFR_pos));
-    
-    [optimum_likelihood, ~,~,~,~,~,~] = ...
-        Compare_Sum_To_Data(wt, wt, NFR_pos, true);
-    [bad_likelihood,~,~,~,~,~,~] = ...
-        Compare_Sum_To_Data(ones(size(wt)), wt, NFR_pos, true);
-    ratio = (best_sim - bad_likelihood) / (optimum_likelihood - bad_likelihood);
-    
+        
     subplot(2,1,2);
     plot(exp_data, 'b')
     hold on
@@ -84,7 +72,7 @@ for i=1:54
     legend('sth1_6h','simulation','PolyA', 'PolyT')
     xlabel('Position (TSS at 300)')
     ylabel('Nucleosome Intensity (6h)')
-    title(['Gene ' num2str(gene_id) ' 6 hours' char(10) num2str(ratio)])
+    title(['Gene ' num2str(gene_id) ' 6 hours' char(10) num2str(best_ratio)])
 end
 
 
