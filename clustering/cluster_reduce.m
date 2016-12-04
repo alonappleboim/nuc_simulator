@@ -1,7 +1,7 @@
-function cluster_reduce(gene_index, all_data, results_path)
+function cluster_reduce(gene_index, all_data, results_path, data_type)
 
 % create the full parameter matrix
-create_params_avital;
+create_params_sth1;
 gene_index = genes(gene_index);
 
 num_of_runs = length(params(1,:));
@@ -51,5 +51,5 @@ nuc_sum_feature = nuc_sums(best_sim_index, :);
 nuc_sum_likelihood = nuc_sums(best_likelihood_index, :);
 
 % save to a new .mat file:
-save([results_path 'results_' num2str(gene_index)] , ...
+save([results_path 'results_' data_type '_' num2str(gene_index)] , ...
 	'best_sim_feature', 'best_sim_index', 'best_likelihood', 'best_likelihood_index', 'features', 'nuc_sum_feature', 'nuc_sum_likelihood');
