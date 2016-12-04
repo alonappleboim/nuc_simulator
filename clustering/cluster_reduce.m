@@ -42,7 +42,7 @@ for i = 1:num_of_runs
         Compare_Sum_To_Data(exp_data, exp_data, NFR_pos, true);
     [bad_likelihood,~,~,~,~,~,~] = ...
         Compare_Sum_To_Data(ones(size(exp_data)), exp_data, NFR_pos, true);
-    ratio = (best_sim - bad_likelihood) / (optimum_likelihood - bad_likelihood);
+    ratio = (likelihood - bad_likelihood) / (optimum_likelihood - bad_likelihood);
     
     % deal with NaNs:
     if (isnan(plus1_dist))
