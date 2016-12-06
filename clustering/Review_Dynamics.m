@@ -6,7 +6,7 @@ NFR_pos = [TSS-299 : TSS+150];
 
 create_params_sth1;
 
-for i=1:54
+for i=1:19
 
     gene_id = genes(i);
     

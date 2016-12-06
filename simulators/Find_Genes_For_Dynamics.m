@@ -4,7 +4,8 @@ genlen = 3500;
 TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
-genes = randi([1 6648],1,20);
+genes = [86,169,185,144,168,3903,4284,3051,4694,4513,6210,3227,1841,2327,6178,3655,3656,905,5776];
+%genes = randi([1 6648],1,20);
 for gene_id=genes
     
     load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
