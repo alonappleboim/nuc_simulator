@@ -1,7 +1,7 @@
 function cluster_map( gene_index, params_index, sequences_structure, all_data, results_path)
 
 % create the full parameter matrix
-create_params_sth1;
+create_params_genome;
 gene_index = genes(gene_index);
 
 genlen = 3500;
@@ -41,7 +41,7 @@ else
     % create ten simulations that will be combined:
 	nuc_sum = zeros(1,genlen);
 	for i = 1:20
-    nuc_sum1 = run_simulation_from_genome(seq,'report',0, ...
+        nuc_sum1 = run_simulation_from_genome(seq,'report',0, ...
         'poly_rate',0, ...
         'REB1_a_rate', 0.0001, 'REB1_e_rate', 0.0001, ...
         'ABF1_a_rate', 0.0001, 'ABF1_e_rate', 0.0001, ...

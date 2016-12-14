@@ -6,6 +6,9 @@ NFR_pos = [TSS-299 : TSS+150];
 
 create_params_sth1;
 
+optimal_0m = zeros(size(genes));
+optimal_6h = zeros(size(genes));
+
 for i=1:19
 
     gene_id = genes(i);
@@ -13,7 +16,7 @@ for i=1:19
     load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\dynamic_results\results_0m_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\dynamic_results_2\results_0m_' num2str(gene_id) '.mat'])
     catch a
         continue
     end
@@ -42,11 +45,12 @@ for i=1:19
     xlabel('Position (TSS at 300)')
     ylabel('Nucleosome Intensity (0m)')
     title(['Gene ' num2str(gene_id) ' 0 minutes' char(10) num2str(best_ratio)])
-     
+    
+    optimal_0m(i) = best_likelihood_index;
     
     load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_6h_centers.mat')
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\dynamic_results\results_6h_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\dynamic_results_2\results_6h_' num2str(gene_id) '.mat'])
     catch a
         continue
     end
@@ -73,6 +77,9 @@ for i=1:19
     xlabel('Position (TSS at 300)')
     ylabel('Nucleosome Intensity (6h)')
     title(['Gene ' num2str(gene_id) ' 6 hours' char(10) num2str(best_ratio)])
+
+    optimal_6h(i) = best_likelihood_index;
+
 end
 
 

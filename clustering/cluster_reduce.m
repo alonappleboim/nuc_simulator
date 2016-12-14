@@ -1,7 +1,7 @@
 function cluster_reduce(gene_index, all_data, results_path, data_type)
 
 % create the full parameter matrix
-create_params_sth1;
+create_params_genome;
 gene_index = genes(gene_index);
 
 genlen = 3500;

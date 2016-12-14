@@ -196,7 +196,7 @@ for i = 1:extra_inputs.n_steps
     %%% REB1_s_hist(i+1, REB1_state > 0) = true;
     %%% ABF1_s_hist(i+1, ABF1_state > 0) = true;
     %%% RAP1_s_hist(i+1, RAP1_state > 0) = true;
-    time(i+1) = time(i) + dt;
+    time(i+1) = dt;
 
     if (i > 5000) % start taking states into account only after a while
         nuc_sum = nuc_sum + (nuc_state .* dt);
