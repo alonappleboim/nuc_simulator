@@ -36,6 +36,8 @@ for i=1:length(genes)
 end
 
 % find the genes that are simulated well (gene + optimal_params):
+over_90 = [genes(optimal_ratios > 0.9) , optimal_param_indices(optimal_ratios > 0.9)];
+over_80 = [genes(optimal_ratios > 0.8) , optimal_param_indices(optimal_ratios > 0.8)];
 over_70 = [genes(optimal_ratios > 0.7) , optimal_param_indices(optimal_ratios > 0.7)];
 over_60 = [genes(optimal_ratios > 0.6) , optimal_param_indices(optimal_ratios > 0.6)];
 over_50 = [genes(optimal_ratios > 0.5) , optimal_param_indices(optimal_ratios > 0.5)];
@@ -43,6 +45,3 @@ over_40 = [genes(optimal_ratios > 0.4) , optimal_param_indices(optimal_ratios > 
 over_30 = [genes(optimal_ratios > 0.3) , optimal_param_indices(optimal_ratios > 0.3)];
 over_20 = [genes(optimal_ratios > 0.2) , optimal_param_indices(optimal_ratios > 0.2)];
 over_10 = [genes(optimal_ratios > 0.1) , optimal_param_indices(optimal_ratios > 0.1)];
-
-%%% SAVE THE WANTED VECTOR AS "gene_params"
-%%% MAKE SURE THE GENES CHANGE AT THE 2h MARK

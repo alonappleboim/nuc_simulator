@@ -11,7 +11,7 @@ create_params_genome;
 
 %%
 
-iterations = 500;
+iterations = 3;
 first_n_steps = 10000;
 second_n_steps = 20000;
 
@@ -63,28 +63,28 @@ mat_time = mat_time ./ iterations;
 %%
 
 % create a data matrix for the gene:
-data_matrix = zeros(7,genlen);
+dat_matrix = zeros(7,genlen);
 load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_0m_centers.mat');
 temp = create_gene_buffer(data(Gene_id,:),genlen);
-data_matrix(1, :) = temp;
+dat_matrix(1, :) = temp;
 load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_10m_centers.mat');
 temp = create_gene_buffer(data(Gene_id,:),genlen);
-data_matrix(2, :) = temp;
+dat_matrix(2, :) = temp;
 load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_20m_centers.mat');
 temp = create_gene_buffer(data(Gene_id,:),genlen);
-data_matrix(3, :) = temp;
+dat_matrix(3, :) = temp;
 load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_30m_centers.mat');
 temp = create_gene_buffer(data(Gene_id,:),genlen);
-data_matrix(4, :) = temp;
+dat_matrix(4, :) = temp;
 load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_45m_centers.mat');
 temp = create_gene_buffer(data(Gene_id,:),genlen);
-data_matrix(5, :) = temp;
+dat_matrix(5, :) = temp;
 load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_60m_centers.mat');
 temp = create_gene_buffer(data(Gene_id,:),genlen);
-data_matrix(6, :) = temp;
+dat_matrix(6, :) = temp;
 load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_2h_centers.mat');
 temp = create_gene_buffer(data(Gene_id,:),genlen);
-data_matrix(7, :) = temp;
+dat_matrix(7, :) = temp;
 
 %%
 
@@ -101,7 +101,7 @@ end
 %%
 
 % get the best time expansion coefficient:
-[timeExpansion, timeExpansions, costPerTimeExpansion] = getTimeExpansion(data_matrix, sim_matrix);
+[timeExpansion, timeExpansions, costPerTimeExpansion] = getTimeExpansion(dat_matrix, sim_matrix);
 
 %%
 
@@ -111,7 +111,7 @@ exp_time = [0, 10, 20, 30, 45, 60, 120];
 nuc_sum_matrix = zeros(length(exp_time), length(NFR_pos));
 data_matrix = zeros(length(exp_time), length(NFR_pos));
 for i = 1:length(exp_time)
-    data_matrix(i,:) = conv(data_matrix(1, NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
+    data_matrix(i,:) = conv(dat_matrix(1, NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
     nuc_sum_matrix(i,:) = conv(sim_matrix(round(exp_time(1) * timeExpansion)+1, NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
 end
 
