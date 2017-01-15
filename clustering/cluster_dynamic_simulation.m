@@ -3,14 +3,10 @@ function cluster_dynamic_simulation( Gene_id , results_path )
 %the cluster, saving the data about the time expansion constant
 
 % load the relevant parameters:
-create_params_genome;
-gene_index = find(genes == Gene_id);
-if (isempty(gene_index))
-    return
-end
-
 load('/cs/bd/Daniel/nuc_simulator/clustering/gene_params.mat');
-param_index = gene_params(gene_params(1,:) == gene, 2);
+param_index = gene_params(Gene_id, 2);
+Gene_id = gene_params(Gene_id,1);
+create_params_genome;
 
 %%
 
