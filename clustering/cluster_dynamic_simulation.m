@@ -9,8 +9,8 @@ if (isempty(gene_index))
     return
 end
 
-load(XXXXXXXXXXXXXXX);
-param_index = gene_params(2, gene_params(1,:) == gene);
+load('/cs/bd/Daniel/nuc_simulator/clustering/gene_params.mat');
+param_index = gene_params(gene_params(1,:) == gene, 2);
 
 %%
 
@@ -22,7 +22,6 @@ genlen = 3500;
 TSS = round(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
-%load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
 seq = sequences_structure(Gene_id,:);
 
 nuc_history = zeros(first_n_steps + second_n_steps + 2, genlen);
