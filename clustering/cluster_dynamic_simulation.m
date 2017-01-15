@@ -11,7 +11,7 @@ create_params_genome;
 
 %%
 
-iterations = 3;
+iterations = 200;
 first_n_steps = 10000;
 second_n_steps = 20000;
 
