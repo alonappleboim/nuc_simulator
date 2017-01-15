@@ -4,6 +4,7 @@ function cluster_dynamic_simulation( Gene_id , results_path )
 
 % load the relevant parameters:
 load('/cs/bd/Daniel/nuc_simulator/clustering/gene_params.mat');
+load('/cs/bd/Daniel/experiment_data/sequences_structure.mat')
 param_index = gene_params(Gene_id, 2);
 Gene_id = gene_params(Gene_id,1);
 create_params_genome;
