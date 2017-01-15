@@ -10,13 +10,13 @@ TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
 timeCoefficients = zeros(1,length(gene_params));
-for i=1:length(gene_params)
+for i=11:20%length(gene_params)
 
     gene_id = gene_params(i,1);
     load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\dynamic_genome_results\dynamic_results_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\dynamic_results\dynamic_results_' num2str(gene_id) '.mat'])
     catch a
         continue
     end
@@ -25,15 +25,15 @@ for i=1:length(gene_params)
     timeCoefficients(i) = timeExpansion;
 
     %%% Test whether the time expansions converge to a value:
-    %{
     figure;
     plot(timeExpansions, costPerTimeExpansion, 'sb')
     xlabel('Time Expansion Coefficient')
     ylabel('Total Cost')
     title(['Time Expansion Convergence - Gene ' num2str(gene_id)])
-    %}
+    
     
     %%% Look at the state at 0m and at 2h for each gene:
+    %{
     seq = sequences_structure(gene_id,:);
     [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
         Extract_Sites_From_Gene(seq, genlen);
@@ -56,12 +56,13 @@ for i=1:length(gene_params)
     plot(PolyA_Sites(NFR_pos), 'k')
     plot(PolyT_Sites(NFR_pos), 'm')
     legend('experiment at t=2h','simulation','PolyA', 'PolyT')
+    %}
     
 end
 
 % Look at the time coefficients:
 figure;
-hist(timeCoefficients)
+hist(timeCoefficients(timeCoefficients > 0.01), 10)
 title('Time Coefficients Calculated For The Genes')
 xlabel('Time Coefficient')
 ylabel('# Of Genes')

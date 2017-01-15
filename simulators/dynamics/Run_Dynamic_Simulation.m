@@ -8,8 +8,8 @@ iterations = 200;
 first_n_steps = 10000;
 second_n_steps = 20000;
 
-Gene_id = XXX; %%% INSERT GENE ID HERE
-wt_param = optimal_param_induces(genes == Gene_id);
+Gene_id = 233; %%% INSERT GENE ID HERE
+wt_param = optimal_param_indices(genes == Gene_id);
 
 genlen = 3500;
 TSS = round(genlen/2);
