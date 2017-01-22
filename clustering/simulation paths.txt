@@ -25,7 +25,7 @@ beginning: /cs/bd/Daniel/simulations/
 EXAMPLE:
 --------
 genome_sim.sh 1 10 XXX#simsXXX /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat /cs/bd/Daniel/simulations/XXX
-genome_sim.sh 1 5539 300 /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_6h_centers.mat /cs/bd/Daniel/simulations/output_dynamic/
+genome_sim.sh 1 200 300 /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_6h_centers.mat /cs/bd/Daniel/simulations/output_reverse/
 
 
 For genome_dynamic.sh:
