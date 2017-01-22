@@ -1,4 +1,4 @@
-function nuc_dynamics_movie(s_hist, t, path, gene_id, start_param, end_param, varargin)
+function nuc_dynamics_movie(s_hist, t, path, gene_id, first_n_steps, window_size, timeExpansion, jump_len, varargin)
 % record a movie of the simulation for easy viewing.
 % 
 % Arguments:
@@ -15,7 +15,7 @@ function nuc_dynamics_movie(s_hist, t, path, gene_id, start_param, end_param, va
 %
 
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
-create_params_sth1;
+create_params_genome;
 genlen = 3500;
 TSS = 1750;
 NFR_pos = [TSS-299:TSS+150];
@@ -25,37 +25,11 @@ defs = struct('sample_frame', 200, 'frame_overlap', .2, ...
               'frame_size', [16,8]);
 args = parse_namevalue_pairs(defs, varargin);
 
-% make the vectors of the rates for before and after the sth1 damage:
-[ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] = ...
-    Extract_Sites_From_Gene(sequences_structure(gene_id,:), genlen);
-sim_params = params(: , start_param);
-[ start_nuc_a_rate, start_nuc_e_rate, start_nuc_r_rate, start_nuc_l_rate ] = ...
-    generate_rates_from_sites(PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites, ...
-        'poly_rate',0, ...
-        'REB1_a_rate', 0.0001, 'REB1_e_rate', 0.0001, ...
-        'ABF1_a_rate', 0.0001, 'ABF1_e_rate', 0.0001, ...
-        'RAP1_a_rate', 0.0001, 'RAP1_e_rate', 0.0001, ...
-        'TF_evic_intensity', sim_params(1), ...
-        'RSC_evic_length', sim_params(2), 'RSC_slide_length', sim_params(2).*sim_params(3), ...
-        'RSC_evic_intensity', sim_params(4), ...
-        'RSC_slide_intensity', sim_params(4)*sim_params(5));
-sim_params = params(: , end_param);
-[ end_nuc_a_rate, end_nuc_e_rate, end_nuc_r_rate, end_nuc_l_rate ] = ...
-    generate_rates_from_sites(PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites, ...
-        'poly_rate',0, ...
-        'REB1_a_rate', 0.0001, 'REB1_e_rate', 0.0001, ...
-        'ABF1_a_rate', 0.0001, 'ABF1_e_rate', 0.0001, ...
-        'RAP1_a_rate', 0.0001, 'RAP1_e_rate', 0.0001, ...
-        'TF_evic_intensity', sim_params(1), ...
-        'RSC_evic_length', sim_params(2), 'RSC_slide_length', sim_params(2).*sim_params(3), ...
-        'RSC_evic_intensity', sim_params(4), ...
-        'RSC_slide_intensity', sim_params(4)*sim_params(5));
-
-% get the data of the 0m and the 6h:
+% get the data of the 0m and the 2h:
 load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
 data_0m = create_gene_buffer(data(gene_id, :),genlen);
 data_0m = data_0m(NFR_pos);
-load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_6h_centers.mat')
+load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_2h_centers.mat')
 data_6h = create_gene_buffer(data(gene_id, :),genlen);
 data_6h = data_6h(NFR_pos);
 
@@ -66,22 +40,20 @@ data_6h = data_6h .* (sum(data_0m) / sum(data_6h));
 v = VideoWriter(path, 'MPEG-4');
 v.FrameRate = args.frame_rate;
 open(v);
-[T, ~] = size(s_hist);
-T = T/2;
-s_hist = 1.*(s_hist>0);
+T = 120 * timeExpansion;
+%[T, ~] = size(s_hist);
+%s_hist = 1.*(s_hist>0);
 F = figure('units','normalized','outerposition',[0 0 1 1]);
 colormap(args.cmap);
 
-%TODO: use interp2 to interpolate to simulation time
-ker = fspecial('gaussian',[2,150],50);
-
 % the loop that makes the movie:
-for i = 500:round(args.frame_overlap*args.sample_frame):T
+%for i = first_n_steps-(window_size):round(args.frame_overlap*args.sample_frame) / 2:first_n_steps+T*jump_len-(window_size)
+for i = first_n_steps-(window_size) : 10 : first_n_steps+T*jump_len-(window_size)
     clf;
-    if i+args.sample_frame > T, break; end;
+    if i+args.sample_frame > first_n_steps+T*jump_len, break; end;
     
     % getting the current frame data:
-    fr = s_hist(i:9000+i , NFR_pos);
+    fr = s_hist(i:(window_size)+i , NFR_pos);
     centers = sum(fr);
     centers = conv(centers, gausswin(10)./sum(gausswin(10)), 'same');
     centers = centers ./ sum(centers);
@@ -91,11 +63,10 @@ for i = 500:round(args.frame_overlap*args.sample_frame):T
     area(data_6h,'FaceColor',[0.6 0.6 0.6]);
     plot(centers .* sum((data_0m)), 'LineWidth',2);
     axis([1 length(NFR_pos) 0 max([max(data_0m) max(data_6h) max(centers .* sum((data_0m+data_6h)/2))])]);
-    legend('0 minutes','6 hours','Simulation')
-    title(['Gene ' num2str(gene_id) char(10) 'simulation time = ' num2str(t(i))])
+    legend('0 minutes','2 hours','Simulation')
+    title(['Gene ' num2str(gene_id) char(10) 'Time Expansion = ' num2str(timeExpansion.*jump_len) char(10) 'Experiment Time In Minutes = ' num2str(round((i-(first_n_steps-(window_size)))/(jump_len*timeExpansion)))])
     xlabel('Position (TSS at 300)')
     ylabel('Nucleosome Intensity')
-    
     
     fr = getframe(F);
     writeVideo(v, fr);

@@ -10,7 +10,7 @@ TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
 timeCoefficients = zeros(1,length(gene_params));
-for i=11:20%length(gene_params)
+for i=1:length(gene_params)
 
     gene_id = gene_params(i,1);
     load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
@@ -25,12 +25,13 @@ for i=11:20%length(gene_params)
     timeCoefficients(i) = timeExpansion;
 
     %%% Test whether the time expansions converge to a value:
-    figure;
-    plot(timeExpansions, costPerTimeExpansion, 'sb')
-    xlabel('Time Expansion Coefficient')
-    ylabel('Total Cost')
-    title(['Time Expansion Convergence - Gene ' num2str(gene_id)])
-    
+    if (timeExpansion > 0.15 && timeExpansion < 0.4)
+        figure;
+        plot(timeExpansions, costPerTimeExpansion, 'sb')
+        xlabel('Time Expansion Coefficient')
+        ylabel('Total Cost')
+        title(['Time Expansion Convergence - Gene ' num2str(gene_id)])
+    end
     
     %%% Look at the state at 0m and at 2h for each gene:
     %{
@@ -62,9 +63,11 @@ end
 
 % Look at the time coefficients:
 figure;
-hist(timeCoefficients(timeCoefficients > 0.01), 10)
+hist(timeCoefficients(timeCoefficients > 0.15 & timeCoefficients < 0.4).*50, 20)
 title('Time Coefficients Calculated For The Genes')
 xlabel('Time Coefficient')
 ylabel('# Of Genes')
+
+gene_for_movie = gene_params(find(timeCoefficients > 0.15 & timeCoefficients < 0.4), 1);
 
 

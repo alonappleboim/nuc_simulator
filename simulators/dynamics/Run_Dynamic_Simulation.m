@@ -1,14 +1,15 @@
 %%% This script runs a dynamic simulation for a given gene ID
 
+load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\genome_results\gene_summary.mat')
 create_params_genome;
 
-iterations = 200;
+iterations = 150;
 first_n_steps = 10000;
 second_n_steps = 20000;
 
-Gene_id = 233; %%% INSERT GENE ID HERE
+Gene_id = 202; %%% INSERT GENE ID HERE
 wt_param = optimal_param_indices(genes == Gene_id);
 
 genlen = 3500;
@@ -96,11 +97,16 @@ end
 
 %%
 
-timeExpansion = getTimeExpansion(data_matrix, sim_matrix);
-
-%%
+[timeExpansion, timeExpansions, costs] = getTimeExpansion(data_matrix, sim_matrix);
 
 exp_time = [0, 10, 20, 30, 45, 60, 120];
+
+% plot the time expansion convergence:
+figure;
+plot(timeExpansions.*jump_len, costs, 'x')
+title(['Convergence of Time Expansion Constant - Gene ' num2str(Gene_id)])
+xlabel('Time Expansion Constant')
+ylabel('Cost')
 
 % plot the genes with the time expansion:
 
@@ -112,8 +118,8 @@ hold on
 plot(sim .* sum(data) ./ sum(sim), 'r')
 legend('experiment data','simulation')
 xlabel('Position (TSS at 300)')
-ylabel('Nucleosome Intensity (0m)')
-title(['Gene ' num2str(Gene_id) ' - 0 minutes' char(10) 'time expansion = ' num2str(timeExpansion)])
+ylabel('Nucleosome Intensity')
+title(['Gene ' num2str(Gene_id) ' - 0 minutes' char(10) 'time expansion = ' num2str(timeExpansion.*jump_len)])
 
 data = conv(data_matrix(2, NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
 sim = conv(sim_matrix(round(exp_time(2) * timeExpansion + 1), NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
@@ -123,8 +129,8 @@ hold on
 plot(sim .* sum(data) ./ sum(sim), 'r')
 legend('experiment data','simulation')
 xlabel('Position (TSS at 300)')
-ylabel('Nucleosome Intensity (0m)')
-title(['Gene ' num2str(Gene_id) ' - 10 minutes' char(10) 'time expansion = ' num2str(timeExpansion)])
+ylabel('Nucleosome Intensity')
+title(['Gene ' num2str(Gene_id) ' - 10 minutes' char(10) 'time expansion = ' num2str(timeExpansion.*jump_len)])
 
 data = conv(data_matrix(3, NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
 sim = conv(sim_matrix(round(exp_time(3) * timeExpansion + 1), NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
@@ -134,8 +140,8 @@ hold on
 plot(sim .* sum(data) ./ sum(sim), 'r')
 legend('experiment data','simulation')
 xlabel('Position (TSS at 300)')
-ylabel('Nucleosome Intensity (0m)')
-title(['Gene ' num2str(Gene_id) ' - 20 minutes' char(10) 'time expansion = ' num2str(timeExpansion)])
+ylabel('Nucleosome Intensity')
+title(['Gene ' num2str(Gene_id) ' - 20 minutes' char(10) 'time expansion = ' num2str(timeExpansion.*jump_len)])
 
 data = conv(data_matrix(4, NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
 sim = conv(sim_matrix(round(exp_time(4) * timeExpansion + 1), NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
@@ -145,8 +151,8 @@ hold on
 plot(sim .* sum(data) ./ sum(sim), 'r')
 legend('experiment data','simulation')
 xlabel('Position (TSS at 300)')
-ylabel('Nucleosome Intensity (0m)')
-title(['Gene ' num2str(Gene_id) ' - 30 minutes' char(10) 'time expansion = ' num2str(timeExpansion)])
+ylabel('Nucleosome Intensity')
+title(['Gene ' num2str(Gene_id) ' - 30 minutes' char(10) 'time expansion = ' num2str(timeExpansion.*jump_len)])
 
 data = conv(data_matrix(5, NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
 sim = conv(sim_matrix(round(exp_time(5) * timeExpansion + 1), NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
@@ -156,8 +162,8 @@ hold on
 plot(sim .* sum(data) ./ sum(sim), 'r')
 legend('experiment data','simulation')
 xlabel('Position (TSS at 300)')
-ylabel('Nucleosome Intensity (0m)')
-title(['Gene ' num2str(Gene_id) ' - 45 minutes' char(10) 'time expansion = ' num2str(timeExpansion)])
+ylabel('Nucleosome Intensity')
+title(['Gene ' num2str(Gene_id) ' - 45 minutes' char(10) 'time expansion = ' num2str(timeExpansion.*jump_len)])
 
 data = conv(data_matrix(6, NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
 sim = conv(sim_matrix(round(exp_time(6) * timeExpansion + 1), NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
@@ -167,8 +173,8 @@ hold on
 plot(sim .* sum(data) ./ sum(sim), 'r')
 legend('experiment data','simulation')
 xlabel('Position (TSS at 300)')
-ylabel('Nucleosome Intensity (0m)')
-title(['Gene ' num2str(Gene_id) ' - 60 minutes' char(10) 'time expansion = ' num2str(timeExpansion)])
+ylabel('Nucleosome Intensity')
+title(['Gene ' num2str(Gene_id) ' - 60 minutes' char(10) 'time expansion = ' num2str(timeExpansion.*jump_len)])
 
 data = conv(data_matrix(7, NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
 sim = conv(sim_matrix(round(exp_time(7) * timeExpansion + 1), NFR_pos), gausswin(10)./sum(gausswin(10)), 'same');
@@ -178,10 +184,10 @@ hold on
 plot(sim .* sum(data) ./ sum(sim), 'r')
 legend('experiment data','simulation')
 xlabel('Position (TSS at 300)')
-ylabel('Nucleosome Intensity (0m)')
-title(['Gene ' num2str(Gene_id) ' - 120 minutes' char(10) 'time expansion = ' num2str(timeExpansion)])
+ylabel('Nucleosome Intensity')
+title(['Gene ' num2str(Gene_id) ' - 120 minutes' char(10) 'time expansion = ' num2str(timeExpansion.*jump_len)])
 
 %%
 
 %%% Make a movie of the dynamic simulation:
-% nuc_dynamics_movie(nuc_history(),mat_time,['C:\Users\Daniel\Documents\MATLAB\nuc_simulator\visualization\movies\dynamics_test_gene_' num2str(Gene_id) '.mp4'],Gene_id,wt_param,sth1_param);
+nuc_dynamics_movie(nuc_history(),mat_time,['C:\Users\Daniel\Documents\MATLAB\nuc_simulator\visualization\movies\dynamics_test_gene_' num2str(Gene_id) '.mp4'],Gene_id, first_n_steps, window_size, timeExpansion, jump_len);

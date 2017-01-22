@@ -10,6 +10,7 @@ TSS = fix(genlen/2);
 NFR_pos = [TSS-299 : TSS+150];
 
 create_params_genome;
+genes = [1:6648]';
 
 optimal_param_indices = zeros(size(genes));
 optimal_likelihoods = zeros(size(genes));
