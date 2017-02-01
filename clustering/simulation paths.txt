@@ -38,3 +38,9 @@ end gene
 path of results (MUST END IN "/")
 
 genome_dynamic.sh 1 45 /cs/bd/Daniel/simulations/output_dynamic/
+
+
+----------------------------------------------
+
+genome_sim_null.sh 1 5539 /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat /cs/bd/Daniel/simulations/output_null/
+genome_sim_null.sh 1 10 /cs/bd/Daniel/nuc_simulator/clustering/experiment_data/wt_centers.mat /cs/bd/Daniel/simulations/output_null/
