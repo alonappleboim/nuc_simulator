@@ -1,5 +1,5 @@
-load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_0m_centers.mat')
-%load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
+%load('/cs/bd/Daniel/nuc_simulator/clustering/experiment_data/sth1_0m_centers.mat')
+load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
 genes = find(~isnan(data(:,1)));
 
 tf_evic_eff = [0.0001];

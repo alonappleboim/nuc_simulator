@@ -22,7 +22,7 @@ for i=1:length(genes)
     gene_id = genes(i);
     
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\genome_results\results_0m_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\reverse\results_0m_' num2str(gene_id) '.mat'])
     catch a
         optimal_param_indices(i) = nan;
         optimal_likelihoods(i) = nan;

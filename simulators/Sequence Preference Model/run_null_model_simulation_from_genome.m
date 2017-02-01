@@ -100,8 +100,8 @@ dinuc_vec(1:49) = 14;
 dinuc_vec(end-49:end) = 14;
 dinuc_vec = create_gene_buffer(dinuc_vec, p.gen_len);
 dinuc_vec(dinuc_vec == 0) = 14;
-p.nuc_e_rate = (0.0005064.*(dinuc_vec - 14).^2 + 1) .* p.nuc_base_e_rate;
-%p.nuc_e_rate = (0.01.*(dinuc_vec - 14).^2 + 1) .* p.nuc_base_e_rate;
+%p.nuc_e_rate = (0.0005064.*(dinuc_vec - 14).^2 + 1) .* p.nuc_base_e_rate; %6h model
+p.nuc_e_rate = (0.0006899.*(dinuc_vec - 12.5).^2 + 1) .* p.nuc_base_e_rate; %0m model
 p.nuc_a_rate = p.nuc_base_a_rate;
 p.nuc_r_rate = p.nuc_base_r_rate; 
 p.nuc_l_rate = p.nuc_base_l_rate;

@@ -7,10 +7,10 @@ NFR_pos = [TSS-299 : TSS+150];
 
 create_params_sth1;
 
-for gene_id=1:54
+for gene_id=over_50(:,1)'%274:277
 
     try
-        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\wt_RSC_length_141116\results_' num2str(gene_id) '.mat'])
+        load(['C:\Users\Daniel\Documents\MATLAB\Friedman Lab\results\reverse\results_0m_' num2str(gene_id) '.mat'])
     catch a
         continue
     end

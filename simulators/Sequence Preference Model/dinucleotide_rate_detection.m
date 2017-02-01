@@ -7,7 +7,7 @@ nuc = 100;
 % we use the 6h data, assuming it has no RSC present and so the main
 % effects are from eviction and nor from sliding:
 load('C:\Users\Daniel\Documents\MATLAB\Friedman Lab\Experiment Data\sequences_structure.mat')
-load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_6h_centers.mat')
+load('C:\Users\Daniel\Documents\MATLAB\nuc_simulator\clustering\experiment_data\sth1_0m_centers.mat')
 
 % for every gene that isn't null, get its xnucleotid vector:
 genes = find(~isnan(data(:,1)));
@@ -70,4 +70,4 @@ ylabel('Intensity [a.u.]')
 title(['The Normalized Intensity of each ' num2str(length) '-nucleotid Count' char(10) num2str(nuc) ' bps around center'])
 
 % find the factors by which to multiply the global eviction rate:
-%rates_to_multiply = max(di_intensity_vec(1:50)) ./ di_intensity_vec(1:50);
+rates_to_multiply = max(di_intensity_vec(1:50)) ./ di_intensity_vec(1:50);
