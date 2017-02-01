@@ -57,5 +57,5 @@ else
 end
 
 % save the data to a .mat file:
-save([results_path 'results_' data_type '_' num2str(gene_index)] , ...
+save([results_path 'results_' num2str(gene_index)] , ...
 	'best_likelihood', 'best_ratio', 'nuc_sum_likelihood');
