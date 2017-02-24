@@ -13,15 +13,18 @@ function [ PolyA_Sites, PolyT_Sites, REB1_Sites, ABF1_Sites, RAP1_Sites ] =...
 %   For the PolyA and PolyT, I just return 1 for positions that are the 
 %   center of a 5-bp-long PolyA or PolyT.
 
+vec_len = 2501;
+
 % define the vectors that will be returned:
-PolyA_Sites = zeros(1,2501);
-PolyT_Sites = zeros(1,2501);
-REB1_Sites = zeros(1,2501);
-ABF1_Sites = zeros(1,2501);
-RAP1_Sites = zeros(1,2501);
+PolyA_Sites = zeros(1,vec_len);
+PolyT_Sites = zeros(1,vec_len);
+REB1_Sites = zeros(1,vec_len);
+ABF1_Sites = zeros(1,vec_len);
+RAP1_Sites = zeros(1,vec_len);
 
 % define the position weight matrix (in log-likelihood), taken from
 % YeTFaSCo:
+%{
 REB1_pwm = ...
 [-0.217050390610674,0.477092343904717,0.337480912789146,-1.25043113159347,-1.45212035434108,-2.19291103702526,-5.87013204559840,-5.87013204559840,-5.87013204559840,-5.87013204559840,1.67268082511183,1.67268082511183,-3.79069757810400;
     -0.127393626101048,-0.602285349283799,-1.07253169106653,0.514387006619952,-1.52659013760498,-5.87013204559840,-5.87013204559840,-5.87013204559840,-5.87013204559840,1.67268082511183,-5.87013204559840,-5.87013204559840,0.294869723468991;
@@ -102,6 +105,7 @@ end
 %REB1_Sites(NFR_pos) = REB1_Sites(NFR_pos) .* 4;
 %ABF1_Sites(NFR_pos) = ABF1_Sites(NFR_pos) .* 4;
 %RAP1_Sites(NFR_pos) = RAP1_Sites(NFR_pos) .* 4;
+%}
 
 % make vectors of PolyA and PolyT centers of 5 or longer lengths:
 PolyA_Sites(genome == 'A') = 1;
@@ -120,13 +124,13 @@ PolyT_Sites = conv(PolyT_Sites,ones(1,5),'same');
 PolyT_Sites(PolyT_Sites > 0 & genome=='T') = 1;
 PolyT_Sites(PolyT_Sites > 0 & genome~='T') = 0;
 
-
+%{
 % make the vectors be the length of the genome with the TSS in the middle:
 PolyA_Sites = create_gene_buffer(PolyA_Sites, gen_len);
 PolyT_Sites = create_gene_buffer(PolyT_Sites, gen_len);
 REB1_Sites = create_gene_buffer(REB1_Sites, gen_len);
 ABF1_Sites = create_gene_buffer(ABF1_Sites, gen_len);
 RAP1_Sites = create_gene_buffer(RAP1_Sites, gen_len);
-
+%}
 end
 

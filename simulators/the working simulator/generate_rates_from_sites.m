@@ -104,8 +104,8 @@ l_rate = p.nuc_base_l_rate + PolyAT_left;
 %}
 PolyAT_right = conv(PolyA_sites, p.RSC_slide_intensity.*(gausswin(p.RSC_slide_length,1.5).*p.RSC_slide_length./sum(gausswin(p.RSC_slide_length,1.5))),'same');
 PolyAT_left  = conv(PolyT_sites, p.RSC_slide_intensity.*(gausswin(p.RSC_slide_length,1.5).*p.RSC_slide_length./sum(gausswin(p.RSC_slide_length,1.5))),'same');
-r_rate = p.nuc_base_r_rate + PolyAT_right;
-l_rate = p.nuc_base_l_rate + PolyAT_left;
+l_rate = p.nuc_base_r_rate + PolyAT_right;
+r_rate = p.nuc_base_l_rate + PolyAT_left;
 
 
 % add the polymerase effects for the nucleosomes:
