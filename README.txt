@@ -1,3 +1,6 @@
+nuc_simulator is a project for simulating the nucleosome positions in yeast DNA, given the gene sequence.
+The project uses markov chain monte carlo simulations to simulate the changing positions of the nucleosomes, and averages out the positions over time to get the coverage of the nucleosomes.
+
 Overview Of The Project Codebase:
 =================================
 The project contains code for both running different simulations, reviewing the results of those simulations and visualizing the results as well. The code is split into three folders:
